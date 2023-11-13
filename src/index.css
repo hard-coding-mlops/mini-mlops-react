@@ -3,11 +3,27 @@ body {
   margin: 0;
   font-family: 'Karla', sans-serif;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+    'Droid Sans', 'Helvetica Neue', sans-serif; */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.App {
+  display: flex;
+  flex-direction: row;
+  /* background: #282c34; */
+}
+
+hr {
+  margin: 0;
+  /* border: 2px solid rgba(0, 0, 0, 0.3); */
+  /* box-shadow: #282c34 0px 0px 10px; */
+}
+
+button {
+  cursor: pointer;
 }
