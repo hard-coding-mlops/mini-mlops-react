@@ -8,7 +8,7 @@
 .bottomRightBorder {
   height: 36px;
   position: relative;
-  top: 8px;
+  top: 16px;
   right: 32px;
   z-index: -1;
 }
