@@ -13,7 +13,9 @@ function History() {
       <HistoryBar />
       <div className={styles.history}>
         <div className={styles.historyPageHeader}>
-          <PageHeader>2023년 11월 10일 09시 30분 모델 성능 평가</PageHeader>
+          <PageHeader>
+            <span>2023년 11월 10일 09시 30분 모델 성능 평가</span>
+          </PageHeader>
         </div>
         <div className={styles.historyPageBody}>대충 id:{recordId} 관련 표 여러 개</div>
       </div>

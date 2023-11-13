@@ -11,7 +11,7 @@ function SideBar() {
       <button
         className={`${styles.navigationButton} ${useMatch('/history/*') ? styles.activeButton : ''}`}
         onClick={() => {
-          navigate('/history');
+          navigate('/history/1');
         }}
       >
         HISTORY
@@ -28,6 +28,9 @@ function SideBar() {
         className={`${styles.navigationButton} ${location.pathname === '/service' ? styles.activeButton : ''}`}
         onClick={() => {
           navigate('/service');
+          setTimeout(() => {
+            window.open('https://www.google.com', '_blank');
+          }, 3000);
         }}
       >
         SERVICE
