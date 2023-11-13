@@ -1,4 +1,5 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useMatch } from 'react-router-dom';
+
 import styles from './SideBar.module.css';
 
 function SideBar() {
@@ -8,7 +9,7 @@ function SideBar() {
   return (
     <div className={styles.sideBar}>
       <button
-        className={`${styles.navigationButton} ${location.pathname === '/history' ? styles.activeButton : ''}`}
+        className={`${styles.navigationButton} ${useMatch('/history/*') ? styles.activeButton : ''}`}
         onClick={() => {
           navigate('/history');
         }}

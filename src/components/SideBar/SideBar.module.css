@@ -1,10 +1,11 @@
 .sideBar {
-  width: 350px;
+  width: 300px;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #31b2b4;
 }
 
 .navigationButton {
@@ -15,14 +16,15 @@
   background: transparent;
   color: white;
   text-shadow: white 0px 0px 10px;
-  font-size: 32px;
+  font-size: 24px;
   border: none;
   transition: all 0.1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 .activeButton {
-  width: 30%;
-  font-size: 40px;
-  text-shadow: white 0px 0px 20px;
+  width: 20%;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: white 0px 0px 10px;
   /* border-bottom: 1px solid white; */
   transition: all 0.1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
