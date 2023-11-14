@@ -61,7 +61,6 @@ function History() {
   return (
     <>
       <HistoryBar data={dummydata} currentRecordId={currentRecordId} setCurrentRecordId={setCurrentRecordId} />
-
       <div className={styles.history}>
         <div className={styles.historyPageHeader}>
           <PageHeader>

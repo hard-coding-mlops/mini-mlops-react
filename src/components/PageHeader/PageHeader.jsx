@@ -2,7 +2,7 @@ import topLeftBorder from '../../assets/images/top-left-border.svg';
 import bottomRightBorder from '../../assets/images/bottom-right-border.svg';
 import styles from './PageHeader.module.css';
 
-function HistoryPageHeader({ children }) {
+function PageHeader({ children }) {
   return (
     <div className={styles.pageHeader}>
       <img src={topLeftBorder} className={styles.topLeftBorder} alt='' />
@@ -12,4 +12,4 @@ function HistoryPageHeader({ children }) {
   );
 }
 
-export default HistoryPageHeader;
+export default PageHeader;

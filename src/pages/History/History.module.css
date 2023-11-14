@@ -1,11 +1,13 @@
 .history {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding-top: 50px;
+  width: calc(100% - 580px);
 }
 
 .historyPageHeader {
-  width: calc(100vw - 580px);
   height: 140px;
   display: flex;
   justify-content: center;
