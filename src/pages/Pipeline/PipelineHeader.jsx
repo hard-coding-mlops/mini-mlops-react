@@ -39,7 +39,7 @@ function PipelineHeader() {
   }, []);
 
   return (
-    <div className={styles.pipeline}>
+    <div className={styles.pipelineHeader}>
       <PageHeader>{timeLeft} 뒤에 시작합니다.</PageHeader>
     </div>
   );
