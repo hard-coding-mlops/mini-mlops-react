@@ -8,7 +8,7 @@ import PipelineHeader from './PipelineHeader';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 function Pipeline() {
-  const [currentProcess, setCurrentProcess] = useState(1);
+  const [currentProcess, setCurrentProcess] = useState(0);
 
   const [inScrapingProcess, setInScrapingProcess] = useState(false);
   const [inPreprocessingProcess, setInPreprocessingProcess] = useState(false);
@@ -21,10 +21,10 @@ function Pipeline() {
   const [doneDeploying, setDoneDeploying] = useState(false);
 
   const handleScrapeButtonClick = async () => {
-    // setCurrentProcess(1);
+    setCurrentProcess(1);
     setInScrapingProcess(true);
-    const result = await axios.get(process.env.REACT_APP_SERVER_URL + '/news/scrape');
-    console.log(result.data);
+    // const result = await axios.get(process.env.REACT_APP_SERVER_URL + '/news/scrape');
+    // console.log(result.data);
     setDoneScraping(true);
   };
   const handlePreprocessingButtonClick = async () => {
@@ -51,7 +51,7 @@ function Pipeline() {
 
   return (
     <div className={styles.pipeline}>
-      <PipelineHeader />
+      <PipelineHeader currentProcess={currentProcess} />
       <div className={styles.timeline}>
         {!doneScraping && inScrapingProcess && (
           <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '275.5px', left: '455.5px' }} />
@@ -136,6 +136,15 @@ function Pipeline() {
           }
         >
           모델 배포하기!
+        </button>
+        <br />
+        <br />
+        <button
+          onClick={() => {
+            doneLearning ? setCurrentProcess(5) : alert('모델 학습을 먼저 해주세요!');
+          }}
+        >
+          FIN!
         </button>
       </div>
     </div>

@@ -26,21 +26,49 @@ function calculateTimeLeft() {
   )}초`;
 }
 
-function PipelineHeader() {
+function PipelineHeader({ currentProcess }) {
+  const [restart, setRestart] = useState(false);
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTimeLeft(calculateTimeLeft);
-    }, 1000); // 1초마다 업데이트
+    }, 1000);
 
-    // 컴포넌트 언마운트 시 clearInterval을 통해 interval 정리
+    // 컴포넌트가 언마운트되면 clearInterval을 통해 interval 정리
     return () => clearInterval(intervalId);
   }, []);
 
+  useEffect(() => {
+    if (currentProcess === 5) {
+      // Set restart after 10 minutes
+      const timeoutId = setTimeout(() => {
+        setRestart(true);
+      }, 10 * 60 * 1000); // 10 minutes in milliseconds
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [currentProcess]);
+
+  const processLabel = (processNumber) => {
+    if (processNumber === 1) return '데이터 수집 중입니다 . . .';
+    else if (processNumber === 2) return '데이터 정제 중입니다 . . .';
+    else if (processNumber === 3) return '모델 학습 중입니다 . . .';
+    else if (processNumber === 4) return '모델 배포 중입니다 . . .';
+    else if (processNumber === 5) {
+      return '모델 배포가 완료되었습니다. 10분 뒤에 재시작을 대기합니다.';
+    } else {
+      return `${timeLeft} 뒤에 재시작합니다.`;
+    }
+  };
+
   return (
     <div className={styles.pipelineHeader}>
-      <PageHeader>{timeLeft} 뒤에 재시작합니다.</PageHeader>
+      {restart ? (
+        <PageHeader>{timeLeft} 뒤에 재시작합니다.</PageHeader>
+      ) : (
+        <PageHeader>{processLabel(currentProcess)}</PageHeader>
+      )}
     </div>
   );
 }
