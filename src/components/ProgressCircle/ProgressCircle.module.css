@@ -6,3 +6,13 @@
   position: absolute;
   top: 300px;
 }
+
+.progressLabel {
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+}
