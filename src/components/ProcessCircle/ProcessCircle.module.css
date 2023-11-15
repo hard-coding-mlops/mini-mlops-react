@@ -1,4 +1,4 @@
-.progress {
+.process {
   width: 30px;
   height: 30px;
   border: none;
@@ -7,7 +7,7 @@
   top: 300px;
 }
 
-.progressLabel {
+.processLabel {
   width: 200px;
   height: 30px;
   position: absolute;

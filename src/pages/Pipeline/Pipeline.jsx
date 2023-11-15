@@ -1,59 +1,89 @@
 import { useState } from 'react';
+import axios from 'axios';
+
 import Curve from '../../components/Curve/Curve';
-import ProgressCircle from '../../components/ProgressCircle/ProgressCircle';
+import ProcessCircle from '../../components/ProcessCircle/ProcessCircle';
 import styles from './Pipeline.module.css';
 import PipelineHeader from './PipelineHeader';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 function Pipeline() {
+  const [currentProcess, setCurrentProcess] = useState(1);
+
+  const [inScrapingProcess, setInScrapingProcess] = useState(false);
+  const [inPreprocessingProcess, setInPreprocessingProcess] = useState(false);
+  const [inLearningProcess, setInLearningProcess] = useState(false);
+  const [inDeployingProcess, setInDeployingProcess] = useState(false);
+
   const [doneScraping, setDoneScraping] = useState(false);
   const [donePreprocessing, setDonePreprocessing] = useState(false);
   const [doneLearning, setDoneLearning] = useState(false);
   const [doneDeploying, setDoneDeploying] = useState(false);
 
-  const [inScrapingProgress, setInScrapingProgress] = useState(false);
-  const [inPreprocessingProgress, setInPreprocessingProgress] = useState(false);
-  const [inLearningProgress, setInLearningProgress] = useState(false);
-  const [inDeployingProgress, setInDeployingProgress] = useState(false);
+  const handleScrapeButtonClick = async () => {
+    // setCurrentProcess(1);
+    setInScrapingProcess(true);
+    const result = await axios.get(process.env.REACT_APP_SERVER_URL + '/news/scrape');
+    console.log(result.data);
+    setDoneScraping(true);
+  };
+  const handlePreprocessingButtonClick = async () => {
+    setCurrentProcess(2);
+    setInPreprocessingProcess(true);
+    const result = await axios.get(process.env.REACT_APP_SERVER_URL + '');
+    console.log(result.data);
+    setDonePreprocessing(true);
+  };
+  const handleLearningButtonClick = async () => {
+    setCurrentProcess(3);
+    setInLearningProcess(true);
+    const result = await axios.get(process.env.REACT_APP_SERVER_URL + '');
+    console.log(result.data);
+    setDoneLearning(true);
+  };
+  const handleDeployingButtonClick = async () => {
+    setCurrentProcess(4);
+    setInDeployingProcess(true);
+    const result = await axios.get(process.env.REACT_APP_SERVER_URL + '');
+    console.log(result.data);
+    setDoneDeploying(true);
+  };
 
   return (
     <div className={styles.pipeline}>
       <PipelineHeader />
       <div className={styles.timeline}>
-        {!doneScraping && inScrapingProgress && (
+        {!doneScraping && inScrapingProcess && (
           <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '275.5px', left: '455.5px' }} />
         )}
-        <ProgressCircle
-          colorHexCode={inScrapingProgress ? '#ff6b6b' : '#cccccc'}
+        <ProcessCircle
+          colorHexCode={inScrapingProcess ? '#ff6b6b' : '#cccccc'}
           coordinate={{ x: 480, y: 300 }}
           label='데이터 수집'
           labelPosition='d'
         />
-        <button
-          onClick={() => {
-            setInScrapingProgress(true);
-          }}
-        >
-          데이터 수집하기!
-        </button>
+        <button onClick={handleScrapeButtonClick}>데이터 수집하기!</button>
         <br />
         <br />
         <Curve startX={480} startY={300} endX={913} endY={850} colorHexCode='#ff6b6b' isFinished={doneScraping} />
 
-        {!donePreprocessing && inPreprocessingProgress && (
+        {!donePreprocessing && inPreprocessingProcess && (
           <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '825.5px', left: '888.5px' }} />
         )}
-        <ProgressCircle
-          colorHexCode={inPreprocessingProgress ? '#ffa500' : '#cccccc'}
+        <ProcessCircle
+          colorHexCode={inPreprocessingProcess ? '#ffa500' : '#cccccc'}
           coordinate={{ x: 913, y: 850 }}
           label='데이터 정제'
           labelPosition='u'
         />
         <button
-          onClick={() => {
-            setDoneScraping(true);
-            setInPreprocessingProgress(true);
-          }}
+          onClick={
+            doneScraping
+              ? handlePreprocessingButtonClick
+              : () => {
+                  alert('데이터 수집을 먼저 해주세요!');
+                }
+          }
         >
           데이터 정제하기!
         </button>
@@ -62,20 +92,23 @@ function Pipeline() {
 
         <Curve startX={913} startY={850} endX={1347} endY={300} colorHexCode='#ffa500' isFinished={donePreprocessing} />
 
-        {!doneLearning && inLearningProgress && (
+        {!doneLearning && inLearningProcess && (
           <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '275.5px', left: '1322.5px' }} />
         )}
-        <ProgressCircle
-          colorHexCode={inLearningProgress ? '#3498db' : '#cccccc'}
+        <ProcessCircle
+          colorHexCode={inLearningProcess ? '#3498db' : '#cccccc'}
           coordinate={{ x: 1347, y: 300 }}
           label='모델 학습'
           labelPosition='d'
         />
         <button
-          onClick={() => {
-            setDonePreprocessing(true);
-            setInLearningProgress(true);
-          }}
+          onClick={
+            donePreprocessing
+              ? handleLearningButtonClick
+              : () => {
+                  alert('데이터 정제를 먼저 해주세요!');
+                }
+          }
         >
           모델 학습하기!
         </button>
@@ -84,35 +117,26 @@ function Pipeline() {
 
         <Curve startX={1347} startY={300} endX={1780} endY={850} colorHexCode='#3498db' isFinished={doneLearning} />
 
-        {!doneDeploying && inDeployingProgress && (
+        {!doneDeploying && inDeployingProcess && (
           <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '825.5px', left: '1755.5px' }} />
         )}
-        <ProgressCircle
-          colorHexCode={inDeployingProgress ? '#4caf50' : '#cccccc'}
+        <ProcessCircle
+          colorHexCode={inDeployingProcess ? '#4caf50' : '#cccccc'}
           coordinate={{ x: 1780, y: 850 }}
           label='모델 배포'
           labelPosition='u'
         />
         <button
-          onClick={() => {
-            setDoneLearning(true);
-            setInDeployingProgress(true);
-          }}
+          onClick={
+            doneLearning
+              ? handleDeployingButtonClick
+              : () => {
+                  alert('모델 학습을 먼저 해주세요!');
+                }
+          }
         >
           모델 배포하기!
         </button>
-        <br />
-        <br />
-
-        <button
-          onClick={() => {
-            setDoneDeploying(true);
-          }}
-        >
-          완료!
-        </button>
-        <br />
-        <br />
       </div>
     </div>
   );
