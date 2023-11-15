@@ -8,6 +8,7 @@ function Service() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log(window.innerWidth, window.innerHeight);
     // 일정 시간 후에 로딩을 false로 변경
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -19,8 +20,9 @@ function Service() {
   return (
     <div className={styles.service}>
       {isLoading ? (
-        <LoadingSpinner />
+        <LoadingSpinner spinnerStyle={{ position: 'inherit' }} />
       ) : (
+        // <LoadingSpinner />
         <PageHeader>
           <span>SERVICE 페이지로 이동합니다.</span>
         </PageHeader>

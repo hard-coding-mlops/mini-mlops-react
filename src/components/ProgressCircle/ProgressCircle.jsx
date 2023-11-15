@@ -7,7 +7,7 @@ function ProgressCircle({ colorHexCode, coordinate, label, labelPosition }) {
   const labelStyle = {
     color: colorHexCode,
     left: `${x - 85}px`,
-    top: `${labelPosition === 'u' && labelPosition !== 'd' ? y - 50 : y + 50}px`,
+    top: `${labelPosition === 'u' && labelPosition !== 'd' ? y - 60 : y + 60}px`,
   };
 
   return (

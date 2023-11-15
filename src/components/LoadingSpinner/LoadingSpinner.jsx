@@ -2,12 +2,9 @@
 import React from 'react';
 import styles from './LoadingSpinner.module.css'; // CSS 파일을 불러옵니다.
 
-function LoadingSpinner() {
+function LoadingSpinner({ spinnerStyle }) {
   return (
-    // <div className='loading-spinner-container'>
-    //   <div className='loading-spinner'></div>
-    // </div>
-    <div className={styles.loadingSpinnerContainer}>
+    <div className={styles.loadingSpinnerContainer} style={{ ...spinnerStyle }}>
       <div className={styles.loadingSpinner}></div>
     </div>
   );

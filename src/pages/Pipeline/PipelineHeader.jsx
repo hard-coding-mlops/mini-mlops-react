@@ -40,7 +40,7 @@ function PipelineHeader() {
 
   return (
     <div className={styles.pipelineHeader}>
-      <PageHeader>{timeLeft} 뒤에 시작합니다.</PageHeader>
+      <PageHeader>{timeLeft} 뒤에 재시작합니다.</PageHeader>
     </div>
   );
 }
