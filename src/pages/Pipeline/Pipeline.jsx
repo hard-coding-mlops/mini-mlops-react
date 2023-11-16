@@ -23,7 +23,7 @@ function Pipeline() {
   const handleScrapeButtonClick = async () => {
     setCurrentProcess(1);
     setInScrapingProcess(true);
-    // const result = await axios.get(process.env.REACT_APP_SERVER_URL + '/news/scrape');
+    // const result = await axios.get(process.env.REACT_APP_SERVER_URL + '/scraper/scrape');
     // console.log(result.data);
     setDoneScraping(true);
   };
