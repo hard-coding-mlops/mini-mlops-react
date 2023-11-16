@@ -1,11 +1,11 @@
 .colorLine {
-  stroke-dasharray: 783;
+  stroke-dasharray: 824;
   animation: stroke-line 3s;
 }
 
 @keyframes stroke-line {
   from {
-    stroke-dashoffset: 783;
+    stroke-dashoffset: 824;
   }
   to {
     stroke-dashoffset: 0;
