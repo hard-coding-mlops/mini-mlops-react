@@ -1,0 +1,19 @@
+.wholeScreen {
+  position: absolute;
+  top: 0px;
+  left: 300px;
+  width: calc(100vw - 300px);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.messageModal {
+  width: 1180px;
+  height: 780px;
+  border: 2px solid #31b2b4;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 36px;
+}

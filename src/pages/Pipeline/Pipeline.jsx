@@ -6,6 +6,7 @@ import ProcessCircle from '../../components/ProcessCircle/ProcessCircle';
 import styles from './Pipeline.module.css';
 import PipelineHeader from './PipelineHeader';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import MessageModal from '../../components/MessageModal/MessageModal';
 
 function Pipeline() {
   const [currentProcess, setCurrentProcess] = useState(0);
@@ -19,6 +20,8 @@ function Pipeline() {
   const [donePreprocessing, setDonePreprocessing] = useState(false);
   const [doneLearning, setDoneLearning] = useState(false);
   const [doneDeploying, setDoneDeploying] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleScrapeButtonClick = async () => {
     setCurrentProcess(1);
@@ -40,6 +43,7 @@ function Pipeline() {
     const result = await axios.get(process.env.REACT_APP_SERVER_URL + '');
     console.log(result.data);
     setDoneLearning(true);
+    setModalOpen(true);
   };
   const handleDeployingButtonClick = async () => {
     setCurrentProcess(4);
@@ -116,6 +120,36 @@ function Pipeline() {
         <br />
 
         <Curve startX={1347} startY={300} endX={1780} endY={850} colorHexCode='#3498db' isFinished={doneLearning} />
+        {modalOpen ? (
+          <MessageModal>
+            <div>
+              <span>모델 학습 결과</span>
+              <div>
+                <span>최종</span>
+                <br />
+                <span>최종</span>
+                <br />
+                <span>최종</span>
+                <br />
+                <button
+                  onClick={() => {
+                    setModalOpen(false);
+                    handleDeployingButtonClick();
+                  }}
+                >
+                  Y
+                </button>
+                <button
+                  onClick={() => {
+                    setModalOpen(false);
+                  }}
+                >
+                  N
+                </button>
+              </div>
+            </div>
+          </MessageModal>
+        ) : null}
 
         {!doneDeploying && inDeployingProcess && (
           <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '825.5px', left: '1755.5px' }} />
@@ -126,25 +160,13 @@ function Pipeline() {
           label='모델 배포'
           labelPosition='u'
         />
-        <button
-          onClick={
-            doneLearning
-              ? handleDeployingButtonClick
-              : () => {
-                  alert('모델 학습을 먼저 해주세요!');
-                }
-          }
-        >
-          모델 배포하기!
-        </button>
-        <br />
-        <br />
+
         <button
           onClick={() => {
             doneLearning ? setCurrentProcess(5) : alert('모델 학습을 먼저 해주세요!');
           }}
         >
-          FIN!
+          배포까지 완료!
         </button>
       </div>
     </div>
