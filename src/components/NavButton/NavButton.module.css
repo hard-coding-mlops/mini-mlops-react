@@ -1,0 +1,28 @@
+.navButton {
+  position: relative;
+  left: 0;
+  width: 70%;
+  height: 4.5rem;
+  border: none;
+  background-color: transparent;
+  color: #aaaaaa;
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin: 0 0 2rem;
+  transition: all 0.2s ease-out;
+}
+.navButton:hover {
+  color: #e7e7e7;
+  font-size: 1.8rem;
+}
+
+.activeButton {
+  position: relative;
+  left: 4rem;
+  color: #e7e7e7;
+  font-size: 1.8rem;
+  transition: all 0.2s ease-out;
+}
+.activeButton:hover {
+  cursor: default;
+}
