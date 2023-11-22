@@ -8,7 +8,7 @@
   color: #aaaaaa;
   font-size: 1.7rem;
   font-weight: 800;
-  margin: 0 0 2rem;
+  margin-bottom: 2rem;
   transition: all 0.2s ease-out;
 }
 .navButton:hover {

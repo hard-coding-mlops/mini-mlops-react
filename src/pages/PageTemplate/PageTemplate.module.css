@@ -1,0 +1,28 @@
+.pageTemplate {
+  width: 100%;
+  min-height: calc(100vh - 14rem);
+  padding: 7rem 3rem;
+  background-color: white;
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+
+.headerTemplate {
+  height: 4.5rem;
+  font-size: 1.7rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  color: #6c6c6c;
+}
+
+.bodyTemplate {
+  background-color: green;
+  height: calc(100% - 6.5rem);
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* flex-direction: column;
+  justify-content: center; */
+}
