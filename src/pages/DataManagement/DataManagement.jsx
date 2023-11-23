@@ -1,3 +1,4 @@
+import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
@@ -10,23 +11,30 @@ function DataManagement() {
         <span>데이터 관리</span>
       </HeaderTemplate>
       <BodyTemplate>
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>수집 시작 일시</th>
-              <th>수집 종료 일시</th>
-              <th>정제 데이터 개수</th>
-              <th>상태</th>
+              <th className={styles.tableHeaderLabel} style={{ width: '7rem' }}>
+                ID
+              </th>
+              <th className={styles.tableHeaderLabel}>수집 시작 일시</th>
+              <th className={styles.tableHeaderLabel}>수집 종료 일시</th>
+              <th className={styles.tableHeaderLabel}>정제 데이터 개수</th>
+              <th className={styles.tableHeaderLabel}>상태</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>2023 / 11 / 22 15 : 28</td>
-              <td>model_name_1</td>
-              <td>사회 / 82.193%</td>
-              <td>정치</td>
-              <td>DETAIL.ICON</td>
+              <td className={styles.tableData}>17</td>
+              <td className={styles.tableData}>2023 / 11 / 22 15 : 28</td>
+              <td className={styles.tableData}>2023 / 11 / 22 15 : 32</td>
+              <td className={styles.tableData}>118</td>
+              <td className={styles.tableData}>
+                <div className={styles.condition}>
+                  <Icon label='csv' />
+                  <Icon label='delete' />
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
