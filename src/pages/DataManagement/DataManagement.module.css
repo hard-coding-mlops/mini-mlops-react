@@ -2,7 +2,6 @@
   width: 100%;
   border-collapse: collapse;
 }
-
 .tableHeaderLabel,
 .tableData {
   height: 4.5rem;
@@ -20,8 +19,7 @@
 .condition {
   display: flex;
   flex-direction: row;
-  /* justify-content: flex-start;
-  align-items: flex-start; */
+  padding-top: 1rem;
 }
 
 th {

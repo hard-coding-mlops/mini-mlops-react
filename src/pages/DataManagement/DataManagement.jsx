@@ -12,7 +12,7 @@ function DataManagement() {
       </HeaderTemplate>
       <BodyTemplate>
         <table className={styles.table}>
-          <thead>
+          <thead className={styles.tableHeader}>
             <tr>
               <th className={styles.tableHeaderLabel} style={{ width: '7rem' }}>
                 ID
