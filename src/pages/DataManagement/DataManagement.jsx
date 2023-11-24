@@ -27,7 +27,7 @@ function DataManagement() {
 
   const downloadPreprocessedArticles = async (id) => {
     const result = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/data_management/download-preprocessed-data?id=${id}`,
+      `${process.env.REACT_APP_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
       {
         responseType: 'blob',
       },
