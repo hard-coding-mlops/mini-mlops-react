@@ -27,14 +27,14 @@ const LABEL_COLOR = {
   userlog: '#3498DB',
 };
 
-function Icon({ label }) {
+function Icon({ label, handleOnClick }) {
   return (
-    <div className={styles.iconWithLabel}>
+    <button className={styles.iconWithLabel} onClick={handleOnClick}>
       <img src={ICON_LABEL[label]} alt={label} className={styles.icon} />
       <span className={styles.label} style={{ color: LABEL_COLOR[label] }}>
         {label}
       </span>
-    </div>
+    </button>
   );
 }
 
