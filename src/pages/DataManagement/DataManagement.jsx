@@ -29,7 +29,7 @@ function DataManagement() {
   const navigate = useNavigate();
   const [totalOrderedData, setTotalOrderedData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1510);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1700);
 
   // APIs
   const getTotalOrderedData = async () => {
@@ -84,7 +84,7 @@ function DataManagement() {
   };
 
   const handleResize = () => {
-    setIsSmallScreen(window.innerWidth < 1510);
+    setIsSmallScreen(window.innerWidth < 1700);
   };
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -109,53 +109,54 @@ function DataManagement() {
         </div>
       </HeaderTemplate>
       <BodyTemplate>
-        <table className={styles.table}>
-          <thead className={styles.tableHeader}>
-            <tr>
-              <th className={styles.tableHeaderLabel} style={{ width: '7rem' }}>
-                ID
-              </th>
-              <th className={styles.tableHeaderLabel}>수집 시작 일시</th>
-              <th className={styles.tableHeaderLabel}>수집 종료 일시</th>
-              <th className={styles.tableHeaderLabel}>정제 데이터 개수</th>
-              <th className={styles.tableHeaderLabel}>상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* 8개 페이지네이션 */}
-            {totalOrderedData.map((data) => {
-              return (
-                <tr
-                  key={data.scraped_order_no}
-                  onClick={() => {
-                    navigate(`/`);
-                  }}
-                  className={styles.tableRow}
-                >
-                  <td className={styles.tableData}>{data.scraped_order_no}</td>
-                  <td className={`${styles.tableData} ${isSmallScreen && styles.smallScreen}`}>
-                    {formatDateTime(data.start_datetime)}
-                  </td>
-                  <td className={`${styles.tableData} ${isSmallScreen && styles.smallScreen}`}>
-                    {formatDateTime(data.end_datetime)}
-                  </td>
-                  <td className={styles.tableData}>{data.preprocessed_articles_length}</td>
-                  <td className={styles.tableData}>
-                    <div className={styles.condition}>
-                      <Icon label='csv' handleOnClick={() => downloadPreprocessedArticles(data.scraped_order_no)} />
-                      <Icon
-                        label='delete'
-                        handleOnClick={() => {
-                          deleteArticles(data.scraped_order_no);
-                        }}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead className={styles.tableHeader}>
+              <tr>
+                <th className={styles.tableHeaderLabel} style={{ width: '7rem' }}>
+                  ID
+                </th>
+                <th className={styles.tableHeaderLabel}>수집 시작 일시</th>
+                <th className={styles.tableHeaderLabel}>수집 종료 일시</th>
+                <th className={styles.tableHeaderLabel}>정제 데이터 개수</th>
+                <th className={styles.tableHeaderLabel}>상태</th>
+              </tr>
+            </thead>
+            <tbody>
+              {totalOrderedData.map((data) => {
+                return (
+                  <tr
+                    key={data.scraped_order_no}
+                    onClick={() => {
+                      navigate(`/`);
+                    }}
+                    className={styles.tableRow}
+                  >
+                    <td className={styles.tableData}>{data.scraped_order_no}</td>
+                    <td className={`${styles.tableData} ${isSmallScreen ? styles.smallScreen : ''}`}>
+                      {formatDateTime(data.start_datetime)}
+                    </td>
+                    <td className={`${styles.tableData} ${isSmallScreen ? styles.smallScreen : ''}`}>
+                      {formatDateTime(data.end_datetime)}
+                    </td>
+                    <td className={styles.tableData}>{data.preprocessed_articles_length}</td>
+                    <td className={styles.tableData}>
+                      <div className={styles.condition}>
+                        <Icon label='csv' handleOnClick={() => downloadPreprocessedArticles(data.scraped_order_no)} />
+                        <Icon
+                          label='delete'
+                          handleOnClick={() => {
+                            deleteArticles(data.scraped_order_no);
+                          }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </BodyTemplate>
     </PageTemplate>
   );

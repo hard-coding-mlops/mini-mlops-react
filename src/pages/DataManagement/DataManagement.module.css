@@ -1,18 +1,41 @@
-.table {
+.tableContainer {
   width: 100%;
-  border-collapse: collapse;
+  height: 100%;
+  overflow-y: scroll;
+  color: #6c6c6c;
+  padding-right: 1rem;
+}
+.tableContainer::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+}
+.tableContainer::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #aaaaaa;
 }
 
-.tableHeaderLabel,
-.tableData {
+th {
+  position: sticky;
+  top: 0;
   height: 4.5rem;
-  font-size: 1.7rem;
-  color: #6c6c6c;
+  background-color: white;
   text-align: start;
 }
+th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 0.1rem solid #6c6c6c;
+}
 
-.tableHeaderLabel {
-  font-weight: 800;
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
 }
 
 .tableRow:hover {
@@ -28,7 +51,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 190px;
 }
 
 .condition {
@@ -40,8 +62,4 @@
 .dataRowButton {
   border: none;
   background-color: transparent;
-}
-
-th {
-  border-bottom: 0.1rem solid #6c6c6c;
 }
