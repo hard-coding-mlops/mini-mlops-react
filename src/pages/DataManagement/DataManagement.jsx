@@ -96,7 +96,7 @@ function DataManagement() {
 
   return (
     <PageTemplate>
-      {!isLoading && <Loading />}
+      {isLoading && <Loading />}
       <HeaderTemplate>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span>데이터 관리</span>
