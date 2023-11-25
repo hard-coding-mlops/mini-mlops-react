@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
+import Loading from '../Loading/Loading';
+
 import styles from './DataManagement.module.css';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const formatDateTime = (dateTimeString) => {
   const inputDate = new Date(dateTimeString);
 
   const year = inputDate.getFullYear();
-  const month = (inputDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로 만듭니다.
+  const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
   const day = inputDate.getDate().toString().padStart(2, '0');
 
   const hours = inputDate.getHours().toString().padStart(2, '0');
@@ -22,15 +26,21 @@ const formatDateTime = (dateTimeString) => {
 };
 
 function DataManagement() {
+  const navigate = useNavigate();
   const [totalOrderedData, setTotalOrderedData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1510);
 
   // APIs
+  const getTotalOrderedData = async () => {
+    const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data`);
+    console.log(result);
+    setTotalOrderedData(result.data.total_ordered_data);
+  };
   const addNewArticles = async () => {
     if (!isLoading) {
       setIsLoading(true);
-      const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/scraper/scrape`);
+      await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/scrape-and-preprocess`);
       window.location.reload();
       setIsLoading(false);
     }
@@ -67,7 +77,7 @@ function DataManagement() {
   const deleteArticles = async (id) => {
     if (!isLoading) {
       setIsLoading(true);
-      const result = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${id}`);
+      await axios.delete(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${id}`);
       window.location.reload();
       setIsLoading(false);
     }
@@ -75,11 +85,6 @@ function DataManagement() {
 
   const handleResize = () => {
     setIsSmallScreen(window.innerWidth < 1510);
-  };
-  const getTotalOrderedData = async () => {
-    const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data`);
-    console.log(result);
-    setTotalOrderedData(result.data.total_ordered_data);
   };
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -91,7 +96,7 @@ function DataManagement() {
 
   return (
     <PageTemplate>
-      {isLoading && <div className={styles.loading}>Loading...</div>}
+      {!isLoading && <Loading />}
       <HeaderTemplate>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span>데이터 관리</span>
@@ -120,7 +125,13 @@ function DataManagement() {
             {/* 8개 페이지네이션 */}
             {totalOrderedData.map((data) => {
               return (
-                <tr key={data.scraped_order_no}>
+                <tr
+                  key={data.scraped_order_no}
+                  onClick={() => {
+                    navigate(`/`);
+                  }}
+                  className={styles.tableRow}
+                >
                   <td className={styles.tableData}>{data.scraped_order_no}</td>
                   <td className={`${styles.tableData} ${isSmallScreen && styles.smallScreen}`}>
                     {formatDateTime(data.start_datetime)}

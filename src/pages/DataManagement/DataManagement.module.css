@@ -2,6 +2,7 @@
   width: 100%;
   border-collapse: collapse;
 }
+
 .tableHeaderLabel,
 .tableData {
   height: 4.5rem;
@@ -9,13 +10,20 @@
   color: #6c6c6c;
   text-align: start;
 }
+
 .tableHeaderLabel {
   font-weight: 800;
 }
+
+.tableRow:hover {
+  cursor: pointer;
+}
+
 .tableData {
   font-weight: 400;
   white-space: pre-wrap;
 }
+
 .smallScreen {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -26,7 +34,12 @@
 .condition {
   display: flex;
   flex-direction: row;
-  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.dataRowButton {
+  border: none;
+  background-color: transparent;
 }
 
 th {
