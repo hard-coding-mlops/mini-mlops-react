@@ -16,6 +16,12 @@
   font-weight: 400;
   white-space: pre-wrap;
 }
+.smallScreen {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 190px;
+}
 
 .condition {
   display: flex;

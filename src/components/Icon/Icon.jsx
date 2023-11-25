@@ -1,3 +1,4 @@
+import ADD_ICON from '../../assets/icons/add-icon.svg';
 import BACK_ICON from '../../assets/icons/back-icon.svg';
 import DOWNLOAD_ICON from '../../assets/icons/download-icon.svg';
 import EDIT_ICON from '../../assets/icons/edit-icon.svg';
@@ -9,6 +10,7 @@ import USERLOG_ICON from '../../assets/icons/userlog-icon.svg';
 import styles from './Icon.module.css';
 
 const ICON_LABEL = {
+  add: ADD_ICON,
   back: BACK_ICON,
   csv: DOWNLOAD_ICON,
   delete: TRASH_ICON,
@@ -18,6 +20,7 @@ const ICON_LABEL = {
   userlog: USERLOG_ICON,
 };
 const LABEL_COLOR = {
+  add: '#3498DB',
   back: '#FF6B6B',
   csv: '#4CAF50',
   delete: '#FF6B6B',

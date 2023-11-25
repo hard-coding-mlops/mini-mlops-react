@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
 import styles from './DataManagement.module.css';
 import axios from 'axios';
-import { useState } from 'react';
 
 const formatDateTime = (dateTimeString) => {
   const inputDate = new Date(dateTimeString);
@@ -24,46 +23,85 @@ const formatDateTime = (dateTimeString) => {
 
 function DataManagement() {
   const [totalOrderedData, setTotalOrderedData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1510);
 
+  // APIs
+  const addNewArticles = async () => {
+    if (!isLoading) {
+      setIsLoading(true);
+      const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/scraper/scrape`);
+      window.location.reload();
+      setIsLoading(false);
+    }
+  };
   const downloadPreprocessedArticles = async (id) => {
-    const result = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
-      {
-        responseType: 'blob',
-      },
-    );
+    if (!isLoading) {
+      setIsLoading(true);
+      const result = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
+        {
+          responseType: 'blob',
+        }
+      );
 
-    // Blob을 파일로 변환
-    const blob = new Blob([result.data], { type: 'text/csv' });
+      // Blob을 파일로 변환
+      const blob = new Blob([result.data], { type: 'text/csv' });
 
-    // Blob을 다운로드 링크로 변환
-    const url = URL.createObjectURL(blob);
+      // Blob을 다운로드 링크로 변환
+      const url = URL.createObjectURL(blob);
 
-    // 다운로드 링크 생성
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `preprocessed_data_${id}.csv`;
+      // 다운로드 링크 생성
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `preprocessed_data_${id}.csv`;
 
-    // 다운로드 링크 클릭
-    a.click();
+      // 다운로드 링크 클릭
+      a.click();
 
-    // URL 해제
-    URL.revokeObjectURL(url);
+      // URL 해제
+      URL.revokeObjectURL(url);
+      setIsLoading(false);
+    }
+  };
+  const deleteArticles = async (id) => {
+    if (!isLoading) {
+      setIsLoading(true);
+      const result = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${id}`);
+      window.location.reload();
+      setIsLoading(false);
+    }
   };
 
+  const handleResize = () => {
+    setIsSmallScreen(window.innerWidth < 1510);
+  };
   const getTotalOrderedData = async () => {
     const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data`);
     console.log(result);
     setTotalOrderedData(result.data.total_ordered_data);
   };
   useEffect(() => {
+    window.addEventListener('resize', handleResize);
     getTotalOrderedData();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
     <PageTemplate>
+      {isLoading && <div className={styles.loading}>Loading...</div>}
       <HeaderTemplate>
-        <span>데이터 관리</span>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>데이터 관리</span>
+          <Icon
+            label='add'
+            handleOnClick={() => {
+              addNewArticles();
+            }}
+          />
+        </div>
       </HeaderTemplate>
       <BodyTemplate>
         <table className={styles.table}>
@@ -84,13 +122,22 @@ function DataManagement() {
               return (
                 <tr key={data.scraped_order_no}>
                   <td className={styles.tableData}>{data.scraped_order_no}</td>
-                  <td className={styles.tableData}>{formatDateTime(data.start_datetime)}</td>
-                  <td className={styles.tableData}>{formatDateTime(data.end_datetime)}</td>
+                  <td className={`${styles.tableData} ${isSmallScreen && styles.smallScreen}`}>
+                    {formatDateTime(data.start_datetime)}
+                  </td>
+                  <td className={`${styles.tableData} ${isSmallScreen && styles.smallScreen}`}>
+                    {formatDateTime(data.end_datetime)}
+                  </td>
                   <td className={styles.tableData}>{data.preprocessed_articles_length}</td>
                   <td className={styles.tableData}>
                     <div className={styles.condition}>
                       <Icon label='csv' handleOnClick={() => downloadPreprocessedArticles(data.scraped_order_no)} />
-                      <Icon label='delete' />
+                      <Icon
+                        label='delete'
+                        handleOnClick={() => {
+                          deleteArticles(data.scraped_order_no);
+                        }}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -102,5 +149,5 @@ function DataManagement() {
     </PageTemplate>
   );
 }
-
+// 1510px
 export default DataManagement;
