@@ -8,7 +8,7 @@ import PageTemplate from '../PageTemplate/PageTemplate';
 import Loading from '../Loading/Loading';
 
 import styles from './DataManagement.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const formatDateTime = (dateTimeString) => {
   const inputDate = new Date(dateTimeString);
@@ -27,14 +27,25 @@ const formatDateTime = (dateTimeString) => {
 
 function DataManagement() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const pageQuery = Number(new URLSearchParams(location.search).get('page')) || 1;
+
   const [totalOrderedData, setTotalOrderedData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1700);
+  const [totalPages, setTotalPages] = useState(1);
 
   // APIs
-  const getTotalOrderedData = async () => {
+  // TODO: page 추가
+  const calculatePages = async () => {
     const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data`);
-    console.log(result);
+    const pages = Math.ceil(result.data.total_ordered_data.length / 10);
+    setTotalPages(pages);
+  };
+  const getTotalOrderedData = async (pageNumber) => {
+    const result = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data?skip=${10 * (pageNumber - 1)}&limit=10`
+    );
     setTotalOrderedData(result.data.total_ordered_data);
   };
   const addNewArticles = async () => {
@@ -88,11 +99,14 @@ function DataManagement() {
   };
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    getTotalOrderedData();
+    calculatePages();
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  useEffect(() => {
+    getTotalOrderedData(pageQuery);
+  }, [pageQuery]);
 
   return (
     <PageTemplate>
@@ -128,7 +142,7 @@ function DataManagement() {
                   <tr
                     key={data.scraped_order_no}
                     onClick={() => {
-                      navigate(`/`);
+                      navigate(`/data/${data.scraped_order_no}`);
                     }}
                     className={styles.tableRow}
                   >
@@ -142,10 +156,17 @@ function DataManagement() {
                     <td className={styles.tableData}>{data.preprocessed_articles_length}</td>
                     <td className={styles.tableData}>
                       <div className={styles.condition}>
-                        <Icon label='csv' handleOnClick={() => downloadPreprocessedArticles(data.scraped_order_no)} />
+                        <Icon
+                          label='csv'
+                          handleOnClick={(e) => {
+                            e.stopPropagation();
+                            downloadPreprocessedArticles(data.scraped_order_no);
+                          }}
+                        />
                         <Icon
                           label='delete'
-                          handleOnClick={() => {
+                          handleOnClick={(e) => {
+                            e.stopPropagation();
                             deleteArticles(data.scraped_order_no);
                           }}
                         />
@@ -156,6 +177,19 @@ function DataManagement() {
               })}
             </tbody>
           </table>
+        </div>{' '}
+        <div className={styles.pageButtonContainer}>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              className={`${styles.pageButton} ${pageQuery === index + 1 ? styles.currentPage : ''}`}
+              onClick={() => {
+                navigate(`/data?page=${index + 1}`);
+              }}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </BodyTemplate>
     </PageTemplate>

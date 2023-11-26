@@ -10,6 +10,7 @@ function App() {
         <Route element={<SideBar />}>
           <Route index element={<>HOME</>} />
           <Route path='data' element={<DataManagement />} />
+          <Route path='data/:id' element={<>hello</>} />
           <Route path='models' element={<>m</>} />
           <Route path='user-logs' element={<>ul</>} />
         </Route>
