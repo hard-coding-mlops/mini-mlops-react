@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import SideBar from './components/SideBar/SideBar';
 import DataManagement from './pages/DataManagement/DataManagement';
+import DataDetail from './pages/DataDetail/DataDetail';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
         <Route element={<SideBar />}>
           <Route index element={<>HOME</>} />
           <Route path='data' element={<DataManagement />} />
-          <Route path='data/:id' element={<>hello</>} />
+          <Route path='data/:dataId' element={<DataDetail />} />
           <Route path='models' element={<>m</>} />
           <Route path='user-logs' element={<>ul</>} />
         </Route>
