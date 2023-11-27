@@ -1,39 +1,31 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
+import Loading from '../Loading/Loading';
+
+import { formatDateTime } from '../../utils/formatters';
 
 import styles from './DataDetail.module.css';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-
-const formatDateTime = (dateTimeString) => {
-  const inputDate = new Date(dateTimeString);
-
-  const year = inputDate.getFullYear();
-  const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-  const day = inputDate.getDate().toString().padStart(2, '0');
-
-  const hours = inputDate.getHours().toString().padStart(2, '0');
-  const minutes = inputDate.getMinutes().toString().padStart(2, '0');
-
-  const formattedDateTime = `${year} / ${month} / ${day}   ${hours} : ${minutes}`;
-
-  return formattedDateTime;
-};
 
 function DataDetail() {
   const { dataId } = useParams();
   const [startDateTime, setStartDateTime] = useState('');
   const [endDateTime, setEndDateTime] = useState('');
   const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getDataDetails = async () => {
+    setIsLoading(true);
     const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${dataId}`);
     console.log(result.data);
     setStartDateTime(formatDateTime(result.data.scraped_order.start_datetime));
     setEndDateTime(formatDateTime(result.data.scraped_order.end_datetime));
     setArticles(result.data.preprocessed_articles);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -42,6 +34,7 @@ function DataDetail() {
 
   return (
     <PageTemplate>
+      {isLoading && <Loading message={'데이터 가져오는 중'} />}
       <HeaderTemplate>수집 데이터 상세 정보</HeaderTemplate>
       <BodyTemplate>
         <table>

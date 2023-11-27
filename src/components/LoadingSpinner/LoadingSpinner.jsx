@@ -1,6 +1,4 @@
-// mini-mlops-react/src/components/LoadingSpinner/LoadingSpinner.jsx
-import React from 'react';
-import styles from './LoadingSpinner.module.css'; // CSS 파일을 불러옵니다.
+import styles from './LoadingSpinner.module.css';
 
 function LoadingSpinner({ spinnerStyle }) {
   return (

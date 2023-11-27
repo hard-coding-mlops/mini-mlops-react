@@ -1,9 +1,12 @@
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import styles from './Loading.module.css';
 
-function Loading() {
+function Loading({ message }) {
   return (
     <div className={styles.loading}>
-      <div className={styles.loadingSpinner}></div>
+      <LoadingSpinner />
+      <br />
+      <span>{message}</span>
     </div>
   );
 }

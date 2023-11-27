@@ -7,23 +7,10 @@ import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
 import Loading from '../Loading/Loading';
 
+import { formatDateTime } from '../../utils/formatters';
+
 import styles from './DataManagement.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-const formatDateTime = (dateTimeString) => {
-  const inputDate = new Date(dateTimeString);
-
-  const year = inputDate.getFullYear();
-  const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-  const day = inputDate.getDate().toString().padStart(2, '0');
-
-  const hours = inputDate.getHours().toString().padStart(2, '0');
-  const minutes = inputDate.getMinutes().toString().padStart(2, '0');
-
-  const formattedDateTime = `${year} / ${month} / ${day}   ${hours} : ${minutes}`;
-
-  return formattedDateTime;
-};
 
 function DataManagement() {
   const navigate = useNavigate();
@@ -43,10 +30,12 @@ function DataManagement() {
     setTotalPages(pages);
   };
   const getTotalOrderedData = async (pageNumber) => {
+    setIsLoading(true);
     const result = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data?skip=${10 * (pageNumber - 1)}&limit=10`
+      `${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data?skip=${10 * (pageNumber - 1)}&limit=10`,
     );
     setTotalOrderedData(result.data.total_ordered_data);
+    setIsLoading(false);
   };
   const addNewArticles = async () => {
     if (!isLoading) {
@@ -63,7 +52,7 @@ function DataManagement() {
         `${process.env.REACT_APP_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
         {
           responseType: 'blob',
-        }
+        },
       );
 
       // Blob을 파일로 변환
@@ -110,7 +99,7 @@ function DataManagement() {
 
   return (
     <PageTemplate>
-      {isLoading && <Loading />}
+      {isLoading && <Loading message={'데이터 가져오는 중'} />}
       <HeaderTemplate>
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span>데이터 관리</span>
