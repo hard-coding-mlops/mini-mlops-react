@@ -7,6 +7,7 @@ import ModelDetail from './pages/ModelDetail/ModelDetail';
 import Login from './pages/Login/Login';
 import UserLogManagement from './pages/UserLogManagement/UserLogManagement';
 import UserLogDetail from './pages/UserLogDetail/UserLogDetail';
+import DashBoard from './pages/DashBoard/DashBoard';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route element={<SideBar />}>
-          <Route path='dashboard' element={<>DASHBOARD</>} />
+          <Route path='dashboard' element={<DashBoard />} />
           <Route path='data' element={<DataManagement />} />
           <Route path='data/:dataId' element={<DataDetail />} />
           <Route path='model' element={<ModelManagement />} />
