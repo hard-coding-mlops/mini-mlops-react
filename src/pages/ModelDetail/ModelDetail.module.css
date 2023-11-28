@@ -1,0 +1,31 @@
+td {
+  height: 4.5rem;
+}
+.tableContainer {
+  overflow-y: scroll;
+  color: #6c6c6c;
+}
+.tableContainer::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+}
+.tableContainer::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #aaaaaa;
+}
+
+.table {
+  width: 100%;
+  height: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.label {
+  width: 230px;
+  font-weight: 800;
+}
+.data {
+  font-weight: 400;
+}

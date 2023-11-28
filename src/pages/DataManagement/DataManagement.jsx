@@ -121,7 +121,7 @@ function DataManagement() {
                 </th>
                 <th className={styles.tableHeaderLabel}>수집 시작 일시</th>
                 <th className={styles.tableHeaderLabel}>수집 종료 일시</th>
-                <th className={styles.tableHeaderLabel}>정제 데이터 개수</th>
+                <th className={styles.tableHeaderLabel}>데이터 개수</th>
                 <th className={styles.tableHeaderLabel}>상태</th>
               </tr>
             </thead>

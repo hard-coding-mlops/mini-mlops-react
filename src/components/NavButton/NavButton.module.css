@@ -23,6 +23,3 @@
   font-size: 1.8rem;
   transition: all 0.2s ease-out;
 }
-.activeButton:hover {
-  cursor: default;
-}

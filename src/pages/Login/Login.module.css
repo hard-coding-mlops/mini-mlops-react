@@ -1,0 +1,17 @@
+.loginContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #141414;
+  background-image: url('../../assets/images/HARDCODING_LOGO.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.loginButton {
+  border: none;
+  background-color: transparent;
+}

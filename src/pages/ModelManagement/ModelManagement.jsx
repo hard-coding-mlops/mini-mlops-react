@@ -7,9 +7,11 @@ import { formatDateTime } from '../../utils/formatters';
 
 import styles from './ModelManagement.module.css';
 import ProgressiveBox from '../../components/ProgressiveBox/ProgressiveBox';
+import { useNavigate } from 'react-router-dom';
 
 const dummyData = [
   {
+    id: 1,
     name: 'model_name_1',
     datetime: '2023 / 11 / 21',
     parameters: [1200, 14, 5, 8],
@@ -17,6 +19,7 @@ const dummyData = [
     loss: 19.053,
   },
   {
+    id: 2,
     name: 'monte_2',
     datetime: '2023 / 11 / 27',
     parameters: [1000, 10, 5, 4],
@@ -26,6 +29,8 @@ const dummyData = [
 ];
 
 export default function ModelManagement() {
+  const navigate = useNavigate();
+
   return (
     <PageTemplate>
       <HeaderTemplate>모델 관리</HeaderTemplate>
@@ -52,9 +57,9 @@ export default function ModelManagement() {
               {dummyData.map((data) => {
                 return (
                   <tr
-                    key={data.scraped_order_no}
+                    key={data.id}
                     onClick={() => {
-                      //   navigate(`/data/${data.scraped_order_no}`);
+                      navigate(`/model/${data.id}`);
                     }}
                     className={styles.tableRow}
                   >

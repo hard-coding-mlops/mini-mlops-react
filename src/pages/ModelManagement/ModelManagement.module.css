@@ -1,9 +1,7 @@
 .tableContainer {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
   color: #6c6c6c;
-  padding-right: 1rem;
 }
 .tableContainer::-webkit-scrollbar {
   -webkit-appearance: none;

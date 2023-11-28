@@ -37,43 +37,45 @@ function DataDetail() {
       {isLoading && <Loading message={'데이터 가져오는 중'} />}
       <HeaderTemplate>수집 데이터 상세 정보</HeaderTemplate>
       <BodyTemplate>
-        <table>
-          <tbody>
-            <tr>
-              <td className={styles.label}>ID</td>
-              <td className={styles.data}>{dataId}</td>
-            </tr>
-            <tr>
-              <td className={styles.label}>수집 시작 일시</td>
-              <td className={styles.data} colSpan={2} style={{ whiteSpace: 'pre-wrap' }}>
-                {startDateTime}
-              </td>
-            </tr>
-            <tr>
-              <td className={styles.label}>수집 종료 일시</td>
-              <td className={styles.data} colSpan={2} style={{ whiteSpace: 'pre-wrap' }}>
-                {endDateTime}
-              </td>
-            </tr>
-            <tr>
-              <td className={styles.label}>데이터</td>
-            </tr>
-            <tr>
-              <td className={styles.label}>DATA_ID</td>
-              <td className={styles.label}>CATEGORY_NO</td>
-              <td className={styles.label}>EMBEDDED_INPUTS</td>
-            </tr>
-            {articles.map((article) => {
-              return (
-                <tr>
-                  <td className={styles.data}>{article.id}</td>
-                  <td className={styles.data}>{article.category_no}</td>
-                  <td className={styles.data}>{article.embedded_inputs}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <tbody>
+              <tr>
+                <td className={styles.label}>ID</td>
+                <td className={styles.data}>{dataId}</td>
+              </tr>
+              <tr>
+                <td className={styles.label}>수집 시작 일시</td>
+                <td className={styles.data} colSpan={2} style={{ whiteSpace: 'pre-wrap' }}>
+                  {startDateTime}
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>수집 종료 일시</td>
+                <td className={styles.data} colSpan={2} style={{ whiteSpace: 'pre-wrap' }}>
+                  {endDateTime}
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>데이터</td>
+              </tr>
+              <tr>
+                <td className={styles.label}>DATA_ID</td>
+                <td className={styles.label}>CATEGORY_NO</td>
+                <td className={styles.label}>EMBEDDED_INPUTS</td>
+              </tr>
+              {articles.map((article) => {
+                return (
+                  <tr>
+                    <td className={styles.data}>{article.id}</td>
+                    <td className={styles.data}>{article.category_no}</td>
+                    <td className={styles.data}>{article.embedded_inputs}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </BodyTemplate>
     </PageTemplate>
   );
