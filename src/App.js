@@ -5,6 +5,8 @@ import DataDetail from './pages/DataDetail/DataDetail';
 import ModelManagement from './pages/ModelManagement/ModelManagement';
 import ModelDetail from './pages/ModelDetail/ModelDetail';
 import Login from './pages/Login/Login';
+import UserLogManagement from './pages/UserLogManagement/UserLogManagement';
+import UserLogDetail from './pages/UserLogDetail/UserLogDetail';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
@@ -18,7 +20,8 @@ function App() {
           <Route path='data/:dataId' element={<DataDetail />} />
           <Route path='model' element={<ModelManagement />} />
           <Route path='model/:modelId' element={<ModelDetail />} />
-          <Route path='user-logs' element={<>ul</>} />
+          <Route path='user-log' element={<UserLogManagement />} />
+          <Route path='user-log/:logId' element={<UserLogDetail />} />
         </Route>
         {/* <Route path='news-classifier' element={<NewsClassifier />} /> */}
       </Routes>

@@ -62,15 +62,24 @@ function DataDetail() {
               <tr>
                 <td className={styles.label}>DATA_ID</td>
                 <td className={styles.label}>CATEGORY_NO</td>
-                <td className={styles.label}>EMBEDDED_INPUTS</td>
+                <td className={styles.label} colSpan={3}>
+                  EMBEDDED_INPUTS
+                </td>
               </tr>
               {articles.map((article) => {
                 return (
-                  <tr>
-                    <td className={styles.data}>{article.id}</td>
-                    <td className={styles.data}>{article.category_no}</td>
-                    <td className={styles.data}>{article.embedded_inputs}</td>
-                  </tr>
+                  <>
+                    <tr>
+                      <td>
+                        <div className={styles.preprocessedData}>{article.id}</div>
+                      </td>
+                      <td className={styles.preprocessedData}>{article.category_no}</td>
+                      <td colSpan={3}>
+                        <div className={styles.embeddedInputs}>{article.embedded_inputs}</div>
+                      </td>
+                    </tr>
+                    <br />
+                  </>
                 );
               })}
             </tbody>

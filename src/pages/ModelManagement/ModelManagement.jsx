@@ -26,6 +26,134 @@ const dummyData = [
     accuracy: 80.138,
     loss: 22.68,
   },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
+  {
+    id: 1,
+    name: 'model_name_1',
+    datetime: '2023 / 11 / 21',
+    parameters: [1200, 14, 5, 8],
+    accuracy: 82.138,
+    loss: 19.053,
+  },
+  {
+    id: 2,
+    name: 'monte_2',
+    datetime: '2023 / 11 / 27',
+    parameters: [1000, 10, 5, 4],
+    accuracy: 80.138,
+    loss: 22.68,
+  },
 ];
 
 export default function ModelManagement() {
@@ -35,7 +163,6 @@ export default function ModelManagement() {
     <PageTemplate>
       <HeaderTemplate>모델 관리</HeaderTemplate>
       <BodyTemplate>
-        {' '}
         <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead className={styles.tableHeader}>
@@ -93,7 +220,7 @@ export default function ModelManagement() {
               })}
             </tbody>
           </table>
-        </div>{' '}
+        </div>
         {/* <div className={styles.pageButtonContainer}>
           {Array.from({ length: totalPages }, (_, index) => (
             <button

@@ -4,7 +4,7 @@
   color: #6c6c6c;
 }
 .table {
-  width: 100%;
+  width: calc(100vw - 500px);
   height: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -13,4 +13,26 @@
 .label {
   width: 230px;
   height: 4.5rem;
+  font-weight: 800;
+}
+
+.preprocessedData {
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+}
+
+.data,
+.preprocessedData,
+.embeddedInputs {
+  font-weight: 400;
+}
+
+.embeddedInputs {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }
