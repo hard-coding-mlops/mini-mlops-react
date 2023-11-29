@@ -1,48 +1,62 @@
-import { Line } from 'react-chartjs-2';
+import PieChart from '../../components/PieChart/PieChart';
+import HeaderTemplate from '../PageTemplate/HeaderTemplate';
+import PageTemplate from '../PageTemplate/PageTemplate';
 
 import styles from './DashBoard.module.css';
 
-function DashBoard() {
-  const data = {
-    labels: ['1월', '2월', '3월', '4월', '5월'],
-    datasets: [
-      {
-        label: '월간 판매량',
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: 'rgba(75,192,192,1)',
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 1,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: [10, 15, 7, 22, 18],
-      },
-    ],
-  };
+const dummyData = {
+  model: 'KoBert_1129',
+  usage: 32,
+  satisfaction: [15, 12, 5],
+  accuracy: 82.193,
+  loss: 24.932,
+};
 
-  // 차트 옵션 정의
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
+function DashBoard() {
   return (
-    <div className={styles.container}>
-      <h1>Dashboard</h1>
-      <Line data={data} options={options} />
-    </div>
+    <PageTemplate>
+      <HeaderTemplate>
+        <div>
+          <span style={{ fontWeight: '800' }}>{dummyData.model}</span>
+          <br />
+          <span style={{ fontWeight: '500' }}>CURRENTLY ACTIVE</span>
+        </div>
+      </HeaderTemplate>
+      <div className={styles.dashBoard}>
+        <table className={styles.table}>
+          <thead>
+            <th className={styles.tableHeaderLabel}>사용 횟수</th>
+            <th className={styles.tableHeaderLabel}>사용자 만족도</th>
+            <th className={styles.tableHeaderLabel}>정확도</th>
+            <th className={styles.tableHeaderLabel}>손실도</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div className={styles.dataContainer} style={{ fontSize: '7rem', fontWeight: '700' }}>
+                  {dummyData.usage}
+                </div>
+              </td>
+              <td>
+                <div className={styles.dataContainer}>
+                  <PieChart label='' value={dummyData.satisfaction} color='#3498DB' />
+                </div>
+              </td>
+              <td>
+                <div className={styles.dataContainer}>
+                  <PieChart label='accuracy' value={dummyData.accuracy} color='#3498DB' />
+                </div>
+              </td>
+              <td>
+                <div className={styles.dataContainer}>
+                  <PieChart backwards={true} label='loss' value={dummyData.loss} color='#FF6B6B' />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </PageTemplate>
   );
 }
 

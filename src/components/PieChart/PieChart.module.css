@@ -1,0 +1,19 @@
+.pieChartContainer {
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.value {
+  position: absolute;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #6c6c6c;
+}
+
+.satisfiedValue {
+  position: absolute;
+  font-size: 3rem;
+}

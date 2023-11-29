@@ -30,7 +30,7 @@ function DataDetail() {
 
   useEffect(() => {
     getDataDetails();
-  }, []);
+  });
 
   return (
     <PageTemplate>
@@ -75,7 +75,7 @@ function DataDetail() {
                       </td>
                       <td className={styles.preprocessedData}>{article.category_no}</td>
                       <td colSpan={3}>
-                        <div className={styles.embeddedInputs}>{article.embedded_inputs}</div>
+                        <div className={styles.formattedText}>{article.formatted_text}</div>
                       </td>
                     </tr>
                     <br />
