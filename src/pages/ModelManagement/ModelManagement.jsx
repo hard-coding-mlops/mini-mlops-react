@@ -1,13 +1,14 @@
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
-
+import ProgressiveBox from '../../components/ProgressiveBox/ProgressiveBox';
+import Loading from '../../pages/Loading/Loading';
 import { formatDateTime } from '../../utils/formatters';
 
 import styles from './ModelManagement.module.css';
-import ProgressiveBox from '../../components/ProgressiveBox/ProgressiveBox';
-import { useNavigate } from 'react-router-dom';
 
 const dummyData = [
   {
@@ -158,10 +159,22 @@ const dummyData = [
 
 export default function ModelManagement() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <PageTemplate>
-      <HeaderTemplate>모델 관리</HeaderTemplate>
+      {isLoading && <Loading message={'모델 가져오는 중'} />}
+      <HeaderTemplate>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>모델 관리</span>
+          <Icon
+            label='add'
+            handleOnClick={() => {
+              navigate('/model/add');
+            }}
+          />
+        </div>
+      </HeaderTemplate>
       <BodyTemplate>
         <div className={styles.tableContainer}>
           <table className={styles.table}>

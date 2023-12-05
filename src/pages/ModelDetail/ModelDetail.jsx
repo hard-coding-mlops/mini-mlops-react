@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 
-import BodyTemplate from '../PageTemplate/BodyTemplate';
-import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
+import HeaderTemplate from '../PageTemplate/HeaderTemplate';
+import BodyTemplate from '../PageTemplate/BodyTemplate';
 
 import styles from './ModelDetail.module.css';
 import { useEffect } from 'react';

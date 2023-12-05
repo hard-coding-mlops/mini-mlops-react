@@ -8,6 +8,7 @@ import Login from './pages/Login/Login';
 import UserLogManagement from './pages/UserLogManagement/UserLogManagement';
 import UserLogDetail from './pages/UserLogDetail/UserLogDetail';
 import DashBoard from './pages/DashBoard/DashBoard';
+import NewModel from './pages/NewModel/NewModel';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path='data' element={<DataManagement />} />
           <Route path='data/:dataId' element={<DataDetail />} />
           <Route path='model' element={<ModelManagement />} />
+          <Route path='model/add' element={<NewModel />} />
           <Route path='model/:modelId' element={<ModelDetail />} />
           <Route path='user-log' element={<UserLogManagement />} />
           <Route path='user-log/:logId' element={<UserLogDetail />} />

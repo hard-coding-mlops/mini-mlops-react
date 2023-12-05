@@ -26,7 +26,7 @@ const LABEL_COLOR = {
   delete: '#FF6B6B',
   edit: '#FFA500',
   deploy: '#FF6B6B',
-  save: '#FF6B6B',
+  save: '#FFA500',
   userlog: '#3498DB',
 };
 

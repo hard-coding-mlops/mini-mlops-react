@@ -1,4 +1,7 @@
-td {
+/* td {
+} */
+.data,
+.label {
   height: 4.5rem;
 }
 .tableContainer {
