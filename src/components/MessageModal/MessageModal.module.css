@@ -1,51 +1,51 @@
 .wholeScreen {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: calc(100vw - 350px);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100vw - 350px);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 .messageModal {
-  width: 55rem;
-  height: 40rem;
-  border: 3px solid #6c6c6c;
-  border-radius: 10px;
-  padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.8);
-  font-size: 36px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    width: 55rem;
+    height: 40rem;
+    border: 3px solid #6c6c6c;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .buttonContainer {
-  width: 35%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
+    width: 35%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
 }
 .buttons {
-  box-sizing: content-box;
-  width: 120px;
-  height: 50px;
-  border: 1.7px solid #6c6c6c;
-  color: #6c6c6c;
-  border-radius: 10px;
-  font-size: 1.7rem;
-  font-weight: 600;
-  transition: all 0.2s ease-in-out;
+    box-sizing: content-box;
+    width: 120px;
+    height: 50px;
+    border: 1.7px solid #6c6c6c;
+    color: #6c6c6c;
+    border-radius: 10px;
+    font-size: 1.7rem;
+    font-weight: 600;
+    transition: all 0.1s ease-in-out;
 }
 
 .buttons:hover {
-  width: 120px;
-  height: 50px;
-  font-size: 2rem;
-  font-weight: 700;
-  border: 1.7px solid #141414;
-  color: #141414;
+    width: 118.8px;
+    height: 48.8px;
+    /* font-size: 2rem; */
+    /* font-weight: 800; */
+    border: 2px solid #141414;
+    color: #141414;
 }

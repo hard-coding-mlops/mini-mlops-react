@@ -9,27 +9,28 @@ import UserLogManagement from './pages/UserLogManagement/UserLogManagement';
 import UserLogDetail from './pages/UserLogDetail/UserLogDetail';
 import DashBoard from './pages/DashBoard/DashBoard';
 import NewModel from './pages/NewModel/NewModel';
+import NewsClassifier from './pages/NewsClassifier/NewsClassifier';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
-  return (
-    <div className='App'>
-      <Routes>
-        <Route path='/' element={<Login />} />
-        <Route element={<SideBar />}>
-          <Route path='dashboard' element={<DashBoard />} />
-          <Route path='data' element={<DataManagement />} />
-          <Route path='data/:dataId' element={<DataDetail />} />
-          <Route path='model' element={<ModelManagement />} />
-          <Route path='model/add' element={<NewModel />} />
-          <Route path='model/:modelId' element={<ModelDetail />} />
-          <Route path='user-log' element={<UserLogManagement />} />
-          <Route path='user-log/:logId' element={<UserLogDetail />} />
-        </Route>
-        {/* <Route path='news-classifier' element={<NewsClassifier />} /> */}
-      </Routes>
-    </div>
-  );
+    return (
+        <div className='App'>
+            <Routes>
+                <Route path='/' element={<Login />} />
+                <Route element={<SideBar />}>
+                    <Route path='dashboard' element={<DashBoard />} />
+                    <Route path='data' element={<DataManagement />} />
+                    <Route path='data/:dataId' element={<DataDetail />} />
+                    <Route path='model' element={<ModelManagement />} />
+                    <Route path='model/add' element={<NewModel />} />
+                    <Route path='model/:modelId' element={<ModelDetail />} />
+                    <Route path='user-log' element={<UserLogManagement />} />
+                    <Route path='user-log/:logId' element={<UserLogDetail />} />
+                </Route>
+                <Route path='classify' element={<NewsClassifier />} />
+            </Routes>
+        </div>
+    );
 }
 
 export default App;

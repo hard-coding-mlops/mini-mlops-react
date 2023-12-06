@@ -2,85 +2,85 @@
 } */
 .data,
 .label {
-  height: 4.5rem;
+    height: 4.5rem;
 }
 .tableContainer {
-  overflow-y: scroll;
-  color: #6c6c6c;
+    overflow-y: scroll;
+    color: #6c6c6c;
 }
 .tableContainer::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 10px;
-  background-color: #e4e4e4;
-  border-radius: 10px;
+    -webkit-appearance: none;
+    width: 10px;
+    background-color: #e4e4e4;
+    border-radius: 10px;
 }
 .tableContainer::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #aaaaaa;
+    border-radius: 10px;
+    background-color: #aaaaaa;
 }
 
 .table {
-  width: 100%;
-  height: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 .label {
-  width: 230px;
-  font-weight: 800;
+    width: 230px;
+    font-weight: 800;
 }
 .parameter {
-  font-size: 1.4rem;
-  font-weight: 400;
+    font-size: 1.4rem;
+    font-weight: 400;
 }
 .data {
-  font-weight: 400;
+    font-weight: 400;
 }
 
 .addInput {
-  width: 60%;
-  height: 60%;
-  padding: 0 0.5rem;
-  border: 1.5px solid #aaaaaa;
-  font-size: 1.5rem;
-  color: black;
+    width: 60%;
+    height: 60%;
+    padding: 0 0.5rem;
+    border: 1.5px solid #aaaaaa;
+    font-size: 1.5rem;
+    color: black;
 }
 .addInput::-webkit-input-placeholder {
-  color: #aaaaaa;
-  font-size: 1.2rem;
+    color: #aaaaaa;
+    font-size: 1.2rem;
 }
 .addInput:focus {
-  outline: none;
-  border: 1.7px solid #6c6c6c;
+    outline: none;
+    border: 1.7px solid #6c6c6c;
 }
 
 .modalQuestion {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.7rem;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.7rem;
 }
 
 .errorMessage {
-  color: #ff6b6b;
-  font-size: 1.2rem;
-  font-weight: 600;
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .modalParameterLabel {
-  width: 200px;
-  font-size: 1.7rem;
-  font-weight: 400;
-  color: #6c6c6c;
+    width: 290px;
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #6c6c6c;
 }
 .modalParameter {
-  font-size: 1.7rem;
-  font-weight: 400;
-  color: #141414;
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #141414;
 }
 
 .alertMessage {
-  margin-top: 1rem;
-  color: #ff6b6b;
-  font-size: 1.7rem;
-  font-weight: 800;
+    margin-top: 1rem;
+    color: #ff6b6b;
+    font-size: 1.7rem;
+    font-weight: 800;
 }
