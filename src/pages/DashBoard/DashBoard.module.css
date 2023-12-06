@@ -1,27 +1,44 @@
 .dashBoard {
-  width: 100%;
-  height: 25rem;
-  color: #6c6c6c;
-  /* background-color: red; */
+    width: 100%;
+    /* height: 25rem; */
+    color: #6c6c6c;
+    /* background-color: red; */
+    margin-bottom: 1rem;
 }
 
 .table {
-  width: 100%;
+    width: 100%;
 }
 
 .tableHeaderLabel {
-  font-weight: 800;
-  text-align: center;
+    font-weight: 800;
+    text-align: center;
 }
 .tableHeaderLabel::after {
-  border-bottom: 0.1rem solid #ffffff;
+    border-bottom: 0.1rem solid #ffffff;
 }
 
 .dataContainer {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.chartContainer {
+    width: 100%;
+    height: 24rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.autoPipeline {
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
