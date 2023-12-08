@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
@@ -28,10 +29,34 @@ function NewModel() {
     // const [inputValidation, setInputValidation] = useState(false);
     const [backModal, setBackModal] = useState(false);
     const [saveModal, setSaveModal] = useState(false);
+    const [isLearning, setIsLearning] = useState(false);
+    const [isLearnCompleted, setIsLearnCompleted] = useState(false);
+    const [accuracy, setAccuracy] = useState(0.0);
+    const [loss, setLoss] = useState(0.0);
 
-    const modelLearning = () => {
+    const modelLearning = async () => {
         // axios post /model/learn
-        alert('모델 학습을 시작합니다.');
+        setIsLearning(true);
+        // const result = await axios.post(`${process.env.REACT_APP_SERVER_URL}/model/learn`, {
+        //     model_filename: nameRef.current.value,
+        //     max_len: maxLengthRef.current.value,
+        //     batch_size: batchSizeRef.current.value,
+        //     num_epochs: epochsRef.current.value,
+        //     warmup_ratio: warmupRatioRef.current.value,
+        //     max_grad_norm: maxGradNormRef.current.value,
+        //     learning_rate: learningRateRef.current.value,
+        //     split_rate: splitRateRef.current.value,
+        //     data_length: dataLengthRef.current.value,
+        // });
+        // console.log(result);
+        // 2초 기다림
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setIsLearning(false);
+        setIsLearnCompleted(true);
+        setAccuracy(0.82193);
+        setLoss(0.48641);
+    };
+    const learnCompleted = () => {
         navigate('/model');
     };
 
@@ -95,44 +120,67 @@ function NewModel() {
                     <MessageModal onClose={() => setBackModal(false)}>
                         <span className={styles.modalQuestion}>다음과 같이 모델을 학습시키겠습니까?</span>
                         <table>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>모델명</td>
-                                <td className={styles.modalParameter}>{nameRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>MAX LENGTH</td>
-                                <td className={styles.modalParameter}>{maxLengthRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>BATCH SIZE</td>
-                                <td className={styles.modalParameter}>{batchSizeRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>LEARNING RATE</td>
-                                <td className={styles.modalParameter}>{learningRateRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>MAX GRAD NORM</td>
-                                <td className={styles.modalParameter}>{maxGradNormRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>EPOCHS</td>
-                                <td className={styles.modalParameter}>{epochsRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>SPLIT RATE</td>
-                                <td className={styles.modalParameter}>{splitRateRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>WARMUP RATIO</td>
-                                <td className={styles.modalParameter}>{warmupRatioRef.current.value}</td>
-                            </tr>
-                            <tr>
-                                <td className={styles.modalParameterLabel}>DATA LENGTH</td>
-                                <td className={styles.modalParameter}>{dataLengthRef.current.value}</td>
-                            </tr>
+                            {isLearnCompleted ? (
+                                <>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>정확도</td>
+                                        <td className={styles.modalParameter}>{accuracy}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>손실도</td>
+                                        <td className={styles.modalParameter}>{loss}</td>
+                                    </tr>
+                                </>
+                            ) : (
+                                <>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>모델명</td>
+                                        <td className={styles.modalParameter}>{nameRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>MAX LENGTH</td>
+                                        <td className={styles.modalParameter}>{maxLengthRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>BATCH SIZE</td>
+                                        <td className={styles.modalParameter}>{batchSizeRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>LEARNING RATE</td>
+                                        <td className={styles.modalParameter}>{learningRateRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>MAX GRAD NORM</td>
+                                        <td className={styles.modalParameter}>{maxGradNormRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>EPOCHS</td>
+                                        <td className={styles.modalParameter}>{epochsRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>SPLIT RATE</td>
+                                        <td className={styles.modalParameter}>{splitRateRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>WARMUP RATIO</td>
+                                        <td className={styles.modalParameter}>{warmupRatioRef.current.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalParameterLabel}>DATA LENGTH</td>
+                                        <td className={styles.modalParameter}>{dataLengthRef.current.value}</td>
+                                    </tr>
+                                </>
+                            )}
                         </table>
-                        <DecisionButtons handleYes={modelLearning} handleNo={() => setSaveModal(false)} />
+                        {!isLearning && !isLearnCompleted && (
+                            <DecisionButtons handleYes={modelLearning} handleNo={() => setSaveModal(false)} />
+                        )}
+                        {isLearnCompleted && (
+                            <button className={styles.buttons} onClick={learnCompleted}>
+                                완료하기
+                            </button>
+                            // <DecisionButtons handleYes={learnCompleted} handleNo={() => setSaveModal(false)} />
+                        )}
                     </MessageModal>
                 )}
                 {backModal && (

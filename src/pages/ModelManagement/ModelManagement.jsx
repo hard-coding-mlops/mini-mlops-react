@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
@@ -9,136 +9,9 @@ import Loading from '../../pages/Loading/Loading';
 import { formatDateTime } from '../../utils/formatters';
 
 import styles from './ModelManagement.module.css';
+import axios from 'axios';
 
 const dummyData = [
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
     {
         id: 1,
         name: 'model_name_1',
@@ -159,7 +32,24 @@ const dummyData = [
 
 export default function ModelManagement() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const pageQuery = Number(new URLSearchParams(location.search).get('page')) || 1;
+
+    const [models, setModels] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const getTotalModels = async (pageNumber) => {
+        setIsLoading(true);
+        const result = await axios.get(
+            `${process.env.REACT_APP_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`
+        );
+        setModels(result.data.data);
+        console.log(result.data.data);
+        setIsLoading(false);
+    };
+    useEffect(() => {
+        getTotalModels(pageQuery);
+    }, [pageQuery]);
 
     return (
         <PageTemplate>
@@ -194,23 +84,26 @@ export default function ModelManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {dummyData.map((data) => {
+                            {models.map((model) => {
                                 return (
                                     <tr
-                                        key={data.id}
+                                        key={model.model_id}
                                         onClick={() => {
-                                            navigate(`/model/${data.id}`);
+                                            navigate(`/model/${model.model_id}`);
                                         }}
                                         className={styles.tableRow}
                                     >
-                                        <td className={styles.tableData}>{data.name}</td>
-                                        <td className={`${styles.tableData} `}>{data.datetime}</td>
-                                        <td className={styles.tableData}>{data.parameters.join(',  ')}</td>
+                                        <td className={styles.tableData}>{model.model_name}</td>
+                                        <td className={`${styles.tableData} `}>{model.created_at}</td>
                                         <td className={styles.tableData}>
-                                            <ProgressiveBox item={'accuracy'} percentage={data.accuracy} />
+                                            {model.data_length}, {model.num_epochs}, {model.batch_size},{' '}
+                                            {model.max_length}
                                         </td>
                                         <td className={styles.tableData}>
-                                            <ProgressiveBox item={'loss'} percentage={data.loss} />
+                                            <ProgressiveBox item={'accuracy'} percentage={model.accuracy} />
+                                        </td>
+                                        <td className={styles.tableData}>
+                                            <ProgressiveBox item={'loss'} percentage={model.loss} />
                                         </td>
                                         <td className={styles.tableData}>
                                             <div className={styles.condition}>

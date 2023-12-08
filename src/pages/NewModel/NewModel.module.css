@@ -84,3 +84,16 @@
     font-size: 1.7rem;
     font-weight: 800;
 }
+
+.buttons {
+    box-sizing: content-box;
+    width: 120px;
+    height: 50px;
+    border: 1.7px solid #6c6c6c;
+    color: #6c6c6c;
+    border-radius: 10px;
+    font-size: 1.7rem;
+    font-weight: 600;
+    transition: all 0.1s ease-in-out;
+    margin-top: 2rem;
+}
