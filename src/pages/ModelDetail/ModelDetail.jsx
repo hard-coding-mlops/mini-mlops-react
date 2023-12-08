@@ -11,17 +11,16 @@ const modelInfo = {
     id: 1,
     name: 'model_name_1',
     api: `/api/models/news-classifier/model_name_1`,
-    datetime: '2023 / 11 / 21',
-    parameters: {
-        dataLength: 1200,
-        epochs: 14,
-        batchSize: 5,
-        maxLength: 8,
-        warmupRatio: 512,
-        maxGradNorm: 1,
-        learningRate: '5e-5',
-        splitRate: 200,
-    },
+    created_at: '2023 / 11 / 21',
+    deployed_at: '2023 / 11 / 21',
+    dataLength: 1200,
+    epochs: 14,
+    batchSize: 5,
+    maxLength: 8,
+    warmupRatio: 512,
+    maxGradNorm: 1,
+    learningRate: '5e-5',
+    splitRate: 200,
     accuracy: 82.138,
     improvement: 3.103,
     loss: 19.053,
@@ -72,49 +71,55 @@ function ModelDetail() {
                             <td colSpan={2} className={styles.data}>
                                 [MAX GRAD NORM]
                             </td>
-                            <td className={styles.data}>{modelInfo.parameters.maxGradNorm}</td>
+                            <td className={styles.data}>{modelInfo.maxGradNorm}</td>
                         </tr>
                         <tr>
                             <td className={styles.label}></td>
                             <td colSpan={2} className={styles.data}>
                                 [BATCH SIZE]
                             </td>
-                            <td className={styles.data}>{modelInfo.parameters.batchSize}</td>
+                            <td className={styles.data}>{modelInfo.batchSize}</td>
                             <td></td>
                             <td colSpan={2} className={styles.data}>
                                 [LEARNING RATE]
                             </td>
-                            <td className={styles.data}>{modelInfo.parameters.learningRate}</td>
+                            <td className={styles.data}>{modelInfo.learningRate}</td>
                         </tr>
                         <tr>
                             <td className={styles.label}></td>
                             <td colSpan={2} className={styles.data}>
                                 [MAX LENGTH]
                             </td>
-                            <td className={styles.data}>{modelInfo.parameters.maxLength}</td>
+                            <td className={styles.data}>{modelInfo.maxLength}</td>
                             <td></td>
                             <td colSpan={2} className={styles.data}>
                                 [SPLIT RATE]
                             </td>
-                            <td className={styles.data}>{modelInfo.parameters.splitRate}</td>
+                            <td className={styles.data}>{modelInfo.splitRate}</td>
                         </tr>
                         <tr>
                             <td className={styles.label}></td>
                             <td colSpan={2} className={styles.data}>
                                 [WARMUP RATIO]
                             </td>
-                            <td className={styles.data}>{modelInfo.parameters.warmupRatio}</td>
+                            <td className={styles.data}>{modelInfo.warmupRatio}</td>
                         </tr>
                         <tr>
                             <td className={styles.label}>최근 배포 일시</td>
-                            <td colSpan={8} className={styles.data}>
-                                {modelInfo.datetime}
+                            <td colSpan={4} className={styles.data}>
+                                {modelInfo.created_at}
+                            </td>
+                            <td colSpan={2} className={styles.label}>
+                                최근 배포 일시
+                            </td>
+                            <td colSpan={2} className={styles.data}>
+                                {modelInfo.deployed_at}
                             </td>
                         </tr>
                         <tr>
                             <td className={styles.label}>데이터 수</td>
                             <td colSpan={8} className={styles.data}>
-                                {modelInfo.parameters.dataLength}
+                                {modelInfo.dataLength}
                             </td>
                         </tr>
                         <tr>
