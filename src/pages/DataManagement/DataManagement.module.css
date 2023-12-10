@@ -1,5 +1,5 @@
 .tableContainer {
-  width: 100%;
+  width: calc(100% - 20px);
   height: 100%;
   overflow-y: scroll;
   color: #6c6c6c;
@@ -34,7 +34,7 @@ th::after {
 
 .table {
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
   border-collapse: collapse;
 }
 

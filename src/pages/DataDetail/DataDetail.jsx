@@ -20,7 +20,11 @@ function DataDetail() {
 
   const getDataDetails = async () => {
     setIsLoading(true);
-    const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${dataId}`);
+    const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${dataId}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'any-value',
+      },
+    });
     console.log(result.data);
     setStartDateTime(formatDateTime(result.data.scraped_order.start_datetime));
     setEndDateTime(formatDateTime(result.data.scraped_order.end_datetime));
@@ -30,7 +34,7 @@ function DataDetail() {
 
   useEffect(() => {
     getDataDetails();
-  });
+  }, []);
 
   return (
     <PageTemplate>
@@ -45,9 +49,19 @@ function DataDetail() {
                 <td className={styles.data}>{dataId}</td>
               </tr>
               <tr>
+                <td>
+                  <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
+                </td>
+              </tr>
+              <tr>
                 <td className={styles.label}>수집 시작 일시</td>
                 <td className={styles.data} colSpan={2} style={{ whiteSpace: 'pre-wrap' }}>
                   {startDateTime}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
                 </td>
               </tr>
               <tr>
@@ -57,7 +71,13 @@ function DataDetail() {
                 </td>
               </tr>
               <tr>
-                <td className={styles.label}>데이터</td>
+                <td>
+                  <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
+                </td>
+              </tr>
+              <tr>
+                <td className={styles.label}>데이터 수</td>
+                <td className={styles.data}>{articles.length} 개</td>
               </tr>
               <tr>
                 <td className={styles.label}>DATA_ID</td>

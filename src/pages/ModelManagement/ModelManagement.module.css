@@ -32,10 +32,8 @@ th::after {
 
 .table {
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
   border-collapse: collapse;
-}
-.tableHeaderLabel {
 }
 .tableRow:hover {
   cursor: pointer;
@@ -44,7 +42,7 @@ th::after {
 .tableData {
   font-weight: 400;
   white-space: pre-wrap;
-  padding-right: 1rem;
+  padding-right: 2rem;
 }
 
 .smallScreen {

@@ -25,7 +25,11 @@ function DataManagement() {
   // APIs
   // TODO: page 추가
   const calculatePages = async () => {
-    const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data`);
+    const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'any-value',
+      },
+    });
     const pages = Math.ceil(result.data.total_ordered_data.length / 10);
     setTotalPages(pages);
   };
@@ -33,6 +37,11 @@ function DataManagement() {
     setIsLoading(true);
     const result = await axios.get(
       `${process.env.REACT_APP_SERVER_URL}/data_management/total-ordered-data?skip=${10 * (pageNumber - 1)}&limit=10`,
+      {
+        headers: {
+          'ngrok-skip-browser-warning': 'any-value',
+        },
+      }
     );
     setTotalOrderedData(result.data.total_ordered_data);
     setIsLoading(false);
@@ -40,7 +49,11 @@ function DataManagement() {
   const addNewArticles = async () => {
     if (!isLoading) {
       setIsLoading(true);
-      await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/scrape-and-preprocess`);
+      await axios.get(`${process.env.REACT_APP_SERVER_URL}/data_management/scrape-and-preprocess`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'any-value',
+        },
+      });
       window.location.reload();
       setIsLoading(false);
     }
@@ -51,8 +64,13 @@ function DataManagement() {
       const result = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
         {
-          responseType: 'blob',
+          headers: {
+            'ngrok-skip-browser-warning': 'any-value',
+          },
         },
+        {
+          responseType: 'blob',
+        }
       );
 
       // Blob을 파일로 변환
@@ -77,7 +95,11 @@ function DataManagement() {
   const deleteArticles = async (id) => {
     if (!isLoading) {
       setIsLoading(true);
-      await axios.delete(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${id}`);
+      await axios.delete(`${process.env.REACT_APP_SERVER_URL}/data_management/single-group/${id}`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'any-value',
+        },
+      });
       window.location.reload();
       setIsLoading(false);
     }
