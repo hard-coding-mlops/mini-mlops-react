@@ -7,6 +7,7 @@ import BodyTemplate from '../PageTemplate/BodyTemplate';
 import styles from './ModelDetail.module.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from '../Loading/Loading';
 
 const modelInfo = {
   id: 1,
@@ -32,8 +33,10 @@ function ModelDetail() {
   const [modelInfo, setModelInfo] = useState({});
   const [graph, setGraph] = useState({});
   const [epochs, setEpochs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getModelInfo = async () => {
+    setIsLoading(true);
     const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/model/${modelId}`, {
       headers: {
         'ngrok-skip-browser-warning': 'any-value',
@@ -53,6 +56,7 @@ function ModelDetail() {
       test_loss,
     }));
     setEpochs(extractedEpochs);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -62,6 +66,7 @@ function ModelDetail() {
   return (
     <PageTemplate>
       <HeaderTemplate>{modelInfo.model_name} 상세 정보</HeaderTemplate>
+      {isLoading && <Loading message={'모델 가져오는 중'} />}
       <BodyTemplate>
         {/* <div className={styles.tableContainer}> */}
         <table className={styles.table}>
