@@ -13,12 +13,11 @@ function PieChart({ label, value, color, backwards }) {
                 <>
                     <ResponsivePie
                         data={[
-                            { id: '잘함', value: value[0] },
-                            { id: '무응답', value: value[1] },
-                            { id: '틀림', value: value[2] },
+                            { id: '정답', value: value[0] },
+                            { id: '오답', value: value[1] },
                         ]}
                         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                        colors={['#3498DB', '#FFA500', '#FF6B6B']}
+                        colors={['#3498DB', '#FF6B6B', '#FFA500', '#4CAF50']}
                         startAngle={360}
                         endAngle={0}
                         innerRadius={0.6}
@@ -30,8 +29,17 @@ function PieChart({ label, value, color, backwards }) {
                             from: 'color',
                             modifiers: [['darker', 0.2]],
                         }}
-                        enableArcLinkLabels={false}
-                        enableArcLabels={false}
+                        // enableArcLinkLabels={false}
+                        // enableArcLabels={false}
+                        // arcLinkLabelsSkipAngle={10}
+                        arcLinkLabelsTextColor={{ from: 'color' }}
+                        arcLinkLabelsThickness={3}
+                        arcLinkLabelsColor={{ from: 'color' }}
+                        // arcLabelsSkipAngle={10}
+                        arcLabelsTextColor={{
+                            from: 'color',
+                            // modifiers: [['darker', 2]],
+                        }}
                     />
                     <div className={styles.satisfiedValue}>
                         <SlotCounter value={value[0]} duration={1} dummyCharacterCount={7} />

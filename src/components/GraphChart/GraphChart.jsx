@@ -1,28 +1,29 @@
 import { Chart } from 'react-google-charts';
 
-export const data = [
-    ['City', 'accuracy', 'loss'],
-    ['model_name_1', 82.193, 32.514],
-    ['model_name_5', 81.015, 34.135],
-    ['model_name_3', 80.856, 33.051],
-    ['model_name_2', 79.492, 39.002],
-    ['model_name_4', 73.203, 45.391],
-];
+function GraphChart({ topFive }) {
+    const options = {
+        // title: 'ACC',
+        chartArea: { width: '80%', height: '89%' },
+        colors: ['#3498DB', '#FFA500'],
+        legend: { position: 'right' },
+        hAxis: {
+            minValue: 0,
+            maxValue: 100,
+        },
+        bar: { groupWidth: '87%' },
+    };
 
-export const options = {
-    // title: 'ACC',
-    chartArea: { width: '70%', height: '82%' },
-    colors: ['#3498DB', '#FF6B6B'],
-    legend: { position: 'top' },
-    hAxis: {
-        minValue: 0,
-        maxValue: 100,
-    },
-    bar: { groupWidth: '87%' },
-};
+    const data = [
+        ['Top Five Models', 'accuracy', 'loss'],
+        [topFive[0]?.model_name, topFive[0]?.accuracy * 100, topFive[0]?.loss * 100],
+        [topFive[1]?.model_name, topFive[1]?.accuracy * 100, topFive[1]?.loss * 100],
+        [topFive[2]?.model_name, topFive[2]?.accuracy * 100, topFive[2]?.loss * 100],
+        [topFive[3]?.model_name, topFive[3]?.accuracy * 100, topFive[3]?.loss * 100],
+        [topFive[4]?.model_name, topFive[4]?.accuracy * 100, topFive[4]?.loss * 100],
+    ];
 
-function GraphChart() {
     return <Chart chartType='BarChart' width={'100%'} height={'100%'} data={data} options={options} />;
+    // return <div>{topFive[0]?.accuracy}</div>;
 }
 
 export default GraphChart;
