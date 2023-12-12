@@ -93,12 +93,17 @@ function DashBoard() {
                             </td>
                             <td>
                                 <div className={styles.dataContainer}>
-                                    <PieChart label='accuracy' value={dummyData.accuracy} color='#3498DB' />
+                                    <PieChart label='accuracy' value={Math.round(dummyData.accuracy)} color='#3498DB' />
                                 </div>
                             </td>
                             <td>
                                 <div className={styles.dataContainer}>
-                                    <PieChart backwards={true} label='loss' value={dummyData.loss} color='#FFA500' />
+                                    <PieChart
+                                        backwards={true}
+                                        label='loss'
+                                        value={Math.round(dummyData.loss)}
+                                        color='#FFA500'
+                                    />
                                 </div>
                             </td>
                         </tr>
