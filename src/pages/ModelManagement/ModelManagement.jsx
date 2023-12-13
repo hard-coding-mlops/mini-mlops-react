@@ -112,6 +112,14 @@ export default function ModelManagement() {
                                         </td>
                                         <td className={styles.tableData}>
                                             <div className={styles.condition}>
+                                                {/* <Icon label='edit' handleOnClick={() => alert('edit')} /> */}
+                                                <Icon
+                                                    label='test'
+                                                    handleOnClick={(e) => {
+                                                        e.stopPropagation();
+                                                        alert('test');
+                                                    }}
+                                                />
                                                 <Icon
                                                     label='deploy'
                                                     handleOnClick={async (e) => {

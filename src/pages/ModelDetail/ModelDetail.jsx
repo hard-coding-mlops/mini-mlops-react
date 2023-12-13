@@ -8,6 +8,7 @@ import styles from './ModelDetail.module.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
+import Icon from '../../components/Icon/Icon';
 
 const modelInfo = {
     id: 1,
@@ -67,8 +68,28 @@ function ModelDetail() {
 
     return (
         <PageTemplate>
-            <HeaderTemplate>{modelInfo.model_name} 상세 정보</HeaderTemplate>
             {isLoading && <Loading message={'모델 가져오는 중'} />}
+            <HeaderTemplate>
+                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>{modelInfo.model_name} &nbsp; 상세 정보</span>
+                    <Icon
+                        label='deploy'
+                        handleOnClick={async (e) => {
+                            e.stopPropagation();
+                            // model.model_id
+                            const result = await axios.get(
+                                `${process.env.REACT_APP_COLAB_SERVER_URL}/model/deploy/${modelInfo.model_id}`,
+                                {
+                                    headers: {
+                                        'ngrok-skip-browser-warning': 'any-value',
+                                    },
+                                }
+                            );
+                            alert(`ID) ${modelInfo.model_id}, 모델명) ${modelInfo.model_name} 배포되었습니다.`);
+                        }}
+                    />
+                </div>
+            </HeaderTemplate>
             <BodyTemplate>
                 {/* <div className={styles.tableContainer}> */}
                 <table className={styles.table}>

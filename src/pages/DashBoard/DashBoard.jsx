@@ -128,9 +128,9 @@ function DashBoard() {
             <HeaderTemplate>성능 TOP 5 모델</HeaderTemplate>
             <div className={styles.chartContainer}>
                 <GraphChart topFive={topFive} />
-                <div className={styles.autoPipeline}>
+                {/* <div className={styles.autoPipeline}>
                     <LoadingSpinner />
-                </div>
+                </div> */}
             </div>
         </PageTemplate>
     );

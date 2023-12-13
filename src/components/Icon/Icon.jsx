@@ -7,6 +7,7 @@ import SAVE_ICON from '../../assets/icons/save-icon.svg';
 import TRASH_ICON from '../../assets/icons/trash-icon.svg';
 import USERLOG_ICON from '../../assets/icons/userlog-icon.svg';
 import SERVICE_ICON from '../../assets/icons/service-icon.svg';
+import TEST_ICON from '../../assets/icons/test-icon.svg';
 
 import styles from './Icon.module.css';
 
@@ -20,6 +21,7 @@ const ICON_LABEL = {
     save: SAVE_ICON,
     userlog: USERLOG_ICON,
     service: SERVICE_ICON,
+    test: TEST_ICON,
 };
 const LABEL_COLOR = {
     add: '#3498DB',
@@ -29,6 +31,7 @@ const LABEL_COLOR = {
     edit: '#FFA500',
     deploy: '#FF6B6B',
     save: '#FFA500',
+    test: '#FFA500',
     userlog: '#3498DB',
     service: '#3498DB',
 };
