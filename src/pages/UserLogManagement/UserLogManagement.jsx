@@ -5,6 +5,8 @@ import BodyTemplate from '../PageTemplate/BodyTemplate';
 import styles from './UserLogManagement.module.css';
 import { useNavigate } from 'react-router-dom';
 import Icon from '../../components/Icon/Icon';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const dummyData = [
     {
@@ -83,6 +85,23 @@ const dummyData = [
 
 function UserLogManagement() {
     const navigate = useNavigate();
+
+    const getUserLogs = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/user-logs`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'any-value',
+                },
+            });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getUserLogs();
+    }, []);
 
     return (
         <PageTemplate>
