@@ -59,9 +59,16 @@
 .accLossGraphs {
     width: 100%;
 }
-.confusionGraph {
-    object-fit: contain;
+.confusionGraphContainer {
     width: 50%;
+    height: 100%;
+    /* object-fit: contain; */
+    display: flex;
+    flex-direction: column;
+}
+.confusionGraph {
+    width: 100%;
+    object-fit: contain;
     position: relative;
-    right: -50px;
+    right: 2rem;
 }
