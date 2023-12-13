@@ -14,10 +14,11 @@ function PieChart({ label, value, color, backwards }) {
                     <ResponsivePie
                         data={[
                             { id: '정답', value: value[0] },
-                            { id: '오답', value: value[1] },
+                            { id: '무응답', value: value[1] },
+                            { id: '오답', value: value[2] },
                         ]}
                         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                        colors={['#3498DB', '#FF6B6B', '#FFA500', '#4CAF50']}
+                        colors={['#3498DB', '#FFA500', '#FF6B6B', '#4CAF50']}
                         startAngle={360}
                         endAngle={0}
                         innerRadius={0.6}
@@ -42,7 +43,7 @@ function PieChart({ label, value, color, backwards }) {
                         }}
                     />
                     <div className={styles.satisfiedValue}>
-                        <SlotCounter value={value[0]} duration={1} dummyCharacterCount={7} />
+                        <SlotCounter value={value[0] * 1} duration={1} dummyCharacterCount={7} />
                         👍
                     </div>
                 </>

@@ -23,21 +23,16 @@ function DashBoard() {
     const [topFive, setTopFive] = useState([]);
 
     const getCurrentModel = async () => {
-        // const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/model/currently-active`, {
-        //     headers: {
-        //         'ngrok-skip-browser-warning': 'any-value',
-        //     },
-        // });
-        const current_model = {
-            model_id: 1,
-            model_name: 'bertmodel',
-            usage: 32,
-            evaluation: [15, 7],
-            accuracy: 0.82132,
-            loss: 0.42132,
-        };
-        // setCurrentModel(result.data.data);
-        setCurrentModel(current_model);
+        const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/model/currently-active`, {
+            headers: {
+                'ngrok-skip-browser-warning': 'any-value',
+            },
+        });
+        const { usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } = result.data;
+        console.log(result.data);
+        setCurrentModel({ usage, acc, loss: 1 - acc, evaluation_diff, evaluation_equal, evaluation_noresponse });
+        console.log({ usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse });
+        // setCurrentModel(current_model);
     };
     const getTopFive = async () => {
         const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/model/top-five`, {
@@ -52,8 +47,9 @@ function DashBoard() {
             { model_id: 21, model_name: 'model_21', accuracy: 0.35111, loss: 0.9146 },
             { model_id: 15, model_name: 'model_1', accuracy: 0.1, loss: 0.9899 },
         ];
-        // setTopFive(result.data.data);
-        setTopFive(top_five_models);
+        // console.log(result.data);
+        setTopFive(result.data.data);
+        // setTopFive(top_five_models);
     };
 
     useEffect(() => {
@@ -65,7 +61,7 @@ function DashBoard() {
         <PageTemplate>
             <HeaderTemplate>
                 <div>
-                    <span style={{ fontWeight: '800' }}>{dummyData.model}</span>
+                    <span style={{ fontWeight: '800' }}>hello {currentModel.model}</span>
                     <br />
                     <span style={{ fontWeight: '500' }}>CURRENTLY ACTIVE</span>
                 </div>
@@ -73,27 +69,40 @@ function DashBoard() {
             <div className={styles.dashBoard}>
                 <table className={styles.table}>
                     <thead>
-                        <th className={styles.tableHeaderLabel}>사용 횟수</th>
-                        <th className={styles.tableHeaderLabel}>사용자 만족도</th>
-                        <th className={styles.tableHeaderLabel}>정확도</th>
-                        <th className={styles.tableHeaderLabel}>손실도</th>
+                        <tr>
+                            <th className={styles.tableHeaderLabel}>사용 횟수</th>
+                            <th className={styles.tableHeaderLabel}>사용자 만족도</th>
+                            <th className={styles.tableHeaderLabel}>정확도</th>
+                            <th className={styles.tableHeaderLabel}>손실도</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
                                 <div className={styles.dataContainer} style={{ fontSize: '7rem', fontWeight: '700' }}>
-                                    {/* <SlotCounter value={currentModel.usage} duration={1.8} dummyCharacterCount={15} /> */}
-                                    {currentModel.usage}
+                                    <SlotCounter value={currentModel.usage * 1} duration={1} dummyCharacterCount={7} />
                                 </div>
                             </td>
                             <td>
                                 <div className={styles.dataContainer} style={{ margin: '0 2rem' }}>
-                                    <PieChart label='' value={dummyData.evaluation} color='#3498DB' />
+                                    <PieChart
+                                        label=''
+                                        value={[
+                                            currentModel.evaluation_equal,
+                                            currentModel.evaluation_noresponse,
+                                            currentModel.evaluation_diff,
+                                        ]}
+                                        color='#3498DB'
+                                    />
                                 </div>
                             </td>
                             <td>
                                 <div className={styles.dataContainer}>
-                                    <PieChart label='accuracy' value={Math.round(dummyData.accuracy)} color='#3498DB' />
+                                    <PieChart
+                                        label='accuracy'
+                                        value={Math.round(currentModel.acc * 100)}
+                                        color='#3498DB'
+                                    />
                                 </div>
                             </td>
                             <td>
@@ -101,8 +110,8 @@ function DashBoard() {
                                     <PieChart
                                         backwards={true}
                                         label='loss'
-                                        value={Math.round(dummyData.loss)}
-                                        color='#FFA500'
+                                        value={Math.round(currentModel.loss * 100)}
+                                        color='#FF6B6B'
                                     />
                                 </div>
                             </td>
