@@ -41,7 +41,7 @@ export default function ModelManagement() {
     const getTotalModels = async (pageNumber) => {
         setIsLoading(true);
         const result = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
+            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
             {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',
@@ -112,17 +112,22 @@ export default function ModelManagement() {
                                         </td>
                                         <td className={styles.tableData}>
                                             <div className={styles.condition}>
-                                                {/* <Icon
-                          label='edit'
-                          handleOnClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        /> */}
                                                 <Icon
                                                     label='deploy'
-                                                    handleOnClick={(e) => {
+                                                    handleOnClick={async (e) => {
                                                         e.stopPropagation();
-                                                        alert('배포되었습니다.');
+                                                        // model.model_id
+                                                        const result = await axios.get(
+                                                            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/deploy/${model.model_id}`,
+                                                            {
+                                                                headers: {
+                                                                    'ngrok-skip-browser-warning': 'any-value',
+                                                                },
+                                                            }
+                                                        );
+                                                        alert(
+                                                            `ID) ${model.model_id}, 모델명) ${model.model_name} 배포되었습니다.`
+                                                        );
                                                     }}
                                                 />
                                             </div>
