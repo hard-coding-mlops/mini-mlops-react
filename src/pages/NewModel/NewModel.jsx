@@ -37,7 +37,7 @@ function NewModel() {
     const modelLearning = async () => {
         // axios post /model/learn
         setIsLearning(true);
-        const result = await axios.post(`${process.env.REACT_APP_SERVER_URL}/model/learn`, {
+        const result = await axios.post(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/learn`, {
             model_filename: nameRef.current.value,
             max_len: maxLengthRef.current.value,
             batch_size: batchSizeRef.current.value,

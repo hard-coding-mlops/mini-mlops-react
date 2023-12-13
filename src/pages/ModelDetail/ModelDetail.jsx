@@ -37,7 +37,7 @@ function ModelDetail() {
 
     const getModelInfo = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/model/${modelId}`, {
+        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/${modelId}`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },

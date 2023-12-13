@@ -23,7 +23,7 @@ function NewsClassifier() {
         // 3초 기다림(모델 예측 불러올 때에는 지울 것!)
         await new Promise((resolve) => setTimeout(resolve, 3000));
         // alert(article);
-        // const result = await axios.post(`${process.env.REACT_APP_SERVER_URL}/classifier/classify`, {
+        // const result = await axios.post(`${process.env.REACT_APP_COLAB_SERVER_URL}/classifier/classify`, {
         //   content: article,
         // });
 

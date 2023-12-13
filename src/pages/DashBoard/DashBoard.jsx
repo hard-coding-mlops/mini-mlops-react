@@ -9,6 +9,7 @@ import GraphChart from '../../components/GraphChart/GraphChart';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 import styles from './DashBoard.module.css';
+import Loading from '../Loading/Loading';
 
 const dummyData = {
     model: 'KoBert_1129',
@@ -21,35 +22,38 @@ const dummyData = {
 function DashBoard() {
     const [currentModel, setCurrentModel] = useState({});
     const [topFive, setTopFive] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getCurrentModel = async () => {
-        const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/model/currently-active`, {
+        setIsLoading(true);
+        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/currently-active`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },
         });
-        const { usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } = result.data;
+        const { model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } = result.data;
         console.log(result.data);
-        setCurrentModel({ usage, acc, loss: 1 - acc, evaluation_diff, evaluation_equal, evaluation_noresponse });
-        console.log({ usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse });
+        setCurrentModel({
+            model_name,
+            usage,
+            acc,
+            loss,
+            evaluation_diff,
+            evaluation_equal,
+            evaluation_noresponse,
+        });
+        console.log({ model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse });
         // setCurrentModel(current_model);
+        setIsLoading(false);
     };
     const getTopFive = async () => {
-        const result = await axios.get(`${process.env.REACT_APP_SERVER_URL}/model/top-five`, {
+        // setIsLoading(true);
+        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/top-five`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },
         });
-        const top_five_models = [
-            { model_id: 1, model_name: 'bertmodel', accuracy: 0.82132, loss: 0.42132 },
-            { model_id: 18, model_name: 'model_18', accuracy: 0.7931, loss: 0.48901 },
-            { model_id: 22, model_name: 'model_22', accuracy: 0.78162, loss: 0.58031 },
-            { model_id: 21, model_name: 'model_21', accuracy: 0.35111, loss: 0.9146 },
-            { model_id: 15, model_name: 'model_1', accuracy: 0.1, loss: 0.9899 },
-        ];
-        // console.log(result.data);
         setTopFive(result.data.data);
-        // setTopFive(top_five_models);
     };
 
     useEffect(() => {
@@ -59,11 +63,12 @@ function DashBoard() {
 
     return (
         <PageTemplate>
+            {isLoading && <Loading message={'현재 모델을 가져오는 중입니다.'} />}
             <HeaderTemplate>
                 <div>
-                    <span style={{ fontWeight: '800' }}>hello {currentModel.model}</span>
+                    <span style={{ fontWeight: '700', fontSize: '1.4rem' }}>현재 배포된 모델</span>
                     <br />
-                    <span style={{ fontWeight: '500' }}>CURRENTLY ACTIVE</span>
+                    <span style={{ fontWeight: '800', fontSize: '2rem' }}>{currentModel.model_name}</span>
                 </div>
             </HeaderTemplate>
             <div className={styles.dashBoard}>
