@@ -10,6 +10,7 @@ import UserLogDetail from './pages/UserLogDetail/UserLogDetail';
 import DashBoard from './pages/DashBoard/DashBoard';
 import NewModel from './pages/NewModel/NewModel';
 import NewsClassifier from './pages/NewsClassifier/NewsClassifier';
+import { Toaster } from 'react-hot-toast';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                 </Route>
                 <Route path='classify' element={<NewsClassifier />} />
             </Routes>
+            <Toaster />
         </div>
     );
 }

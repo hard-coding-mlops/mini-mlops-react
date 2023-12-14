@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
@@ -55,6 +56,68 @@ function NewModel() {
         setIsLearnCompleted(true);
         setAccuracy(0.82193);
         setLoss(0.48641);
+    };
+    const fetchLearningSSE = () => {
+        let finalAccuracy = 0.0;
+        let finalLoss = 0.0;
+        fetch(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/learn-progress`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                model_filename: nameRef.current.value,
+                max_len: maxLengthRef.current.value,
+                batch_size: batchSizeRef.current.value,
+                num_epochs: epochsRef.current.value,
+                warmup_ratio: warmupRatioRef.current.value,
+                max_grad_norm: maxGradNormRef.current.value,
+                learning_rate: learningRateRef.current.value,
+                split_rate: splitRateRef.current.value,
+                data_length: dataLengthRef.current.value,
+            }),
+        })
+            .then((response) => {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                const readChunk = () => {
+                    return reader.read().then(appendChunks);
+                };
+
+                const appendChunks = (result) => {
+                    let toastMessage = '';
+                    const chunk = decoder.decode(result.value || new Uint8Array(), {
+                        stream: !result.done,
+                    });
+                    const jsonChunks = chunk.split('\n').filter(Boolean);
+
+                    for (const jsonChunk of jsonChunks) {
+                        const trimmedChunk = jsonChunk.replace(/^data: /, ''); // "data: " 제거
+                        try {
+                            const parsedData = JSON.parse(trimmedChunk);
+                            console.log(`${parsedData.kind}, ${parsedData.progress}%`);
+                            toast(parsedData.kind);
+                        } catch (error) {
+                            console.error('JSON 파싱 중 오류 발생:', error);
+                        }
+                    }
+
+                    if (!result.done) {
+                        return readChunk();
+                    }
+                };
+
+                return readChunk();
+            })
+            .then(() => {
+                toast.success('호출 끝');
+            })
+            .catch((error) => {
+                // toast.error(error.message);
+                toast.error('[ERROR] 콘솔 확인');
+                console.log(error);
+            });
     };
     const learnCompleted = () => {
         navigate('/model');
@@ -175,11 +238,16 @@ function NewModel() {
                                         <td className={styles.modalParameterLabel}>DATA LENGTH</td>
                                         <td className={styles.modalParameter}>{dataLengthRef.current.value}</td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <div>loading bar goes here.</div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             )}
                         </table>
                         {!isLearning && !isLearnCompleted && (
-                            <DecisionButtons handleYes={modelLearning} handleNo={() => setSaveModal(false)} />
+                            <DecisionButtons handleYes={fetchLearningSSE} handleNo={() => setSaveModal(false)} />
                         )}
                         {isLearnCompleted && (
                             <button className={styles.buttons} onClick={learnCompleted}>
