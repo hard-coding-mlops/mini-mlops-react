@@ -1,4 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
 import SideBar from './components/SideBar/SideBar';
 import DataManagement from './pages/DataManagement/DataManagement';
 import DataDetail from './pages/DataDetail/DataDetail';
@@ -10,7 +12,7 @@ import UserLogDetail from './pages/UserLogDetail/UserLogDetail';
 import DashBoard from './pages/DashBoard/DashBoard';
 import NewModel from './pages/NewModel/NewModel';
 import NewsClassifier from './pages/NewsClassifier/NewsClassifier';
-import { Toaster } from 'react-hot-toast';
+import KakaoOauth from './pages/Login/KakaoOAuth';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
         <div className='App'>
             <Routes>
                 <Route path='/' element={<Login />} />
+                <Route path='/oauth/kakao' element={<KakaoOauth />} />
                 <Route element={<SideBar />}>
                     <Route path='dashboard' element={<DashBoard />} />
                     <Route path='data' element={<DataManagement />} />
