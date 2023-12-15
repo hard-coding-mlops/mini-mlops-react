@@ -29,7 +29,7 @@ function App() {
                     <Route path='model/add' element={<NewModel />} />
                     <Route path='model/:modelId' element={<ModelDetail />} />
                     <Route path='user-log' element={<UserLogManagement />} />
-                    <Route path='user-log/:logId' element={<UserLogDetail />} />
+                    <Route path='user-log/:clientId' element={<UserLogDetail />} />
                 </Route>
                 <Route path='/' element={<NewsClassifier />} />
             </Routes>

@@ -1,103 +1,129 @@
 .tableContainer {
-  width: 100%;
-  height: 100%;
-  color: #6c6c6c;
+    width: calc(100% - 20px);
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 1rem;
+    color: #6c6c6c;
 }
 .tableContainer::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 10px;
-  background-color: #e4e4e4;
-  border-radius: 10px;
+    -webkit-appearance: none;
+    width: 10px;
+    background-color: #e4e4e4;
+    border-radius: 10px;
 }
 .tableContainer::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #aaaaaa;
+    border-radius: 10px;
+    background-color: #aaaaaa;
 }
 
 th {
-  position: sticky;
-  top: 0;
-  height: 4.5rem;
-  background-color: white;
-  text-align: start;
+    position: sticky;
+    top: 0;
+    height: 4.5rem;
+    background-color: white;
+    text-align: start;
 }
 th::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  border-bottom: 0.1rem solid #6c6c6c;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 0.1rem solid #6c6c6c;
 }
 
 .table {
-  width: 100%;
-  /* table-layout: fixed; */
-  border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
 }
 .tableRow:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .tableData {
-  font-weight: 400;
-  white-space: pre-wrap;
-  padding-right: 1rem;
-  height: 4.95rem;
+    font-weight: 400;
+    white-space: pre-wrap;
+    padding-right: 1rem;
+    height: 4.95rem;
 }
 
 .smallScreen {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .condition {
-  display: flex;
-  flex-direction: row;
-  margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
 }
 
 .dataRowButton {
-  border: none;
-  background-color: transparent;
+    border: none;
+    background-color: transparent;
 }
 
 .pageButtonContainer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
 }
 .pageButton {
-  height: 3rem;
-  padding: 0 2rem;
-  margin-left: 1rem;
-  border: none;
-  /* border-bottom: 1px solid black; */
-  background-color: transparent;
-  color: #aaaaaa;
-  font-size: 1.7rem;
+    height: 3rem;
+    padding: 0 2rem;
+    margin-left: 1rem;
+    border: none;
+    /* border-bottom: 1px solid black; */
+    background-color: transparent;
+    color: #aaaaaa;
+    font-size: 1.7rem;
 }
 .pageButton:first-child {
-  margin-left: 0;
+    margin-left: 0;
 }
 .currentPage {
-  color: #141414;
+    color: #141414;
 }
 
 .labelContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .labelSub {
-  width: 100%;
-  position: absolute;
-  top: 3.2rem;
-  font-size: 1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    width: 100%;
+    position: absolute;
+    top: 3.2rem;
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pageButtonContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.pageButton {
+    height: 3rem;
+    padding: 0 2rem;
+    margin-left: 1rem;
+    border: none;
+    /* border-bottom: 1px solid black; */
+    background-color: transparent;
+    color: #aaaaaa;
+    font-size: 1.7rem;
+}
+.pageButton:first-child {
+    margin-left: 0;
+}
+.currentPage {
+    color: #141414;
 }

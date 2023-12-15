@@ -1,110 +1,64 @@
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
+import Icon from '../../components/Icon/Icon';
+import { formatDateTime } from '../../utils/formatters';
 
 import styles from './UserLogManagement.module.css';
-import { useNavigate } from 'react-router-dom';
-import Icon from '../../components/Icon/Icon';
-import axios from 'axios';
-import { useEffect } from 'react';
-
-const dummyData = [
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12 : 00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12 : 00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   13 : 38',
-        model: 'model_name_2',
-        predict: '사회',
-        expected: '정치',
-        accuracy: '73.578%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12 : 00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12:00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12:00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12 : 00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12:00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-    {
-        id: 1,
-        datetime: '2021 / 08 / 01   12:00',
-        model: 'model_name_1',
-        predict: '사회',
-        expected: '사회',
-        accuracy: '84.912%',
-    },
-];
+import Loading from '../Loading/Loading';
 
 function UserLogManagement() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const pageQuery = Number(new URLSearchParams(location.search).get('page')) || 1;
 
-    const getUserLogs = async () => {
+    const [userLogs, setUserLogs] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState(1);
+
+    // APIs
+    // TODO: page 추가
+    const calculatePages = async () => {
+        setIsLoading(true);
+        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/total-ordered-data`, {
+            headers: {
+                'ngrok-skip-browser-warning': 'any-value',
+            },
+        });
+        const pages = Math.ceil(result.data.total_ordered_data.length / 10);
+        setTotalPages(pages);
+        setIsLoading(false);
+    };
+    const getUserLogs = async (pageNumber) => {
+        // setIsLoading(true);
         try {
-            const response = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/user-logs`, {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            });
-            console.log(response);
+            const response = await axios.get(
+                `${process.env.REACT_APP_COLAB_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`,
+                {
+                    headers: {
+                        'ngrok-skip-browser-warning': 'any-value',
+                    },
+                }
+            );
+            // setIsLoading(false);
+            setUserLogs(response.data.data);
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-        getUserLogs();
-    }, []);
+        calculatePages();
+        getUserLogs(pageQuery);
+    }, [pageQuery]);
 
     return (
         <PageTemplate>
+            {isLoading && <Loading message={'사용자 로그 가져오는 중'} />}
             <HeaderTemplate>
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>사용자 이용 로그</span>
@@ -121,8 +75,9 @@ function UserLogManagement() {
                     <table className={styles.table}>
                         <thead className={styles.tableHeader}>
                             <tr>
-                                <th className={styles.tableHeaderLabel}>사용 일시</th>
+                                <th className={styles.tableHeaderLabel}>ID</th>
                                 <th className={styles.tableHeaderLabel}>예측 모델</th>
+                                <th className={styles.tableHeaderLabel}>사용 일시</th>
                                 <th className={styles.tableHeaderLabel}>예측 결과</th>
                                 <th className={styles.tableHeaderLabel}>기대 결과</th>
                                 <th className={styles.tableHeaderLabel}>정확도</th>
@@ -130,25 +85,40 @@ function UserLogManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {dummyData.map((data) => {
+                            {userLogs.map((userLog) => {
                                 return (
                                     <tr
-                                        key={data.id}
+                                        key={userLog.client_id}
                                         onClick={() => {
-                                            navigate(`/user-log/${data.id}`);
+                                            navigate(`/user-log/${userLog.client_id}`);
                                         }}
                                         className={styles.tableRow}
                                     >
-                                        <td className={styles.tableData}>{data.model}</td>
-                                        <td className={`${styles.tableData} `}>{data.datetime}</td>
-                                        <td className={styles.tableData}>{data.predict}</td>
-                                        <td className={styles.tableData}>{data.expected}</td>
-                                        <td className={styles.tableData}>{data.accuracy}</td>
+                                        <td className={styles.tableData}>{userLog.client_id}</td>
+                                        <td className={styles.tableData}>{userLog.model_name}</td>
+                                        <td className={`${styles.tableData} `}>{formatDateTime(userLog.use_at)}</td>
+                                        <td className={styles.tableData}>{userLog.predict_result}</td>
+                                        <td className={styles.tableData}>{userLog.client_result}</td>
+                                        <td className={styles.tableData}>{userLog.acc * 100} %</td>
                                     </tr>
                                 );
                             })}
                         </tbody>
                     </table>
+                </div>
+
+                <div className={styles.pageButtonContainer}>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            className={`${styles.pageButton} ${pageQuery === index + 1 ? styles.currentPage : ''}`}
+                            onClick={() => {
+                                navigate(`/data?page=${index + 1}`);
+                            }}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
                 </div>
             </BodyTemplate>
         </PageTemplate>
