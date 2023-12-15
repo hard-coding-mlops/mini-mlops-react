@@ -17,7 +17,7 @@ function PieChart({ label, value, color, backwards }) {
                             { id: '무응답', value: value[1] },
                             { id: '오답', value: value[2] },
                         ]}
-                        margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                        margin={{ top: 30, right: 10, bottom: 30, left: 10 }}
                         colors={['#3498DB', '#FFA500', '#FF6B6B', '#4CAF50']}
                         startAngle={360}
                         endAngle={0}

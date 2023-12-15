@@ -15,12 +15,9 @@ function KakaoOauth() {
                 const response = await axios.post(`${process.env.REACT_APP_TEST_SERVER_URL}/user/kakao/login`, {
                     code,
                 });
-
-                console.log(response.data);
-
                 localStorage.setItem('token', response.data.accessToken);
-                localStorage.setItem('user', response.data.user);
-                navigate('/');
+                localStorage.setItem('user', response.data.name);
+                navigate('/dashboard');
             } catch (e) {
                 console.log(e);
             }

@@ -19,7 +19,7 @@ function App() {
     return (
         <div className='App'>
             <Routes>
-                <Route path='/' element={<Login />} />
+                <Route path='/login' element={<Login />} />
                 <Route path='/oauth/kakao' element={<KakaoOauth />} />
                 <Route element={<SideBar />}>
                     <Route path='dashboard' element={<DashBoard />} />
@@ -31,7 +31,7 @@ function App() {
                     <Route path='user-log' element={<UserLogManagement />} />
                     <Route path='user-log/:logId' element={<UserLogDetail />} />
                 </Route>
-                <Route path='classify' element={<NewsClassifier />} />
+                <Route path='/' element={<NewsClassifier />} />
             </Routes>
             <Toaster />
         </div>
