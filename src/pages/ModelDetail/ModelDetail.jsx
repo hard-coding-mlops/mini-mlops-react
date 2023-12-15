@@ -10,25 +10,6 @@ import axios from 'axios';
 import Loading from '../Loading/Loading';
 import Icon from '../../components/Icon/Icon';
 
-const modelInfo = {
-    id: 1,
-    name: 'model_name_1',
-    api: `/api/models/news-classifier/model_name_1`,
-    created_at: '2023 / 11 / 21',
-    deployed_at: '2023 / 11 / 21',
-    dataLength: 1200,
-    epochs: 14,
-    batchSize: 5,
-    maxLength: 8,
-    warmupRatio: 512,
-    maxGradNorm: 1,
-    learningRate: '5e-5',
-    splitRate: 200,
-    accuracy: 82.138,
-    improvement: 3.103,
-    loss: 19.053,
-};
-
 function ModelDetail() {
     const { modelId } = useParams();
     const [modelInfo, setModelInfo] = useState({});

@@ -11,25 +11,6 @@ import { formatDateTime } from '../../utils/formatters';
 import styles from './ModelManagement.module.css';
 import axios from 'axios';
 
-const dummyData = [
-    {
-        id: 1,
-        name: 'model_name_1',
-        datetime: '2023 / 11 / 21',
-        parameters: [1200, 14, 5, 8],
-        accuracy: 82.138,
-        loss: 19.053,
-    },
-    {
-        id: 2,
-        name: 'monte_2',
-        datetime: '2023 / 11 / 27',
-        parameters: [1000, 10, 5, 4],
-        accuracy: 80.138,
-        loss: 22.68,
-    },
-];
-
 export default function ModelManagement() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -37,22 +18,36 @@ export default function ModelManagement() {
 
     const [models, setModels] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const getTotalModels = async (pageNumber) => {
+    // APIs
+    const calculatePages = async () => {
         setIsLoading(true);
+        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model`, {
+            headers: {
+                'ngrok-skip-browser-warning': 'any-value',
+            },
+        });
+        // console.log(Math.ceil(result.data.data.length / 10));
+        const pages = Math.ceil(result.data.data.length / 10);
+        setTotalPages(pages);
+        setIsLoading(false);
+    };
+    const getTotalModels = async (pageNumber) => {
+        // setIsLoading(true);
         const result = await axios.get(
-            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
+            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=12`,
             {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',
                 },
             }
         );
-        console.log(result);
         setModels(result.data.data);
-        setIsLoading(false);
+        // setIsLoading(false);
     };
     useEffect(() => {
+        calculatePages();
         getTotalModels(pageQuery);
     }, [pageQuery]);
 
@@ -75,6 +70,7 @@ export default function ModelManagement() {
                     <table className={styles.table}>
                         <thead className={styles.tableHeader}>
                             <tr>
+                                <th className={styles.tableHeaderLabel}>ID</th>
                                 <th className={styles.tableHeaderLabel}>모델명</th>
                                 <th className={styles.tableHeaderLabel}>학습 일자</th>
                                 <th className={styles.tableHeaderLabel}>
@@ -98,6 +94,7 @@ export default function ModelManagement() {
                                         }}
                                         className={styles.tableRow}
                                     >
+                                        <td className={styles.tableData}>{model.model_id}</td>
                                         <td className={styles.tableData}>{model.model_name}</td>
                                         <td className={`${styles.tableData} `}>{model.created_at}</td>
                                         <td className={styles.tableData}>
