@@ -1,0 +1,158 @@
+/* td {
+} */
+.data,
+.label {
+    height: 4.5rem;
+}
+.tableContainer {
+    /* overflow-y: scroll; */
+    color: #6c6c6c;
+    padding-right: 1rem;
+}
+.tableContainer::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+    background-color: #e4e4e4;
+    border-radius: 10px;
+}
+.tableContainer::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #aaaaaa;
+}
+
+.table {
+    width: 100%;
+    /* height: 100%; */
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.label {
+    width: 230px;
+    color: #6c6c6c;
+    font-weight: 800;
+}
+.answerLabel {
+    width: 230px;
+    color: #6c6c6c;
+    font-weight: 600;
+    font-size: 3rem;
+}
+.parameter {
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+.data {
+    font-weight: 400;
+}
+
+.addInput {
+    width: 60%;
+    height: 60%;
+    padding: 0 0.5rem;
+    border: 1.5px solid #aaaaaa;
+    font-size: 1.5rem;
+    color: black;
+}
+.addInput::-webkit-input-placeholder {
+    color: #aaaaaa;
+    font-size: 1.2rem;
+}
+.addInput:focus {
+    outline: none;
+    border: 1.7px solid #6c6c6c;
+}
+
+.modalQuestion {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.7rem;
+}
+
+.errorMessage {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.modalParameterLabel {
+    width: 290px;
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #6c6c6c;
+}
+.modalParameter {
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #141414;
+}
+
+.alertMessage {
+    margin-top: 1rem;
+    color: #ff6b6b;
+    font-size: 1.7rem;
+    font-weight: 800;
+}
+
+.buttons {
+    box-sizing: content-box;
+    width: 120px;
+    height: 50px;
+    border: 1.7px solid #6c6c6c;
+    color: #6c6c6c;
+    border-radius: 10px;
+    font-size: 1.7rem;
+    font-weight: 600;
+    transition: all 0.1s ease-in-out;
+    margin-top: 2rem;
+}
+
+.testArticle {
+    width: calc(100% - 2.2rem);
+    height: 22rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    resize: none;
+    border: 2px solid #aaaaaa;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 1.7rem;
+    overflow-y: scroll;
+}
+
+.wrong {
+    font-weight: 600;
+    font-size: 3rem;
+    color: #ff6b6b;
+}
+
+.correct {
+    font-weight: 600;
+    font-size: 3rem;
+    color: #3498db;
+}
+
+.headerContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.loadingSpinner {
+    margin-left: 1rem;
+    border: 10px solid #aaaaaa;
+    border-top: 10px solid black;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

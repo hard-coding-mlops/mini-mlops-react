@@ -13,6 +13,7 @@ import DashBoard from './pages/DashBoard/DashBoard';
 import NewModel from './pages/NewModel/NewModel';
 import NewsClassifier from './pages/NewsClassifier/NewsClassifier';
 import KakaoOauth from './pages/Login/KakaoOAuth';
+import TestModel from './pages/TestModel/TestModel';
 // import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                     <Route path='data/:dataId' element={<DataDetail />} />
                     <Route path='model' element={<ModelManagement />} />
                     <Route path='model/add' element={<NewModel />} />
+                    <Route path='model/test/:modelName' element={<TestModel />} />
                     <Route path='model/:modelId' element={<ModelDetail />} />
                     <Route path='user-log' element={<UserLogManagement />} />
                     <Route path='user-log/:clientId' element={<UserLogDetail />} />
