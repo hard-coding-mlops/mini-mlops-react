@@ -24,17 +24,19 @@ function UserLogManagement() {
     // TODO: page 추가
     const calculatePages = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/total-ordered-data`, {
+        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/clients`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },
         });
-        const pages = Math.ceil(result.data.total_ordered_data.length / 10);
+        console.log(result.data.data);
+        const pages = Math.ceil(result.data.data.length / 10);
         setTotalPages(pages);
         setIsLoading(false);
     };
     const getUserLogs = async (pageNumber) => {
         // setIsLoading(true);
+        console.log('UserLogManagement');
         try {
             const response = await axios.get(
                 `${process.env.REACT_APP_COLAB_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`,
@@ -113,7 +115,7 @@ function UserLogManagement() {
                             key={index + 1}
                             className={`${styles.pageButton} ${pageQuery === index + 1 ? styles.currentPage : ''}`}
                             onClick={() => {
-                                navigate(`/data?page=${index + 1}`);
+                                navigate(`/user-log?page=${index + 1}`);
                             }}
                         >
                             {index + 1}

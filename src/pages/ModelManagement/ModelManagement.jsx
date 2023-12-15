@@ -35,8 +35,9 @@ export default function ModelManagement() {
     };
     const getTotalModels = async (pageNumber) => {
         // setIsLoading(true);
+        console.log('ModelManagement');
         const result = await axios.get(
-            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=12`,
+            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
             {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',
@@ -114,7 +115,7 @@ export default function ModelManagement() {
                                                     label='test'
                                                     handleOnClick={(e) => {
                                                         e.stopPropagation();
-                                                        alert('test');
+                                                        navigate(`/model/test/${model.model_name}`);
                                                     }}
                                                 />
                                                 <Icon
@@ -143,19 +144,19 @@ export default function ModelManagement() {
                         </tbody>
                     </table>
                 </div>
-                {/* <div className={styles.pageButtonContainer}>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index + 1}
-              className={`${styles.pageButton} ${pageQuery === index + 1 ? styles.currentPage : ''}`}
-              onClick={() => {
-                navigate(`/data?page=${index + 1}`);
-              }}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div> */}
+                <div className={styles.pageButtonContainer}>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            className={`${styles.pageButton} ${pageQuery === index + 1 ? styles.currentPage : ''}`}
+                            onClick={() => {
+                                navigate(`/model?page=${index + 1}`);
+                            }}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
             </BodyTemplate>
         </PageTemplate>
     );

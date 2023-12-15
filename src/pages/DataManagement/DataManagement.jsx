@@ -34,6 +34,7 @@ function DataManagement() {
         setTotalPages(pages);
     };
     const getTotalOrderedData = async (pageNumber) => {
+        console.log('DataManagement');
         setIsLoading(true);
         const result = await axios.get(
             `${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/total-ordered-data?skip=${
