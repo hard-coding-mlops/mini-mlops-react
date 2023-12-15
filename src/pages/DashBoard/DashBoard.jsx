@@ -26,7 +26,7 @@ function DashBoard() {
 
     const getCurrentModel = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/currently-active`, {
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/currently-active`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },
@@ -48,7 +48,7 @@ function DashBoard() {
     };
     const getTopFive = async () => {
         // setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/top-five`, {
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/top-five`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },

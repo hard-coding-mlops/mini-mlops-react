@@ -23,7 +23,7 @@ export default function ModelManagement() {
     // APIs
     const calculatePages = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model`, {
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },
@@ -37,7 +37,7 @@ export default function ModelManagement() {
         // setIsLoading(true);
         console.log('ModelManagement');
         const result = await axios.get(
-            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
+            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
             {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',
@@ -124,7 +124,7 @@ export default function ModelManagement() {
                                                         e.stopPropagation();
                                                         // model.model_id
                                                         const result = await axios.get(
-                                                            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/deploy/${model.model_id}`,
+                                                            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${model.model_id}`,
                                                             {
                                                                 headers: {
                                                                     'ngrok-skip-browser-warning': 'any-value',

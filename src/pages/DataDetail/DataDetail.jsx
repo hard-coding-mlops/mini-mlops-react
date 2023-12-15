@@ -21,7 +21,7 @@ function DataDetail() {
     const getDataDetails = async () => {
         setIsLoading(true);
         const result = await axios.get(
-            `${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/single-group/${dataId}`,
+            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${dataId}`,
             {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',

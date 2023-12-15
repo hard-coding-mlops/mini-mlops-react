@@ -19,7 +19,7 @@ function ModelDetail() {
 
     const getModelInfo = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/${modelId}`, {
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/${modelId}`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },
@@ -59,7 +59,7 @@ function ModelDetail() {
                             e.stopPropagation();
                             // model.model_id
                             const result = await axios.get(
-                                `${process.env.REACT_APP_COLAB_SERVER_URL}/model/deploy/${modelInfo.model_id}`,
+                                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${modelInfo.model_id}`,
                                 {
                                     headers: {
                                         'ngrok-skip-browser-warning': 'any-value',
@@ -83,24 +83,25 @@ function ModelDetail() {
                         </tr>
                         <tr>
                             <td>
-                                <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
+                                <hr style={{ width: '77vw', border: '1px solid #e4e4e4' }} />
                             </td>
                         </tr>
                         <tr>
                             <td className={styles.label}>정확도</td>
                             <td colSpan={4} className={styles.data}>
-                                {modelInfo.acc * 100} %
+                                {/* 소수점 3자리까지 반올림 */}
+                                {Math.round(modelInfo.acc * 100000) / 1000} %
                             </td>
-                            <td colSpan={2} className={styles.label}>
+                            {/* <td colSpan={2} className={styles.label}>
                                 이전 최고 성능 대비
                             </td>
                             <td colSpan={2} className={styles.data}>
                                 {modelInfo.improvement} %
-                            </td>
+                            </td> */}
                         </tr>
                         <tr>
                             <td>
-                                <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
+                                <hr style={{ width: '77vw', border: '1px solid #e4e4e4' }} />
                             </td>
                         </tr>
                         <tr>
@@ -148,7 +149,7 @@ function ModelDetail() {
                         </tr>
                         <tr>
                             <td>
-                                <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
+                                <hr style={{ width: '77vw', border: '1px solid #e4e4e4' }} />
                             </td>
                         </tr>
                         <tr>
@@ -156,16 +157,16 @@ function ModelDetail() {
                             <td colSpan={4} className={styles.data}>
                                 {modelInfo.created_at}
                             </td>
-                            <td colSpan={2} className={styles.label}>
+                            {/* <td colSpan={2} className={styles.label}>
                                 최근 배포 일시
                             </td>
                             <td colSpan={2} className={styles.data}>
                                 {modelInfo.deployed_at}
-                            </td>
+                            </td> */}
                         </tr>
                         <tr>
                             <td>
-                                <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
+                                <hr style={{ width: '77vw', border: '1px solid #e4e4e4' }} />
                             </td>
                         </tr>
                         <tr>
@@ -176,7 +177,7 @@ function ModelDetail() {
                         </tr>
                         <tr>
                             <td>
-                                <hr style={{ width: '72vw', border: '1px solid #e4e4e4' }} />
+                                <hr style={{ width: '77vw', border: '1px solid #e4e4e4' }} />
                             </td>
                         </tr>
                         <tr>

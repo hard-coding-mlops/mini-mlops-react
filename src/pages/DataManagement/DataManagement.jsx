@@ -25,11 +25,14 @@ function DataManagement() {
     // APIs
     // TODO: page 추가
     const calculatePages = async () => {
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/total-ordered-data`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(
+            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data`,
+            {
+                headers: {
+                    'ngrok-skip-browser-warning': 'any-value',
+                },
+            }
+        );
         const pages = Math.ceil(result.data.total_ordered_data.length / 10);
         setTotalPages(pages);
     };
@@ -37,7 +40,7 @@ function DataManagement() {
         console.log('DataManagement');
         setIsLoading(true);
         const result = await axios.get(
-            `${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/total-ordered-data?skip=${
+            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data?skip=${
                 10 * (pageNumber - 1)
             }&limit=10`,
             {
@@ -52,7 +55,7 @@ function DataManagement() {
     const addNewArticles = async () => {
         if (!isLoading) {
             setIsLoading(true);
-            await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/scrape-and-preprocess`, {
+            await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/scrape-and-preprocess`, {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',
                 },
@@ -65,7 +68,7 @@ function DataManagement() {
         if (!isLoading) {
             setIsLoading(true);
             const result = await axios.get(
-                `${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
+                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
                 {
                     headers: {
                         'ngrok-skip-browser-warning': 'any-value',
@@ -98,7 +101,7 @@ function DataManagement() {
     const deleteArticles = async (id) => {
         if (!isLoading) {
             setIsLoading(true);
-            await axios.delete(`${process.env.REACT_APP_COLAB_SERVER_URL}/data_management/single-group/${id}`, {
+            await axios.delete(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${id}`, {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',
                 },
@@ -171,7 +174,7 @@ function DataManagement() {
                                         >
                                             {formatDateTime(data.end_datetime)}
                                         </td>
-                                        <td className={styles.tableData}>{data.preprocessed_articles_length}</td>
+                                        <td className={styles.tableData}>{data.preprocessed_articles_count}</td>
                                         <td className={styles.tableData}>
                                             <div className={styles.condition}>
                                                 <Icon

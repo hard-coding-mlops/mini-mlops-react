@@ -30,7 +30,7 @@ function UserLogDetail() {
 
     const getLogInfo = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/clients/${clientId}`, {
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients/${clientId}`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },

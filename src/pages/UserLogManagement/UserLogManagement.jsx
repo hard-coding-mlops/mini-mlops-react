@@ -24,7 +24,7 @@ function UserLogManagement() {
     // TODO: page 추가
     const calculatePages = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/clients`, {
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients`, {
             headers: {
                 'ngrok-skip-browser-warning': 'any-value',
             },
@@ -39,7 +39,7 @@ function UserLogManagement() {
         console.log('UserLogManagement');
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_COLAB_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`,
+                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`,
                 {
                     headers: {
                         'ngrok-skip-browser-warning': 'any-value',

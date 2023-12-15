@@ -47,7 +47,7 @@ function NewsClassifier() {
     const goodFeedback = async () => {
         console.log(category);
         await axios.post(
-            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/evaluate`,
+            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`,
             {
                 client_id: clientID,
                 reinput: category,
@@ -63,7 +63,7 @@ function NewsClassifier() {
         const categories = ['사회', '정치', '경제', '국제', '문화', '예능', '스포츠', 'IT'];
         if (categories.includes(badFeedbackRef.current.value)) {
             const result = await axios.post(
-                `${process.env.REACT_APP_COLAB_SERVER_URL}/model/evaluate`,
+                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`,
                 {
                     client_id: clientID,
                     reinput: badFeedbackRef.current.value,
