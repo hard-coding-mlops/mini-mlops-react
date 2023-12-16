@@ -12,7 +12,7 @@ function KakaoOauth() {
                 const params = new URL(window.location.href).searchParams;
                 const code = params.get('code');
 
-                const response = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URLL}/user/kakao/login`, {
+                const response = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/user/kakao/login`, {
                     code,
                 });
                 localStorage.setItem('token', response.data.accessToken);

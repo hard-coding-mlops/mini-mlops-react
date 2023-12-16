@@ -1,16 +1,12 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-
 import styles from './SideBar.module.css';
-import NavButton from '../NavButton/NavButton';
 import { useEffect, useState } from 'react';
-// import LoadingBar from '../LoadingBar/LoadingBar';
 
 function SideBar() {
     const navigate = useNavigate();
     const [userName, setUserName] = useState('');
 
     const handleLogout = () => {
-        // 카카오 로그아웃 API 호출
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         navigate('/login');
@@ -27,19 +23,34 @@ function SideBar() {
     return (
         <>
             <div className={styles.sideBar}>
-                <div className={styles.mainMenu}>
-                    {/* <LoadingBar percentage={20} /> */}
-                    <div className={styles.userProfileContainer}>
-                        <span className={styles.userProfile}>{userName}</span>님, 어서오세요
+                <div style={{ width: '150px' }}>
+                    <div className={styles.navHeader}>
+                        <span className={styles.userName}>{userName}</span>
+                        <span className={styles.userText}>&nbsp;님의&nbsp;MLOps</span>
                     </div>
-                    <NavButton to='/dashboard' label='DASHBOARD' />
-                    <NavButton to='/data' label='데이터 관리' />
-                    <NavButton to='/model' label='모델 관리' />
-                    <NavButton to='/user-log' label='사용자 로그' />
+                    <button className={styles.navButton}>
+                        <div className={styles.testIcon}>ICON</div>
+                        <span className={styles.buttonText}>DASHBOARD</span>
+                    </button>
+                    <button className={styles.navButton}>
+                        <div className={styles.testIcon}>ICON</div>
+                        <span className={styles.buttonText}>DATA</span>
+                    </button>
+                    <button className={styles.navButton}>
+                        <div className={styles.testIcon}>ICON</div>
+                        <span className={styles.buttonText}>MODELS</span>
+                    </button>
+                    <button className={styles.navButton}>
+                        <div className={styles.testIcon}>ICON</div>
+                        <span className={styles.buttonText}>USER&nbsp;LOGS</span>
+                    </button>
                 </div>
-                <button className={styles.navButton} onClick={handleLogout}>
-                    로그아웃
-                </button>
+                <div style={{ width: '150px' }}>
+                    <button className={styles.navButton} onClick={handleLogout}>
+                        <div className={styles.testIcon}>ICON</div>
+                        <span className={styles.buttonText}>LOGOUT</span>
+                    </button>
+                </div>
             </div>
 
             <Outlet />
