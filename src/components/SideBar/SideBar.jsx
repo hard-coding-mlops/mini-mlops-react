@@ -7,6 +7,7 @@ import DATA_ICON from '../../assets/icons/database-icon.svg';
 import MODEL_ICON from '../../assets/icons/robot-icon.svg';
 import USER_LOG_ICON from '../../assets/icons/users-icon.svg';
 import LOGOUT_ICON from '../../assets/icons/logout-icon.svg';
+import COPYRIGHT_ICON from '../../assets/icons/copyright-icon.svg';
 
 import styles from './SideBar.module.css';
 
@@ -84,6 +85,13 @@ function SideBar() {
                         <span className={styles.buttonText}>USER&nbsp;LOGS</span>
                     </button>
                 </div>
+                <footer className={styles.footer}>
+                    <div>
+                        <img src={COPYRIGHT_ICON} alt='' />
+                        <span className={styles.org}>HARD&nbsp;CODING</span>
+                    </div>
+                    <span className={styles.ymd}>2023</span>
+                </footer>
             </div>
 
             <Outlet />

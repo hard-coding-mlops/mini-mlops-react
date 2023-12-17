@@ -196,3 +196,32 @@
 .sideBar:hover .navHeader {
     opacity: 1;
 }
+
+.footer {
+    opacity: 0;
+    color: #c4c4c4;
+    /* margin-left: 18px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+.footer div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer img {
+    width: 20px;
+    object-fit: contain;
+}
+.org {
+    margin-left: 5px;
+    color: #c4c4c4;
+}
+.ymd {
+}
+.sideBar:hover .footer {
+    opacity: 1;
+}

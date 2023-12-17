@@ -75,16 +75,12 @@ function DashBoard() {
             <HeaderTemplate title='DASHBOARD' routes='dashboard' model={currentModel.model_name} />
             <BodyTemplate>
                 <div className={styles.pieChartContainer}>
-                    <div
-                        style={{
-                            borderRight: '1px solid #C4C4C4',
-                        }}
-                    >
+                    <br />
+                    <div>
                         <span className={styles.chartTitle}>사용 횟수</span>
                         <div
                             style={{
-                                paddingRight: '3.5rem',
-                                width: '230px',
+                                width: '300px',
                                 height: '270px',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -104,6 +100,9 @@ function DashBoard() {
                             </div>
                         </div>
                     </div>
+                    <svg height='100' width='1'>
+                        <line x1='0' y1='0' x2='0' y2='100' style={{ stroke: 'black', strokeWidth: '1' }} />
+                    </svg>
                     <div>
                         <span className={styles.chartTitle}>사용자 만족도</span>
                         <PieChartComponent
@@ -114,6 +113,7 @@ function DashBoard() {
                             ]}
                         />
                     </div>
+                    <br />
                     <div>
                         <span className={styles.chartTitle}>정확도</span>
                         <PieChartTwoElements
@@ -129,6 +129,7 @@ function DashBoard() {
                             ]}
                         />
                     </div>
+                    <br />
                     <div>
                         <span className={styles.chartTitle}>손실도</span>
                         <PieChartTwoElements
@@ -144,7 +145,9 @@ function DashBoard() {
                             ]}
                         />
                     </div>
+                    <br />
                 </div>
+                <div className={styles.bottomContainer}></div>
             </BodyTemplate>
         </PageTemplate>
     );
