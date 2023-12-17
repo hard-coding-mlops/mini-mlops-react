@@ -6,8 +6,9 @@ import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import Loading from '../Loading/Loading';
-import PieChartComponent from '../../components/PieChartComponent/PieChartComponent';
-import PieChartTwoElements from '../../components/PieChartComponent/PieChartTwoElements';
+import PieChartComponent from '../../components/ChartComponent/PieChartComponent';
+import PieChartTwoElements from '../../components/ChartComponent/PieChartTwoElements';
+import LineChartComponent from '../../components/ChartComponent/LineChartComponent';
 
 import styles from './DashBoard.module.css';
 
@@ -147,7 +148,13 @@ function DashBoard() {
                     </div>
                     <br />
                 </div>
-                <div className={styles.bottomContainer}></div>
+                <br />
+                <div className={styles.bottomContainer}>
+                    <div>
+                        <span className={styles.chartTitle}>손실도</span>
+                        <LineChartComponent />
+                    </div>
+                </div>
             </BodyTemplate>
         </PageTemplate>
     );

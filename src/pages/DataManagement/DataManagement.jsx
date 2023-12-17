@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Icon from '../../components/Icon/Icon';
@@ -10,7 +11,6 @@ import Loading from '../Loading/Loading';
 import { formatDateTime } from '../../utils/formatters';
 
 import styles from './DataManagement.module.css';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 function DataManagement() {
     const navigate = useNavigate();
