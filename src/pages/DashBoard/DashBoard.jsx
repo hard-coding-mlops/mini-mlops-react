@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import SlotCounter from 'react-slot-counter';
 
-import PieChart from '../../components/PieChart/PieChart';
-import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
-import GraphChart from '../../components/GraphChart/GraphChart';
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import HeaderTemplate from '../PageTemplate/HeaderTemplate';
+import BodyTemplate from '../PageTemplate/BodyTemplate';
+import Loading from '../Loading/Loading';
+import PieChartComponent from '../../components/PieChartComponent/PieChartComponent';
+import PieChartTwoElements from '../../components/PieChartComponent/PieChartTwoElements';
 
 import styles from './DashBoard.module.css';
-import Loading from '../Loading/Loading';
 
 const dummyData = {
     model: 'KoBert_1129',
@@ -32,7 +32,15 @@ function DashBoard() {
             },
         });
         const { model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } = result.data;
-        console.log(result.data);
+        console.log('[CURRENT MODEL]', {
+            model_name,
+            usage,
+            acc,
+            loss,
+            evaluation_diff,
+            evaluation_equal,
+            evaluation_noresponse,
+        });
         setCurrentModel({
             model_name,
             usage,
@@ -42,7 +50,6 @@ function DashBoard() {
             evaluation_equal,
             evaluation_noresponse,
         });
-        console.log({ model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse });
         // setCurrentModel(current_model);
         setIsLoading(false);
     };
@@ -53,6 +60,7 @@ function DashBoard() {
                 'ngrok-skip-browser-warning': 'any-value',
             },
         });
+        console.log('[TOP FIVE]', result.data.data);
         setTopFive(result.data.data);
     };
 
@@ -64,74 +72,75 @@ function DashBoard() {
     return (
         <PageTemplate>
             {isLoading && <Loading message={'현재 모델을 가져오는 중입니다.'} />}
-            <HeaderTemplate>
-                <div>
-                    <span style={{ fontWeight: '700', fontSize: '1.4rem' }}>현재 배포된 모델</span>
-                    <br />
-                    <span style={{ fontWeight: '800', fontSize: '2rem' }}>{currentModel.model_name}</span>
+            <HeaderTemplate title='DASHBOARD' routes='dashboard' model={currentModel.model_name} />
+            <BodyTemplate>
+                <div className={styles.pieChartContainer}>
+                    <div>
+                        <span className={styles.chartTitle}>사용 횟수</span>
+                        <div
+                            style={{
+                                width: '270px',
+                                height: '270px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '3rem',
+                                fontWeight: 'bold',
+                                color: '#4A4A4A',
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                                <SlotCounter
+                                    value={currentModel.usage * 1 ? currentModel.usage * 1 : ''}
+                                    duration={1}
+                                    dummyCharacterCount={7}
+                                />
+                                <span style={{ color: '#7A7A7A', fontSize: '1.3rem', fontWeight: '600' }}>회</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span className={styles.chartTitle}>사용자 만족도</span>
+                        <PieChartComponent
+                            data={[
+                                { name: '만족', value: currentModel.evaluation_equal },
+                                { name: '무응답', value: currentModel.evaluation_noresponse },
+                                { name: '불만족', value: currentModel.evaluation_diff },
+                            ]}
+                        />
+                    </div>
+                    <div>
+                        <span className={styles.chartTitle}>정확도</span>
+                        <PieChartTwoElements
+                            data={[
+                                {
+                                    name: `${
+                                        // 소수점 버림
+                                        Math.round(currentModel.acc * 100)
+                                    } %`,
+                                    value: currentModel.acc,
+                                },
+                                { name: '-', value: 1 - currentModel.acc },
+                            ]}
+                        />
+                    </div>
+                    <div>
+                        <span className={styles.chartTitle}>손실도</span>
+                        <PieChartTwoElements
+                            data={[
+                                {
+                                    name: `${
+                                        // 소수점 버림
+                                        Math.round(currentModel.loss * 100)
+                                    } %`,
+                                    value: currentModel.loss,
+                                },
+                                { name: '-', value: 1 - currentModel.loss },
+                            ]}
+                        />
+                    </div>
                 </div>
-            </HeaderTemplate>
-            <div className={styles.dashBoard}>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th className={styles.tableHeaderLabel}>사용 횟수</th>
-                            <th className={styles.tableHeaderLabel}>사용자 만족도</th>
-                            <th className={styles.tableHeaderLabel}>정확도</th>
-                            <th className={styles.tableHeaderLabel}>손실도</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div className={styles.dataContainer} style={{ fontSize: '7rem', fontWeight: '700' }}>
-                                    <SlotCounter value={currentModel.usage * 1} duration={1} dummyCharacterCount={7} />
-                                </div>
-                            </td>
-                            <td>
-                                <div className={styles.dataContainer} style={{ margin: '0 2rem' }}>
-                                    <PieChart
-                                        label=''
-                                        value={[
-                                            currentModel.evaluation_equal,
-                                            currentModel.evaluation_noresponse,
-                                            currentModel.evaluation_diff,
-                                        ]}
-                                        color='#3498DB'
-                                    />
-                                </div>
-                            </td>
-                            <td>
-                                <div className={styles.dataContainer}>
-                                    <PieChart
-                                        label='accuracy'
-                                        value={Math.round(currentModel.acc * 100)}
-                                        color='#3498DB'
-                                    />
-                                </div>
-                            </td>
-                            <td>
-                                <div className={styles.dataContainer}>
-                                    <PieChart
-                                        backwards={true}
-                                        label='loss'
-                                        value={Math.round(currentModel.loss * 100)}
-                                        color='#FF6B6B'
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <HeaderTemplate>성능 TOP 5 모델</HeaderTemplate>
-            <div className={styles.chartContainer}>
-                <GraphChart topFive={topFive} />
-                {/* <div className={styles.autoPipeline}>
-                    <LoadingSpinner />
-                </div> */}
-            </div>
+            </BodyTemplate>
         </PageTemplate>
     );
 }

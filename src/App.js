@@ -23,7 +23,6 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 <Route path='/oauth/kakao' element={<KakaoOauth />} />
                 <Route element={<SideBar />}>
-                    <Route path='a' element={<></>} />
                     <Route path='dashboard' element={<DashBoard />} />
                     <Route path='data' element={<DataManagement />} />
                     <Route path='data/:dataId' element={<DataDetail />} />

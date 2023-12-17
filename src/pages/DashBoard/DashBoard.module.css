@@ -1,44 +1,16 @@
-.dashBoard {
-    width: 100%;
-    /* height: 25rem; */
-    color: #6c6c6c;
-    /* background-color: red; */
-    margin-bottom: 1rem;
-}
-
-.table {
-    width: 100%;
-}
-
-.tableHeaderLabel {
-    font-weight: 800;
-    text-align: center;
-}
-.tableHeaderLabel::after {
-    border-bottom: 0.1rem solid #ffffff;
-}
-
-.dataContainer {
-    width: 100%;
-    height: 100%;
+.pieChartContainer {
+    width: calc(100% - 0rem);
+    padding: 2rem 0rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #c4c4c4;
+    /* background-color: pink; */
+    background-color: #f7f7f7;
+}
+.chartTitle {
+    font-size: 1.2rem;
     font-weight: 500;
-}
-
-.chartContainer {
-    width: 100%;
-    height: 24rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-.autoPipeline {
-    width: 50%;
-    height: 100%;
-    background-color: gray;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: black;
 }
