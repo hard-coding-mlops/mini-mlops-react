@@ -14,6 +14,8 @@ import DECREASED_ICON from '../../assets/icons/decreased-icon.svg';
 import LIMIT_ICON from '../../assets/icons/limit-icon.svg';
 
 import styles from './DashBoard.module.css';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import EmptyPieChartComponent from '../../components/ChartComponent/EmptyPieChartComponent';
 
 function DashBoard() {
     const [currentModel, setCurrentModel] = useState({});
@@ -84,14 +86,26 @@ function DashBoard() {
                     <div
                         style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}
                     >
-                        <span style={{ fontSize: '1.5rem', fontWeight: 'bold', paddingBottom: '0.5rem' }}>
-                            {currentModel.model_name}
-                        </span>
-                        <div style={{ width: '150px' }}></div>
-                        <div style={{ width: '150px' }}></div>
-                        <div style={{ width: '150px' }}></div>
-                        <div style={{ width: '150px' }}></div>
-                        <div style={{ width: '150px' }}></div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '1.5rem',
+                                fontWeight: 'bold',
+                                paddingBottom: '0.5rem',
+                            }}
+                        >
+                            <span>{currentModel.model_name}</span>
+                            <div className={styles.loadingSpinnerContainer}>
+                                <div className={styles.loadingSpinner}></div>
+                            </div>
+                        </div>
+                        <div style={{ width: 'calc(135px - 1rem)' }}></div>
+                        <div style={{ width: 'calc(135px - 1rem)' }}></div>
+                        <div style={{ width: 'calc(135px - 1rem)' }}></div>
+                        <div style={{ width: 'calc(135px - 1rem)' }}></div>
+                        <div style={{ width: 'calc(135px - 1rem)' }}></div>
                     </div>
                     {/* <hr style={{ width: '95%', height: '1px', backgroundColor: 'black', border: 'none' }} /> */}
                     <svg height='1' width='100%'>
@@ -115,7 +129,7 @@ function DashBoard() {
                             >
                                 <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                                     <SlotCounter
-                                        value={currentModel.usage ? currentModel.usage * 1 : ''}
+                                        value={currentModel.usage ? currentModel.usage * 1 : 0}
                                         duration={1}
                                         dummyCharacterCount={7}
                                     />
@@ -127,14 +141,18 @@ function DashBoard() {
                             <line x1='0' y1='0' x2='0' y2='300' style={{ stroke: '#c4c4c4', strokeWidth: '1' }} />
                         </svg> */}
                         <div>
-                            <span className={styles.chartTitle}>사용자 만족도</span>
-                            <PieChartComponent
-                                data={[
-                                    { name: '만족', value: currentModel.evaluation_equal },
-                                    { name: '무응답', value: currentModel.evaluation_noresponse },
-                                    { name: '불만족', value: currentModel.evaluation_diff },
-                                ]}
-                            />
+                            <span className={styles.chartTitle}>사용자 만족도{currentModel.evaluation_noresponse}</span>
+                            {currentModel.evaluation_noresponse === 0 ? (
+                                <EmptyPieChartComponent />
+                            ) : (
+                                <PieChartComponent
+                                    data={[
+                                        { name: '만족', value: currentModel.evaluation_equal },
+                                        { name: '무응답', value: currentModel.evaluation_noresponse },
+                                        { name: '불만족', value: currentModel.evaluation_diff },
+                                    ]}
+                                />
+                            )}
                         </div>
                         <br />
                         <div>
