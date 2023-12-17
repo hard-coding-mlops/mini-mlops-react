@@ -75,11 +75,16 @@ function DashBoard() {
             <HeaderTemplate title='DASHBOARD' routes='dashboard' model={currentModel.model_name} />
             <BodyTemplate>
                 <div className={styles.pieChartContainer}>
-                    <div>
+                    <div
+                        style={{
+                            borderRight: '1px solid #C4C4C4',
+                        }}
+                    >
                         <span className={styles.chartTitle}>사용 횟수</span>
                         <div
                             style={{
-                                width: '270px',
+                                paddingRight: '3.5rem',
+                                width: '230px',
                                 height: '270px',
                                 display: 'flex',
                                 alignItems: 'center',
