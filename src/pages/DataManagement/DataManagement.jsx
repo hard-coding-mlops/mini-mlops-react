@@ -128,7 +128,7 @@ function DataManagement() {
     return (
         <PageTemplate>
             {isLoading && <Loading message={'데이터 가져오는 중'} />}
-            <HeaderTemplate>
+            {/* <HeaderTemplate>
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>데이터 관리</span>
                     <Icon
@@ -138,7 +138,16 @@ function DataManagement() {
                         }}
                     />
                 </div>
-            </HeaderTemplate>
+            </HeaderTemplate> */}
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'데이터 관리'} routes={'data'} />
+                <Icon
+                    label='add'
+                    handleOnClick={() => {
+                        addNewArticles();
+                    }}
+                />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>

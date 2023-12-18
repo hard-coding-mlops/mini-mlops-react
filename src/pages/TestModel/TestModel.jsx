@@ -162,14 +162,14 @@ function TestModel() {
     const [testCompleted, setTestCompleted] = useState(false);
 
     const tests = [
-        { article: social, answer: '사회', predict: '사회', predict: '사회' },
-        { article: politic, answer: '정치', predict: '사회', predict: '사회' },
+        { article: social, answer: '사회', predict: '사회' },
+        { article: politic, answer: '정치', predict: '사회' },
         { article: economic, answer: '경제', predict: '경제' },
-        { article: global, answer: '국제', predict: '사회' },
-        { article: culture, answer: '문화', predict: '사회' },
-        { article: entertainment, answer: '연예', predict: '사회' },
-        { article: sports, answer: '스포츠', predict: '사회' },
-        { article: IT, answer: 'IT', predict: '사회' },
+        { article: global, answer: '국제', predict: '국제' },
+        { article: culture, answer: '문화', predict: '문화' },
+        { article: entertainment, answer: '연예', predict: '연예' },
+        { article: sports, answer: '스포츠', predict: '스포츠' },
+        { article: IT, answer: 'IT', predict: 'IT' },
     ];
 
     const fetchTestingSSE = () => {

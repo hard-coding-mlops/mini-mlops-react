@@ -196,7 +196,7 @@ function DashBoard() {
                     <div className={styles.lineChartContainer}>
                         <span className={styles.chartTitle}>BEST 5 MODELS</span>
                         <br />
-                        <LineChartComponent width={1000} height={400} data={topFive} />
+                        <LineChartComponent width={700} height={400} data={topFive} />
                     </div>
                     <svg height='200' width='1'>
                         <line x1='0' y1='0' x2='0' y2='300' style={{ stroke: '#c4c4c4', strokeWidth: '1' }} />
@@ -217,12 +217,12 @@ function DashBoard() {
                             }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <span style={{ fontSize: '1.5rem' }}>정확도&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span style={{ fontSize: '1.3rem' }}>정확도&nbsp;</span>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     {bestModel.accuracy < currentModel.acc ? (
-                                        <img src={INCREASED_ICON} alt='increased' width='30' height='100%' />
+                                        <img src={INCREASED_ICON} alt='increased' width='25' />
                                     ) : (
-                                        <img src={DECREASED_ICON} alt='decreased' width='30' height='30' />
+                                        <img src={DECREASED_ICON} alt='decreased' width='25' />
                                     )}
                                     &nbsp;
                                     {currentModel.acc ? (
@@ -238,12 +238,12 @@ function DashBoard() {
                                 </div>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <span style={{ fontSize: '1.5rem' }}>손실도&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                <span style={{ fontSize: '1.5rem' }}>손실도&nbsp;</span>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     {bestModel.loss < currentModel.loss ? (
-                                        <img src={DECREASED_ICON} alt='decreased' width='30' height='30' />
+                                        <img src={DECREASED_ICON} alt='decreased' width='25' />
                                     ) : (
-                                        <img src={INCREASED_ICON} alt='increased' width='30' height='100%' />
+                                        <img src={INCREASED_ICON} alt='increased' width='25' />
                                     )}
                                     &nbsp;
                                     {currentModel.loss ? (

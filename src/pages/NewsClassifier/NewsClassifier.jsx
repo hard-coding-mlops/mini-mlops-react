@@ -25,23 +25,30 @@ function NewsClassifier() {
     const [inputBadFeedback, setInputBadFeedback] = useState(false);
 
     const classifyArticle = async () => {
-        setIsLoading(true);
-        const article = articleInputRef.current.value;
-        const result = await axios.post(
-            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/classify`,
-            {
-                user_input: article,
-            },
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
+        try {
+            setIsLoading(true);
+            const article = articleInputRef.current.value;
+            const result = await axios.post(
+                `${process.env.REACT_APP_COLAB_SERVER_URL}/model/classify`,
+                {
+                    user_input: article,
                 },
-            }
-        );
-        setCategory(result.data.result);
-        setClientID(result.data.client_id);
-        setIsLoading(false);
-        setFirstTry(false);
+                {
+                    headers: {
+                        'ngrok-skip-browser-warning': 'any-value',
+                    },
+                }
+            );
+            setCategory(result.data.result);
+            setClientID(result.data.client_id);
+        } catch (error) {
+            // Handle the error here, you can log it or show a user-friendly message
+            console.error('An error occurred while classifying the article:', error);
+            // You might want to set an appropriate error state or display an error message to the user
+        } finally {
+            setIsLoading(false);
+            setFirstTry(false);
+        }
     };
 
     const goodFeedback = async () => {

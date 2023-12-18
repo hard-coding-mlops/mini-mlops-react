@@ -55,8 +55,7 @@ export default function ModelManagement() {
     return (
         <PageTemplate>
             {isLoading && <Loading message={'모델 가져오는 중'} />}
-            <HeaderTemplate>
-                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>모델 관리</span>
                     <Icon
                         label='add'
@@ -64,8 +63,16 @@ export default function ModelManagement() {
                             navigate('/model/add');
                         }}
                     />
-                </div>
-            </HeaderTemplate>
+                </div> */}
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'모델 관리'} routes={'model'} />
+                <Icon
+                    label='add'
+                    handleOnClick={() => {
+                        navigate('/model/add');
+                    }}
+                />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
