@@ -8,6 +8,7 @@ import BodyTemplate from '../PageTemplate/BodyTemplate';
 import Loading from '../Loading/Loading';
 import PieChartComponent from '../../components/ChartComponent/PieChartComponent';
 import PieChartTwoElements from '../../components/ChartComponent/PieChartTwoElements';
+import LossPieChart from '../../components/ChartComponent/LossPieChart';
 import LineChartComponent from '../../components/ChartComponent/LineChartComponent';
 import INCREASED_ICON from '../../assets/icons/increased-icon.svg';
 import DECREASED_ICON from '../../assets/icons/decreased-icon.svg';
@@ -22,6 +23,8 @@ function DashBoard() {
     const [topFive, setTopFive] = useState([]);
     const [bestModel, setBestModel] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [accDiff, setAccDiff] = useState(0);
+    const [lossDiff, setLossDiff] = useState(0);
 
     const getCurrentModel = async () => {
         setIsLoading(true);
@@ -43,7 +46,7 @@ function DashBoard() {
         setCurrentModel({
             model_name,
             usage,
-            acc,
+            acc: acc,
             loss,
             evaluation_diff,
             evaluation_equal,
@@ -65,7 +68,7 @@ function DashBoard() {
             return {
                 ...d,
                 accuracy: (d.accuracy * 100).toFixed(2),
-                loss: (d.loss * 100).toFixed(2),
+                loss: d.loss.toFixed(2),
             };
         });
         setBestModel(formattedData[0]);
@@ -73,9 +76,16 @@ function DashBoard() {
     };
 
     useEffect(() => {
-        getCurrentModel();
-        getTopFive();
-    }, []);
+        const fetchData = async () => {
+            await getCurrentModel();
+            await getTopFive();
+            // 여기에서 currentModel과 bestModel의 값이 업데이트된 후에 비교하도록 수정
+            setAccDiff(Math.abs(currentModel.acc * 100 - bestModel.accuracy).toFixed(2));
+            setLossDiff(Math.abs(currentModel.loss - bestModel.loss).toFixed(2));
+        };
+
+        fetchData();
+    }, [currentModel.acc, bestModel.accuracy, currentModel.loss, bestModel.loss]);
 
     return (
         <PageTemplate>
@@ -173,16 +183,16 @@ function DashBoard() {
                         <br />
                         <div>
                             <span className={styles.chartTitle}>손실도</span>
-                            <PieChartTwoElements
+                            <LossPieChart
                                 data={[
                                     {
                                         name: `${
                                             // 소수점 버림
-                                            Math.round(currentModel.loss * 100)
-                                        } %`,
+                                            currentModel.loss
+                                        }`,
                                         value: currentModel.loss,
                                     },
-                                    { name: '-', value: 1 - currentModel.loss },
+                                    { name: '-', value: 5 - currentModel.loss },
                                 ]}
                             />
                         </div>
@@ -196,7 +206,7 @@ function DashBoard() {
                     <div className={styles.lineChartContainer}>
                         <span className={styles.chartTitle}>BEST 5 MODELS</span>
                         <br />
-                        <LineChartComponent width={700} height={400} data={topFive} />
+                        <LineChartComponent width={800} height={400} data={topFive} />
                     </div>
                     <svg height='200' width='1'>
                         <line x1='0' y1='0' x2='0' y2='300' style={{ stroke: '#c4c4c4', strokeWidth: '1' }} />
@@ -225,15 +235,11 @@ function DashBoard() {
                                         <img src={DECREASED_ICON} alt='decreased' width='25' />
                                     )}
                                     &nbsp;
-                                    {currentModel.acc ? (
-                                        <SlotCounter
-                                            value={Math.abs(currentModel.acc * 100 - bestModel.accuracy).toFixed(2)}
-                                            duration={1}
-                                            dummyCharacterCount={7}
-                                        />
-                                    ) : (
-                                        ''
-                                    )}
+                                    <SlotCounter
+                                        value={Number.isNaN(Number(accDiff)) ? 0 : Number(accDiff)}
+                                        duration={1}
+                                        dummyCharacterCount={7}
+                                    />
                                     <span style={{ color: '#7A7A7A', fontSize: '1.3rem', fontWeight: '600' }}>%</span>
                                 </div>
                             </div>
@@ -246,16 +252,12 @@ function DashBoard() {
                                         <img src={INCREASED_ICON} alt='increased' width='25' />
                                     )}
                                     &nbsp;
-                                    {currentModel.loss ? (
-                                        <SlotCounter
-                                            value={Math.abs(currentModel.loss * 100 - bestModel.loss).toFixed(2)}
-                                            duration={1}
-                                            dummyCharacterCount={7}
-                                        />
-                                    ) : (
-                                        ''
-                                    )}
-                                    <span style={{ color: '#7A7A7A', fontSize: '1.3rem', fontWeight: '600' }}>%</span>
+                                    <SlotCounter
+                                        value={Number.isNaN(Number(lossDiff)) ? 0 : Number(lossDiff)}
+                                        duration={1}
+                                        dummyCharacterCount={7}
+                                    />
+                                    {/* <span style={{ color: '#7A7A7A', fontSize: '1.3rem', fontWeight: '600' }}>%</span> */}
                                 </div>
                             </div>
                         </div>
