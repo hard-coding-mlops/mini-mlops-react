@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import PageHeader from '../../components/PageHeader/PageHeader';
 import styles from './NewsClassifier.module.css';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import PageTemplate from '../PageTemplate/PageTemplate';
