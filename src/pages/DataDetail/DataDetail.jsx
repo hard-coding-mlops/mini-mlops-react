@@ -10,6 +10,7 @@ import Loading from '../Loading/Loading';
 import { formatDateTime } from '../../utils/formatters';
 
 import styles from './DataDetail.module.css';
+import Icon from '../../components/Icon/Icon';
 
 function DataDetail() {
     const { dataId } = useParams();
@@ -42,7 +43,9 @@ function DataDetail() {
     return (
         <PageTemplate>
             {isLoading && <Loading message={'데이터 가져오는 중'} />}
-            <HeaderTemplate>수집 데이터 상세 정보</HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'데이터 관리'} routes={`data / ${dataId}`} />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>

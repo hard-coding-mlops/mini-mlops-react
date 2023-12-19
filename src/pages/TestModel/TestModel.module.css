@@ -69,7 +69,7 @@
 }
 
 .errorMessage {
-    color: #ff6b6b;
+    color: #db4437;
     font-size: 1.2rem;
     font-weight: 600;
 }
@@ -88,7 +88,7 @@
 
 .alertMessage {
     margin-top: 1rem;
-    color: #ff6b6b;
+    color: #db4437;
     font-size: 1.7rem;
     font-weight: 800;
 }
@@ -123,13 +123,13 @@
 .wrong {
     font-weight: 600;
     font-size: 3rem;
-    color: #ff6b6b;
+    color: #db4437;
 }
 
 .correct {
     font-weight: 600;
     font-size: 3rem;
-    color: #3498db;
+    color: #4285f4;
 }
 
 .headerContainer {

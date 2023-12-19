@@ -24,16 +24,16 @@ const ICON_LABEL = {
     test: TEST_ICON,
 };
 const LABEL_COLOR = {
-    add: '#3498DB',
-    back: '#FF6B6B',
-    csv: '#4CAF50',
-    delete: '#FF6B6B',
-    edit: '#FFA500',
-    deploy: '#FF6B6B',
-    save: '#FFA500',
-    test: '#FFA500',
-    userlog: '#3498DB',
-    service: '#3498DB',
+    add: '#4285F4',
+    back: '#DB4437',
+    csv: '#0F9D58',
+    delete: '#DB4437',
+    edit: '#F4B400',
+    deploy: '#DB4437',
+    save: '#F4B400',
+    test: '#F4B400',
+    userlog: '#4285F4',
+    service: '#4285F4',
 };
 
 function Icon({ label, handleOnClick }) {

@@ -61,7 +61,7 @@ function Pipeline() {
                     <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '275.5px', left: '455.5px' }} />
                 )}
                 <ProcessCircle
-                    colorHexCode={inScrapingProcess ? '#ff6b6b' : '#cccccc'}
+                    colorHexCode={inScrapingProcess ? '#DB4437' : '#cccccc'}
                     coordinate={{ x: 480, y: 300 }}
                     label='데이터 수집'
                     labelPosition='d'
@@ -74,7 +74,7 @@ function Pipeline() {
                     startY={300}
                     endX={913}
                     endY={850}
-                    colorHexCode='#ff6b6b'
+                    colorHexCode='#DB4437'
                     isFinished={doneScraping}
                 />
 
@@ -82,7 +82,7 @@ function Pipeline() {
                     <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '825.5px', left: '888.5px' }} />
                 )}
                 <ProcessCircle
-                    colorHexCode={inPreprocessingProcess ? '#ffa500' : '#cccccc'}
+                    colorHexCode={inPreprocessingProcess ? '#F4B400' : '#cccccc'}
                     coordinate={{ x: 913, y: 850 }}
                     label='데이터 정제'
                     labelPosition='u'
@@ -106,7 +106,7 @@ function Pipeline() {
                     startY={850}
                     endX={1347}
                     endY={300}
-                    colorHexCode='#ffa500'
+                    colorHexCode='#F4B400'
                     isFinished={donePreprocessing}
                 />
 
@@ -114,7 +114,7 @@ function Pipeline() {
                     <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '275.5px', left: '1322.5px' }} />
                 )}
                 <ProcessCircle
-                    colorHexCode={inLearningProcess ? '#3498db' : '#cccccc'}
+                    colorHexCode={inLearningProcess ? '#4285F4' : '#cccccc'}
                     coordinate={{ x: 1347, y: 300 }}
                     label='모델 학습'
                     labelPosition='d'
@@ -138,7 +138,7 @@ function Pipeline() {
                     startY={300}
                     endX={1780}
                     endY={850}
-                    colorHexCode='#3498db'
+                    colorHexCode='#4285F4'
                     isFinished={doneLearning}
                 />
                 {modalOpen ? (
@@ -176,7 +176,7 @@ function Pipeline() {
                     <LoadingSpinner spinnerStyle={{ position: 'absolute', top: '825.5px', left: '1755.5px' }} />
                 )}
                 <ProcessCircle
-                    colorHexCode={inDeployingProcess ? '#4caf50' : '#cccccc'}
+                    colorHexCode={inDeployingProcess ? '#0F9D58' : '#cccccc'}
                     coordinate={{ x: 1780, y: 850 }}
                     label='모델 배포'
                     labelPosition='u'

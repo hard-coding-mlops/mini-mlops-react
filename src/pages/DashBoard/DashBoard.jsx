@@ -188,9 +188,9 @@ function DashBoard() {
                                     {
                                         name: `${
                                             // 소수점 버림
-                                            currentModel.loss
+                                            parseFloat(currentModel.loss).toFixed(3)
                                         }`,
-                                        value: currentModel.loss,
+                                        value: parseFloat(currentModel.loss).toFixed(3) * 1,
                                     },
                                     { name: '-', value: 5 - currentModel.loss },
                                 ]}

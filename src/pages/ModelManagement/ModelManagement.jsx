@@ -88,7 +88,7 @@ export default function ModelManagement() {
                                     </div>
                                 </th>
                                 <th className={styles.tableHeaderLabel}>정확도</th>
-                                <th className={styles.tableHeaderLabel}>손실</th>
+                                <th className={styles.tableHeaderLabel}>손실도</th>
                                 <th className={styles.tableHeaderLabel}>상태</th>
                             </tr>
                         </thead>
@@ -113,7 +113,8 @@ export default function ModelManagement() {
                                             <ProgressiveBox item={'accuracy'} percentage={model.acc} />
                                         </td>
                                         <td className={styles.tableData}>
-                                            <ProgressiveBox item={'loss'} percentage={model.loss} />
+                                            {model.loss.toFixed(2)}
+                                            {/* <ProgressiveBox item={'loss'} percentage={model.loss} /> */}
                                         </td>
                                         <td className={styles.tableData}>
                                             <div className={styles.condition}>

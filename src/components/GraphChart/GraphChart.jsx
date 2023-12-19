@@ -4,7 +4,7 @@ function GraphChart({ topFive }) {
     const options = {
         // title: 'ACC',
         chartArea: { width: '80%', height: '89%' },
-        colors: ['#3498DB', '#FF6B6B'],
+        colors: ['#4285F4', '#DB4437'],
         legend: { position: 'right' },
         hAxis: {
             minValue: 0,
