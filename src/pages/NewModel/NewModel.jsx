@@ -303,7 +303,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='model_filename'
-                                        defaultValue={`model_${dateString}`}
+                                        // defaultValue={`model_${dateString}`}
                                     />
                                 </td>
                             </tr>
@@ -389,7 +389,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='max_length'
-                                        defaultValue={512}
+                                        defaultValue={20}
                                     />
                                 </td>
                                 <td colSpan={2} className={styles.parameter}>
