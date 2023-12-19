@@ -10,6 +10,7 @@ import LOGOUT_ICON from '../../assets/icons/logout-icon.svg';
 import COPYRIGHT_ICON from '../../assets/icons/copyright-icon.svg';
 
 import styles from './SideBar.module.css';
+import ProgressBox from '../ProgressBox/ProgressBox';
 
 function SideBar() {
     const navigate = useNavigate();
@@ -93,7 +94,7 @@ function SideBar() {
                     <span className={styles.ymd}>2023</span>
                 </footer>
             </div>
-
+            <ProgressBox />
             <Outlet />
         </>
     );
