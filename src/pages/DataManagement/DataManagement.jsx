@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Skeleton } from '@mui/material';
 
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
-import Loading from '../Loading/Loading';
 
 import { formatDateTime } from '../../utils/formatters';
 
@@ -54,14 +54,14 @@ function DataManagement() {
     };
     const addNewArticles = async () => {
         if (!isLoading) {
-            setIsLoading(true);
+            // setIsLoading(true);
             await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/scrape-and-preprocess`, {
                 headers: {
                     'ngrok-skip-browser-warning': 'any-value',
                 },
             });
             window.location.reload();
-            setIsLoading(false);
+            // setIsLoading(false);
         }
     };
     const downloadPreprocessedArticles = async (id) => {
@@ -127,7 +127,6 @@ function DataManagement() {
 
     return (
         <PageTemplate>
-            {isLoading && <Loading message={'데이터 가져오는 중'} />}
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <HeaderTemplate title={'데이터 관리'} routes={'data'} />
                 <div style={{ minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -156,44 +155,60 @@ function DataManagement() {
                         <tbody>
                             {totalOrderedData.map((data) => {
                                 return (
-                                    <tr
-                                        key={data.scraped_order_no}
-                                        onClick={() => {
-                                            navigate(`/data/${data.scraped_order_no}`);
-                                        }}
-                                        className={styles.tableRow}
-                                    >
-                                        <td className={styles.tableData}>{data.scraped_order_no}</td>
-                                        <td
-                                            className={`${styles.tableData} ${isSmallScreen ? styles.smallScreen : ''}`}
-                                        >
-                                            {formatDateTime(data.start_datetime)}
-                                        </td>
-                                        <td
-                                            className={`${styles.tableData} ${isSmallScreen ? styles.smallScreen : ''}`}
-                                        >
-                                            {formatDateTime(data.end_datetime)}
-                                        </td>
-                                        <td className={styles.tableData}>{data.preprocessed_articles_count}</td>
-                                        <td className={styles.tableData}>
-                                            <div className={styles.condition}>
-                                                <Icon
-                                                    label='csv'
-                                                    handleOnClick={(e) => {
-                                                        e.stopPropagation();
-                                                        downloadPreprocessedArticles(data.scraped_order_no);
-                                                    }}
-                                                />
-                                                <Icon
-                                                    label='delete'
-                                                    handleOnClick={(e) => {
-                                                        e.stopPropagation();
-                                                        deleteArticles(data.scraped_order_no);
-                                                    }}
-                                                />
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <>
+                                        {isLoading ? (
+                                            <tr>
+                                                <td colSpan={5}>
+                                                    <div style={{ height: '0.5rem' }}></div>
+                                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                                    <div style={{ height: '0.5rem' }}></div>
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            <tr
+                                                key={data.scraped_order_no}
+                                                onClick={() => {
+                                                    navigate(`/data/${data.scraped_order_no}`);
+                                                }}
+                                                className={styles.tableRow}
+                                            >
+                                                <td className={styles.tableData}>{data.scraped_order_no}</td>
+                                                <td
+                                                    className={`${styles.tableData} ${
+                                                        isSmallScreen ? styles.smallScreen : ''
+                                                    }`}
+                                                >
+                                                    {formatDateTime(data.start_datetime)}
+                                                </td>
+                                                <td
+                                                    className={`${styles.tableData} ${
+                                                        isSmallScreen ? styles.smallScreen : ''
+                                                    }`}
+                                                >
+                                                    {formatDateTime(data.end_datetime)}
+                                                </td>
+                                                <td className={styles.tableData}>{data.preprocessed_articles_count}</td>
+                                                <td className={styles.tableData}>
+                                                    <div className={styles.condition}>
+                                                        <Icon
+                                                            label='csv'
+                                                            handleOnClick={(e) => {
+                                                                e.stopPropagation();
+                                                                downloadPreprocessedArticles(data.scraped_order_no);
+                                                            }}
+                                                        />
+                                                        <Icon
+                                                            label='delete'
+                                                            handleOnClick={(e) => {
+                                                                e.stopPropagation();
+                                                                deleteArticles(data.scraped_order_no);
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </>
                                 );
                             })}
                         </tbody>

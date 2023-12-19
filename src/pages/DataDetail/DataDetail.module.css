@@ -1,38 +1,57 @@
 .tableContainer {
-  /* height: 100%; */
-  /* overflow-y: scroll; */
-  color: #6c6c6c;
+    /* height: 100%; */
+    /* overflow-y: scroll; */
+    color: #6c6c6c;
 }
 .table {
-  width: calc(100vw - 500px);
-  height: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
+    width: calc(100vw - 230px);
+    height: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
 .label {
-  width: 230px;
-  height: 4.5rem;
-  font-weight: 800;
+    width: 230px;
+    height: 4.5rem;
+    font-weight: 800;
 }
 
 .preprocessedData {
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .data,
 .preprocessedData,
 .formattedText {
-  font-weight: 400;
+    font-weight: 400;
 }
 
 .formattedText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+.loadingSpinner {
+    border: 4px solid #aaaaaa;
+    border-top: 4px solid black;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    animation: spin 1s linear infinite;
+    margin-right: 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
