@@ -42,6 +42,7 @@ function NewsClassifier() {
             setCategory(result.data.result);
             setClientID(result.data.client_id);
         } catch (error) {
+            setCategory('사회');
             // Handle the error here, you can log it or show a user-friendly message
             console.error('An error occurred while classifying the article:', error);
             // You might want to set an appropriate error state or display an error message to the user
@@ -52,8 +53,7 @@ function NewsClassifier() {
     };
 
     const goodFeedback = async () => {
-        console.log(category);
-        await axios.post(
+        const response = await axios.post(
             `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`,
             {
                 client_id: clientID,
@@ -65,6 +65,7 @@ function NewsClassifier() {
                 },
             }
         );
+        console.log(response.data);
     };
     const badFeedback = async () => {
         const categories = ['사회', '정치', '경제', '국제', '문화', '예능', '스포츠', 'IT'];

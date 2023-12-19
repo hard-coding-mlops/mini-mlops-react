@@ -19,6 +19,7 @@ function KakaoOauth() {
                 localStorage.setItem('token', response.data.accessToken);
                 localStorage.setItem('user', response.data.name);
                 localStorage.setItem('profileImage', response.data.profileImage);
+                console.log('login success');
                 navigate('/dashboard');
             } catch (e) {
                 console.log(e);

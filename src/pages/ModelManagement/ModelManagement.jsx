@@ -1,15 +1,18 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
 import ProgressiveBox from '../../components/ProgressiveBox/ProgressiveBox';
+import LossProgressiveBox from '../../components/ProgressiveBox/LossProgressiveBox';
 import Loading from '../../pages/Loading/Loading';
-import { formatDateTime } from '../../utils/formatters';
+import { formatDate } from '../../utils/formatters';
 
 import styles from './ModelManagement.module.css';
-import axios from 'axios';
 
 export default function ModelManagement() {
     const navigate = useNavigate();
@@ -35,7 +38,7 @@ export default function ModelManagement() {
     };
     const getTotalModels = async (pageNumber) => {
         // setIsLoading(true);
-        console.log('ModelManagement');
+        // console.log('ModelManagement');
         const result = await axios.get(
             `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
             {
@@ -44,6 +47,7 @@ export default function ModelManagement() {
                 },
             }
         );
+        console.log('[TOTAL MODELS]', result.data.data);
         setModels(result.data.data);
         // setIsLoading(false);
     };
@@ -66,12 +70,14 @@ export default function ModelManagement() {
                 </div> */}
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <HeaderTemplate title={'모델 관리'} routes={'model'} />
-                <Icon
-                    label='add'
-                    handleOnClick={() => {
-                        navigate('/model/add');
-                    }}
-                />
+                <div style={{ minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Icon
+                        label='add'
+                        handleOnClick={() => {
+                            navigate('/model/add');
+                        }}
+                    />
+                </div>
             </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
@@ -104,7 +110,7 @@ export default function ModelManagement() {
                                     >
                                         <td className={styles.tableData}>{model.model_id}</td>
                                         <td className={styles.tableData}>{model.model_name}</td>
-                                        <td className={`${styles.tableData} `}>{model.created_at}</td>
+                                        <td className={`${styles.tableData} `}>{formatDate(model.created_at)}</td>
                                         <td className={styles.tableData}>
                                             {model.data_length * 8}, {model.num_epochs}, {model.batch_size},{' '}
                                             {model.max_length}
@@ -113,8 +119,8 @@ export default function ModelManagement() {
                                             <ProgressiveBox item={'accuracy'} percentage={model.acc} />
                                         </td>
                                         <td className={styles.tableData}>
-                                            {model.loss.toFixed(2)}
-                                            {/* <ProgressiveBox item={'loss'} percentage={model.loss} /> */}
+                                            {/* {model.loss.toFixed(2)} */}
+                                            <LossProgressiveBox item={'loss'} percentage={model.loss} />
                                         </td>
                                         <td className={styles.tableData}>
                                             <div className={styles.condition}>
@@ -139,9 +145,8 @@ export default function ModelManagement() {
                                                                 },
                                                             }
                                                         );
-                                                        alert(
-                                                            `ID) ${model.model_id}, 모델명) ${model.model_name} 배포되었습니다.`
-                                                        );
+                                                        console.log(model.model_id, result.data);
+                                                        toast.success(`${model.model_name} 배포되었습니다.`);
                                                     }}
                                                 />
                                             </div>

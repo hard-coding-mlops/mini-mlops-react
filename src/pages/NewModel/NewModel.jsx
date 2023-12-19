@@ -24,7 +24,13 @@ function NewModel() {
     const maxLengthRef = useRef(null);
     const splitRateRef = useRef(null);
     const warmupRatioRef = useRef(null);
-    const dataLengthRef = useRef(null);
+    const dataLengthRef = useRef(15);
+
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = todayDate.getMonth() + 1;
+    const date = todayDate.getDate();
+    const dateString = `${year}${month}${date}`;
 
     const [errorMessage, setErrorMessage] = useState('');
     // const [inputValidation, setInputValidation] = useState(false);
@@ -125,7 +131,24 @@ function NewModel() {
 
     return (
         <PageTemplate>
-            <HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'모델 학습'} routes={'model / add'} />
+                <div style={{ minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Icon
+                        label='save'
+                        handleOnClick={() => {
+                            setSaveModal(true);
+                        }}
+                    />
+                    <Icon
+                        label='back'
+                        handleOnClick={() => {
+                            navigate('/model');
+                        }}
+                    />
+                </div>
+            </div>
+            {/* <HeaderTemplate>
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>모델 생성</span>
                     {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
@@ -177,7 +200,7 @@ function NewModel() {
                         />
                     </div>
                 </div>
-            </HeaderTemplate>
+            </HeaderTemplate> */}
             <BodyTemplate>
                 {saveModal && (
                     <MessageModal onClose={() => setBackModal(false)}>
@@ -247,14 +270,20 @@ function NewModel() {
                             )}
                         </table>
                         {!isLearning && !isLearnCompleted && (
-                            <DecisionButtons handleYes={fetchLearningSSE} handleNo={() => setSaveModal(false)} />
+                            <DecisionButtons
+                                handleYes={() => {
+                                    fetchLearningSSE();
+                                    navigate('/model');
+                                }}
+                                handleNo={() => setSaveModal(false)}
+                            />
                         )}
-                        {isLearnCompleted && (
+                        {/* {isLearnCompleted && (
                             <button className={styles.buttons} onClick={learnCompleted}>
                                 완료하기
                             </button>
                             // <DecisionButtons handleYes={learnCompleted} handleNo={() => setSaveModal(false)} />
-                        )}
+                        )} */}
                     </MessageModal>
                 )}
                 {backModal && (
@@ -274,6 +303,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='model_filename'
+                                        defaultValue={`model_${dateString}`}
                                     />
                                 </td>
                             </tr>
@@ -304,6 +334,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='num_of_epochs'
+                                        defaultValue={5}
                                     />
                                 </td>
                                 {/* <td></td> */}
@@ -316,6 +347,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='max_grad_norm'
+                                        defaultValue={1}
                                     />
                                 </td>
                             </tr>
@@ -330,6 +362,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='batch_size'
+                                        defaultValue={8}
                                     />
                                 </td>
                                 <td colSpan={2} className={styles.parameter}>
@@ -341,6 +374,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='learning_rate'
+                                        defaultValue={0.00005}
                                     />
                                 </td>
                             </tr>
@@ -355,6 +389,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='max_length'
+                                        defaultValue={512}
                                     />
                                 </td>
                                 <td colSpan={2} className={styles.parameter}>
@@ -366,6 +401,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='split_rate'
+                                        defaultValue={0.3}
                                     />
                                 </td>
                             </tr>
@@ -380,6 +416,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='warmup_ratio'
+                                        defaultValue={0.1}
                                     />
                                 </td>
                             </tr>
@@ -396,8 +433,11 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='data_length'
+                                        defaultValue={15}
                                     />
-                                    &nbsp;개
+                                    <span style={{ color: '#aaaaaa' }}>
+                                        &nbsp;개,&nbsp;&nbsp;총 {dataLengthRef.current * 8}개
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>

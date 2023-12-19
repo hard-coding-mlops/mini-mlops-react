@@ -107,9 +107,6 @@ function DashBoard() {
                             }}
                         >
                             <span>{currentModel.model_name}</span>
-                            <div className={styles.loadingSpinnerContainer}>
-                                <div className={styles.loadingSpinner}></div>
-                            </div>
                         </div>
                         <div style={{ width: 'calc(135px - 1rem)' }}></div>
                         <div style={{ width: 'calc(135px - 1rem)' }}></div>

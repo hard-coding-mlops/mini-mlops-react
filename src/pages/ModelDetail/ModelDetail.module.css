@@ -6,7 +6,7 @@
 }
 .tableContainer {
     width: calc(100% - 20px);
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     color: #6c6c6c;
 }
 .tableContainer::-webkit-scrollbar {

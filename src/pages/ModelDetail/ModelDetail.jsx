@@ -50,7 +50,7 @@ function ModelDetail() {
     return (
         <PageTemplate>
             {isLoading && <Loading message={'모델 가져오는 중'} />}
-            <HeaderTemplate>
+            {/* <HeaderTemplate>
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>{modelInfo.model_name} &nbsp; 상세 정보</span>
                     <Icon
@@ -70,7 +70,8 @@ function ModelDetail() {
                         }}
                     />
                 </div>
-            </HeaderTemplate>
+            </HeaderTemplate> */}
+            <HeaderTemplate title={'모델 관리'} routes={`model / ${modelId}`} />
             <BodyTemplate>
                 {/* <div className={styles.tableContainer}> */}
                 <table className={styles.table}>

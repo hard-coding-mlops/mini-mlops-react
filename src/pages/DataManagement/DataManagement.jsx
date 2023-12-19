@@ -37,7 +37,6 @@ function DataManagement() {
         setTotalPages(pages);
     };
     const getTotalOrderedData = async (pageNumber) => {
-        console.log('DataManagement');
         setIsLoading(true);
         const result = await axios.get(
             `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data?skip=${
@@ -49,6 +48,7 @@ function DataManagement() {
                 },
             }
         );
+        console.log('[TOTAL DATA]', result.data.total_ordered_data);
         setTotalOrderedData(result.data.total_ordered_data);
         setIsLoading(false);
     };
@@ -128,9 +128,9 @@ function DataManagement() {
     return (
         <PageTemplate>
             {isLoading && <Loading message={'데이터 가져오는 중'} />}
-            {/* <HeaderTemplate>
-                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>데이터 관리</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'데이터 관리'} routes={'data'} />
+                <div style={{ minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
                     <Icon
                         label='add'
                         handleOnClick={() => {
@@ -138,15 +138,6 @@ function DataManagement() {
                         }}
                     />
                 </div>
-            </HeaderTemplate> */}
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <HeaderTemplate title={'데이터 관리'} routes={'data'} />
-                <Icon
-                    label='add'
-                    handleOnClick={() => {
-                        addNewArticles();
-                    }}
-                />
             </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>

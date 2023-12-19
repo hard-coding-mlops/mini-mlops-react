@@ -61,17 +61,9 @@ function UserLogManagement() {
     return (
         <PageTemplate>
             {isLoading && <Loading message={'사용자 로그 가져오는 중'} />}
-            <HeaderTemplate>
-                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>사용자 이용 로그</span>
-                    <Icon
-                        label='service'
-                        handleOnClick={() => {
-                            navigate('/classify');
-                        }}
-                    />
-                </div>
-            </HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'사용자 로그'} routes={'user - log'} />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
@@ -101,7 +93,7 @@ function UserLogManagement() {
                                         <td className={`${styles.tableData} `}>{formatDateTime(userLog.use_at)}</td>
                                         <td className={styles.tableData}>{userLog.predict_result}</td>
                                         <td className={styles.tableData}>{userLog.client_result}</td>
-                                        <td className={styles.tableData}>{userLog.acc * 100} %</td>
+                                        <td className={styles.tableData}>{(userLog.acc * 100).toFixed(2)} %</td>
                                     </tr>
                                 );
                             })}

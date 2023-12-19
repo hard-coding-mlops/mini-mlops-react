@@ -54,7 +54,9 @@ function UserLogDetail() {
 
     return (
         <PageTemplate>
-            <HeaderTemplate>{logInfo.name} 상세 정보</HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'사용자 로그'} routes={`user - log / ${clientId}`} />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
@@ -80,7 +82,9 @@ function UserLogDetail() {
                         </tr>
                         <tr>
                             <td className={`${styles.label} ${styles.userInputContainer}`}>사용자 입력</td>
-                            <td className={styles.data}>{logInfo.userInput}</td>
+                            <td className={styles.data}>
+                                <div style={{ marginTop: '1.2rem' }}>{logInfo.userInput}</div>
+                            </td>
                         </tr>
                     </table>
                 </div>
