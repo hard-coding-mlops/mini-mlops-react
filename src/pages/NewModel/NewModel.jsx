@@ -427,7 +427,7 @@ function NewModel() {
                             </tr>
                             <tr>
                                 <td className={styles.label}>데이터 수</td>
-                                <td colSpan={3} className={styles.data}>
+                                <td colSpan={4} className={styles.data}>
                                     <input
                                         ref={dataLengthRef}
                                         className={styles.addInput}
