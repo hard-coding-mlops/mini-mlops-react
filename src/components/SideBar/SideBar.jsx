@@ -86,7 +86,7 @@ function SideBar() {
                         <span className={styles.buttonText}>USER&nbsp;LOGS</span>
                     </button>
                 </div>
-                <footer className={styles.footer}>
+                <footer onClick={() => navigate('/thanks')} className={styles.footer}>
                     <div>
                         <img src={COPYRIGHT_ICON} alt='' />
                         <span className={styles.org}>HARD&nbsp;CODING</span>
