@@ -259,7 +259,7 @@ function DashBoard() {
                                     </div>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <span style={{ fontSize: '1.5rem' }}>손실도&nbsp;</span>
+                                    <span style={{ fontSize: '1.3rem' }}>손실도&nbsp;</span>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         {bestModel.loss < currentModel.loss ? (
                                             <img src={DECREASED_ICON} alt='decreased' width='25' />

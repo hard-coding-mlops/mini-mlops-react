@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setLearnProgress } from '../../actions/sidebarActions';
+
 import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
@@ -15,6 +18,9 @@ import styles from './NewModel.module.css';
 let errorMessageTimeout;
 
 function NewModel() {
+    const dispatch = useDispatch();
+    // const learnProgress = useSelector((state) => state.sidebar.learnProgress);
+
     const navigate = useNavigate();
     const nameRef = useRef(null);
     const epochsRef = useRef(null);
@@ -103,7 +109,8 @@ function NewModel() {
                         try {
                             const parsedData = JSON.parse(trimmedChunk);
                             console.log(`${parsedData.kind}, ${parsedData.progress}%`);
-                            toast(parsedData.kind);
+                            dispatch(setLearnProgress(parsedData.progress));
+                            // toast.success(parsedData.kind);
                         } catch (error) {
                             console.error('JSON 파싱 중 오류 발생:', error);
                         }
@@ -117,7 +124,7 @@ function NewModel() {
                 return readChunk();
             })
             .then(() => {
-                toast.success('호출 끝');
+                toast.success('모델 학습이 완료되었습니다');
             })
             .catch((error) => {
                 // toast.error(error.message);
@@ -260,11 +267,6 @@ function NewModel() {
                                     <tr>
                                         <td className={styles.modalParameterLabel}>DATA LENGTH</td>
                                         <td className={styles.modalParameter}>{dataLengthRef.current.value}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div>loading bar goes here.</div>
-                                        </td>
                                     </tr>
                                 </tbody>
                             )}

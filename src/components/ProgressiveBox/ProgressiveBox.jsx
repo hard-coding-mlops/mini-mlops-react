@@ -11,7 +11,7 @@ function ProgressiveBox({ item, percentage }) {
                     className={styles.progressiveContainer}
                     style={{
                         width: `${percentage * 100}%`,
-                        backgroundColor: item === 'accuracy' ? '#FF6B6B' : '#F4B400',
+                        backgroundColor: item === 'accuracy' ? '#DB4437' : '#F4B400',
                     }}
                 >
                     <span className={styles.value}>{ceilToOne(percentage * 100)}%&nbsp;</span>
@@ -29,7 +29,7 @@ function ProgressiveBox({ item, percentage }) {
                         style={{
                             width: `${percentage * 100}%`,
                             maxWidth: '100%',
-                            backgroundColor: item === 'accuracy' ? '#FF6B6B' : '#F4B400',
+                            backgroundColor: item === 'accuracy' ? '#DB4437' : '#F4B400',
                         }}
                     ></div>
                     <span className={styles.value} style={{ color: 'black' }}>
