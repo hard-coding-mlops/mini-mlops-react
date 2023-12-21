@@ -157,9 +157,7 @@ function DashBoard() {
                             <line x1='0' y1='0' x2='0' y2='300' style={{ stroke: '#c4c4c4', strokeWidth: '1' }} />
                         </svg> */}
                             <div>
-                                <span className={styles.chartTitle}>
-                                    사용자 만족도{currentModel.evaluation_noresponse}
-                                </span>
+                                <span className={styles.chartTitle}>사용자 만족도</span>
                                 {currentModel.evaluation_noresponse === 0 ? (
                                     <EmptyPieChartComponent />
                                 ) : (

@@ -23,7 +23,10 @@ function ProgressBox() {
             }, 3000);
 
             // 컴포넌트가 언마운트되거나 learnProgress가 바뀌면 타이머를 클리어합니다.
-            return () => clearTimeout(completionMessageTimeout);
+            return () => {
+                setShowCompletionMessage(false);
+                clearTimeout(completionMessageTimeout);
+            };
         }
     }, [learnProgress]);
 
@@ -44,27 +47,9 @@ function ProgressBox() {
                         - 모델 학습 중... &nbsp;
                         <SlotCounter value={learnProgress} duration={1} dummyCharacterCount={7} />%
                     </span>
-                    {showCompletionMessage ? (
-                        <>
-                            <span>이 완료 되었습니다.</span>
-                            <br />
-                            <span>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{' '}
-                                {new Date().getFullYear() +
-                                    '-' +
-                                    (new Date().getMonth() + 1) +
-                                    '-' +
-                                    new Date().getDate()}
-                                &nbsp;{new Date().getHours()}:{new Date().getMinutes().toString().padStart(2, '0')}
-                            </span>
-                        </>
-                    ) : learnProgress === -1 ? (
-                        <span>진행 없음</span>
-                    ) : (
-                        <div className={styles.loadingBar}>
-                            <div className={styles.currentProgress} style={{ width: `${learnProgress}%` }}></div>
-                        </div>
-                    )}
+                    <div className={styles.loadingBar}>
+                        <div className={styles.currentProgress} style={{ width: `${learnProgress}%` }}></div>
+                    </div>
                 </div>
             )}
         </div>

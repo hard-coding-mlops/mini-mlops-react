@@ -78,38 +78,32 @@ function UserLogManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {userLogs.map((userLog) => {
-                                return (
-                                    <>
-                                        {isLoading ? (
-                                            <tr>
-                                                <td colSpan={5}>
-                                                    <div style={{ height: '0.5rem' }}></div>
-                                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
-                                                    <div style={{ height: '0.5rem' }}></div>
-                                                </td>
-                                            </tr>
-                                        ) : (
-                                            <tr
-                                                key={userLog.client_id}
-                                                onClick={() => {
-                                                    navigate(`/user-log/${userLog.client_id}`);
-                                                }}
-                                                className={styles.tableRow}
-                                            >
-                                                <td className={styles.tableData}>{userLog.client_id}</td>
-                                                <td className={styles.tableData}>{userLog.model_name}</td>
-                                                <td className={`${styles.tableData} `}>
-                                                    {formatDateTime(userLog.use_at)}
-                                                </td>
-                                                <td className={styles.tableData}>{userLog.predict_result}</td>
-                                                <td className={styles.tableData}>{userLog.client_result}</td>
-                                                <td className={styles.tableData}>{(userLog.acc * 100).toFixed(2)} %</td>
-                                            </tr>
-                                        )}
-                                    </>
-                                );
-                            })}
+                            {userLogs.map((userLog, index) =>
+                                isLoading ? (
+                                    <tr key={index}>
+                                        <td colSpan={6}>
+                                            <div style={{ height: '0.5rem' }}></div>
+                                            <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                            <div style={{ height: '0.5rem' }}></div>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    <tr
+                                        key={userLog.client_id}
+                                        onClick={() => {
+                                            navigate(`/user-log/${userLog.client_id}`);
+                                        }}
+                                        className={styles.tableRow}
+                                    >
+                                        <td className={styles.tableData}>{userLog.client_id}</td>
+                                        <td className={styles.tableData}>{userLog.model_name}</td>
+                                        <td className={`${styles.tableData} `}>{formatDateTime(userLog.use_at)}</td>
+                                        <td className={styles.tableData}>{userLog.predict_result}</td>
+                                        <td className={styles.tableData}>{userLog.client_result}</td>
+                                        <td className={styles.tableData}>{(userLog.acc * 100).toFixed(2)} %</td>
+                                    </tr>
+                                )
+                            )}
                         </tbody>
                     </table>
                 </div>

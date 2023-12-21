@@ -98,75 +98,69 @@ export default function ModelManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {models.map((model) => {
-                                return (
-                                    <>
-                                        {isLoading ? (
-                                            <tr>
-                                                <td colSpan={5}>
-                                                    <div style={{ height: '0.5rem' }}></div>
-                                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
-                                                    <div style={{ height: '0.5rem' }}></div>
-                                                </td>
-                                            </tr>
-                                        ) : (
-                                            <tr
-                                                key={model.model_id}
-                                                onClick={() => {
-                                                    navigate(`/model/${model.model_id}`);
-                                                }}
-                                                className={styles.tableRow}
-                                            >
-                                                <td className={styles.tableData}>{model.model_id}</td>
-                                                <td className={styles.tableData}>{model.model_name}</td>
-                                                <td className={`${styles.tableData} `}>
-                                                    {formatDate(model.created_at)}
-                                                </td>
-                                                <td className={styles.tableData}>
-                                                    {model.data_length * 8}, {model.num_epochs}, {model.batch_size},{' '}
-                                                    {model.max_length}
-                                                </td>
-                                                <td className={styles.tableData}>
-                                                    <ProgressiveBox item={'accuracy'} percentage={model.acc} />
-                                                </td>
-                                                <td className={styles.tableData}>
-                                                    {/* {model.loss.toFixed(2)} */}
-                                                    <LossProgressiveBox item={'loss'} percentage={model.loss} />
-                                                </td>
-                                                <td className={styles.tableData}>
-                                                    <div className={styles.condition}>
-                                                        {/* <Icon label='edit' handleOnClick={() => alert('edit')} /> */}
-                                                        <Icon
-                                                            label='test'
-                                                            handleOnClick={(e) => {
-                                                                e.stopPropagation();
-                                                                navigate(`/model/test/${model.model_name}`);
-                                                            }}
-                                                        />
-                                                        <Icon
-                                                            label='deploy'
-                                                            handleOnClick={async (e) => {
-                                                                e.stopPropagation();
-                                                                // model.model_id
-                                                                const result = await axios.get(
-                                                                    `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${model.model_id}`,
-                                                                    {
-                                                                        headers: {
-                                                                            'ngrok-skip-browser-warning': 'any-value',
-                                                                        },
-                                                                    }
-                                                                );
-                                                                console.log(model.model_id, result.data);
-                                                                toast.success(`${model.model_name} 배포되었습니다.`);
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </>
-                                );
-                            })}
+                            {models.map((model, index) =>
+                                isLoading ? (
+                                    <tr key={index}>
+                                        <td colSpan={7}>
+                                            <div style={{ height: '0.5rem' }}></div>
+                                            <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                            <div style={{ height: '0.5rem' }}></div>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    <tr
+                                        key={model.model_id}
+                                        onClick={() => {
+                                            navigate(`/model/${model.model_id}`);
+                                        }}
+                                        className={styles.tableRow}
+                                    >
+                                        <td className={styles.tableData}>{model.model_id}</td>
+                                        <td className={styles.tableData}>{model.model_name}</td>
+                                        <td className={`${styles.tableData} `}>{formatDate(model.created_at)}</td>
+                                        <td className={styles.tableData}>
+                                            {model.data_length * 8}, {model.num_epochs}, {model.batch_size},{' '}
+                                            {model.max_length}
+                                        </td>
+                                        <td className={styles.tableData}>
+                                            <ProgressiveBox item={'accuracy'} percentage={model.acc} />
+                                        </td>
+                                        <td className={styles.tableData}>
+                                            {/* {model.loss.toFixed(2)} */}
+                                            <LossProgressiveBox item={'loss'} percentage={model.loss} />
+                                        </td>
+                                        <td className={styles.tableData}>
+                                            <div className={styles.condition}>
+                                                {/* <Icon label='edit' handleOnClick={() => alert('edit')} /> */}
+                                                <Icon
+                                                    label='test'
+                                                    handleOnClick={(e) => {
+                                                        e.stopPropagation();
+                                                        navigate(`/model/test/${model.model_name}`);
+                                                    }}
+                                                />
+                                                <Icon
+                                                    label='deploy'
+                                                    handleOnClick={async (e) => {
+                                                        e.stopPropagation();
+                                                        // model.model_id
+                                                        const result = await axios.get(
+                                                            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${model.model_id}`,
+                                                            {
+                                                                headers: {
+                                                                    'ngrok-skip-browser-warning': 'any-value',
+                                                                },
+                                                            }
+                                                        );
+                                                        console.log(model.model_id, result.data);
+                                                        toast.success(`${model.model_name} 배포되었습니다.`);
+                                                    }}
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            )}
                         </tbody>
                     </table>
                 </div>

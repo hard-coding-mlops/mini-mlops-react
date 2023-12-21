@@ -153,64 +153,56 @@ function DataManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {totalOrderedData.map((data) => {
-                                return (
-                                    <>
-                                        {isLoading ? (
-                                            <tr>
-                                                <td colSpan={5}>
-                                                    <div style={{ height: '0.5rem' }}></div>
-                                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
-                                                    <div style={{ height: '0.5rem' }}></div>
-                                                </td>
-                                            </tr>
-                                        ) : (
-                                            <tr
-                                                key={data.scraped_order_no}
-                                                onClick={() => {
-                                                    navigate(`/data/${data.scraped_order_no}`);
-                                                }}
-                                                className={styles.tableRow}
-                                            >
-                                                <td className={styles.tableData}>{data.scraped_order_no}</td>
-                                                <td
-                                                    className={`${styles.tableData} ${
-                                                        isSmallScreen ? styles.smallScreen : ''
-                                                    }`}
-                                                >
-                                                    {formatDateTime(data.start_datetime)}
-                                                </td>
-                                                <td
-                                                    className={`${styles.tableData} ${
-                                                        isSmallScreen ? styles.smallScreen : ''
-                                                    }`}
-                                                >
-                                                    {formatDateTime(data.end_datetime)}
-                                                </td>
-                                                <td className={styles.tableData}>{data.preprocessed_articles_count}</td>
-                                                <td className={styles.tableData}>
-                                                    <div className={styles.condition}>
-                                                        <Icon
-                                                            label='csv'
-                                                            handleOnClick={(e) => {
-                                                                e.stopPropagation();
-                                                                downloadPreprocessedArticles(data.scraped_order_no);
-                                                            }}
-                                                        />
-                                                        <Icon
-                                                            label='delete'
-                                                            handleOnClick={(e) => {
-                                                                e.stopPropagation();
-                                                                deleteArticles(data.scraped_order_no);
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </>
-                                );
-                            })}
+                            {totalOrderedData.map((data) =>
+                                isLoading ? (
+                                    <tr>
+                                        <td colSpan={5}>
+                                            <div style={{ height: '0.5rem' }}></div>
+                                            <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                            <div style={{ height: '0.5rem' }}></div>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    <tr
+                                        key={data.scraped_order_no}
+                                        onClick={() => {
+                                            navigate(`/data/${data.scraped_order_no}`);
+                                        }}
+                                        className={styles.tableRow}
+                                    >
+                                        <td className={styles.tableData}>{data.scraped_order_no}</td>
+                                        <td
+                                            className={`${styles.tableData} ${isSmallScreen ? styles.smallScreen : ''}`}
+                                        >
+                                            {formatDateTime(data.start_datetime)}
+                                        </td>
+                                        <td
+                                            className={`${styles.tableData} ${isSmallScreen ? styles.smallScreen : ''}`}
+                                        >
+                                            {formatDateTime(data.end_datetime)}
+                                        </td>
+                                        <td className={styles.tableData}>{data.preprocessed_articles_count}</td>
+                                        <td className={styles.tableData}>
+                                            <div className={styles.condition}>
+                                                <Icon
+                                                    label='csv'
+                                                    handleOnClick={(e) => {
+                                                        e.stopPropagation();
+                                                        downloadPreprocessedArticles(data.scraped_order_no);
+                                                    }}
+                                                />
+                                                <Icon
+                                                    label='delete'
+                                                    handleOnClick={(e) => {
+                                                        e.stopPropagation();
+                                                        deleteArticles(data.scraped_order_no);
+                                                    }}
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            )}
                         </tbody>
                     </table>
                 </div>{' '}
