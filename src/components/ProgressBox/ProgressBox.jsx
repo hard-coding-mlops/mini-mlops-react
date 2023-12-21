@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLearnProgress } from '../../actions/sidebarActions';
+import { setLearnProgress, setScrapeProgress } from '../../actions/sidebarActions';
 import SlotCounter from 'react-slot-counter';
 
 import DOWN_ICON from '../../assets/icons/down-icon.svg';
@@ -11,24 +11,24 @@ import styles from './ProgressBox.module.css';
 function ProgressBox() {
     const dispatch = useDispatch();
     const learnProgress = useSelector((state) => state.sidebar.learnProgress);
-    const [showCompletionMessage, setShowCompletionMessage] = useState(false);
+    const scrapeProgress = useSelector((state) => state.sidebar.scrapeProgress);
+
     const [closed, setClosed] = useState(true);
+    const [scrapeState, setScrapeState] = useState('데이터 수집 중');
 
     useEffect(() => {
-        if (learnProgress === 100) {
-            // 모델 학습이 완료되면 3초 후에 완료 메시지를 표시합니다.
-            const completionMessageTimeout = setTimeout(() => {
-                setShowCompletionMessage(true);
-                dispatch(setLearnProgress(-1));
-            }, 3000);
-
-            // 컴포넌트가 언마운트되거나 learnProgress가 바뀌면 타이머를 클리어합니다.
-            return () => {
-                setShowCompletionMessage(false);
-                clearTimeout(completionMessageTimeout);
-            };
+        if (scrapeProgress < 51) {
+            setScrapeState('데이터 수집 중...');
+        } else if (scrapeProgress < 100) {
+            setScrapeState('데이터 정제 중...');
+        } else if (scrapeProgress === 100) {
+            setScrapeState('데이터 수집 완료');
+            // 3초 후에 scrapeProgress를 0으로 초기화
+            setTimeout(() => {
+                dispatch(setScrapeProgress(0));
+            }, 5000);
         }
-    }, [learnProgress]);
+    }, [scrapeProgress]);
 
     return (
         <div className={`${styles.progressBox} ${closed ? '' : styles.show}`}>
@@ -39,6 +39,23 @@ function ProgressBox() {
                 </button>
             </div>
             <hr style={{ border: 'none', height: '1px', backgroundColor: '#7a7a7a' }} />
+            {scrapeProgress === 0 ? (
+                <div className={styles.empty}>텅 . . .</div>
+            ) : (
+                <div>
+                    <span style={{ fontSize: '18px' }}>
+                        - {scrapeState} &nbsp;
+                        <SlotCounter value={scrapeProgress.toFixed(0)} duration={1} dummyCharacterCount={7} />%
+                    </span>
+                    <div className={styles.loadingBar}>
+                        <div
+                            className={styles.currentProgress}
+                            style={{ width: `${scrapeProgress.toFixed(1)}%` }}
+                        ></div>
+                    </div>
+                </div>
+            )}
+            <br />
             {learnProgress === -1 ? (
                 <div className={styles.empty}>텅 . . .</div>
             ) : (

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Skeleton } from '@mui/material';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setScrapeProgress } from '../../actions/sidebarActions';
 
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
@@ -13,6 +16,7 @@ import { formatDateTime } from '../../utils/formatters';
 import styles from './DataManagement.module.css';
 
 function DataManagement() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const pageQuery = Number(new URLSearchParams(location.search).get('page')) || 1;
@@ -53,15 +57,98 @@ function DataManagement() {
         setIsLoading(false);
     };
     const addNewArticles = async () => {
-        if (!isLoading) {
-            // setIsLoading(true);
-            await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/scrape-and-preprocess`, {
+        toast.success('데이터 수집 시작');
+        try {
+            const response = await fetch(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/scraper/scrape`, {
+                method: 'GET',
                 headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
+                    'Content-Type': 'application/json',
                 },
             });
-            window.location.reload();
-            // setIsLoading(false);
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            const readChunk = async () => {
+                const result = await reader.read();
+                await appendChunks(result);
+            };
+
+            const appendChunks = async (result) => {
+                const chunk = decoder.decode(result.value || new Uint8Array(), {
+                    stream: !result.done,
+                });
+                const jsonChunks = chunk.split('\n').filter(Boolean);
+
+                for (const jsonChunk of jsonChunks) {
+                    const trimmedChunk = jsonChunk.replace(/^data: /, ''); // "data: " 제거
+                    try {
+                        const parsedData = JSON.parse(trimmedChunk);
+                        console.log(`${parsedData.kind}, ${parsedData.progress}%`);
+                        dispatch(setScrapeProgress(parsedData.progress));
+                    } catch (error) {
+                        console.error('JSON 파싱 중 오류 발생:', error);
+                    }
+                }
+
+                if (!result.done) {
+                    await readChunk();
+                }
+            };
+
+            await readChunk();
+            toast.success('데이터 수집 끝');
+        } catch (error) {
+            // toast.error(error.message);
+            toast.error('[ERROR] 콘솔 확인');
+            console.log(error);
+        }
+    };
+    const preprocessArticles = async () => {
+        toast.success('데이터 정제 시작');
+        try {
+            const response = await fetch(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/preprocessor/preprocess`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            const readChunk = async () => {
+                const result = await reader.read();
+                await appendChunks(result);
+            };
+            const appendChunks = async (result) => {
+                const chunk = decoder.decode(result.value || new Uint8Array(), {
+                    stream: !result.done,
+                });
+                const jsonChunks = chunk.split('\n').filter(Boolean);
+
+                for (const jsonChunk of jsonChunks) {
+                    const trimmedChunk = jsonChunk.replace(/^data: /, ''); // "data: " 제거
+                    try {
+                        const parsedData = JSON.parse(trimmedChunk);
+                        console.log(`${parsedData.kind}, ${parsedData.progress}%`);
+                        dispatch(setScrapeProgress(parsedData.progress));
+                    } catch (error) {
+                        console.error('JSON 파싱 중 오류 발생:', error);
+                    }
+                }
+
+                if (!result.done) {
+                    await readChunk();
+                }
+            };
+
+            await readChunk();
+            toast.success('데이터 정제 끝');
+        } catch (error) {
+            // toast.error(error.message);
+            toast.error('[ERROR] 콘솔 확인');
+            console.log(error);
         }
     };
     const downloadPreprocessedArticles = async (id) => {
@@ -132,8 +219,9 @@ function DataManagement() {
                 <div style={{ minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
                     <Icon
                         label='add'
-                        handleOnClick={() => {
-                            addNewArticles();
+                        handleOnClick={async () => {
+                            await addNewArticles();
+                            await preprocessArticles();
                         }}
                     />
                 </div>
