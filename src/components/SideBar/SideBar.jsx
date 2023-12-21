@@ -51,7 +51,7 @@ function SideBar() {
                         <img
                             className={styles.profileImage}
                             src={
-                                profileImage === undefined
+                                profileImage
                                     ? profileImage
                                     : 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'
                             }
