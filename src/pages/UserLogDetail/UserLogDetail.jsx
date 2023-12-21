@@ -31,11 +31,7 @@ function UserLogDetail() {
 
     const getLogInfo = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients/${clientId}`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients/${clientId}`);
 
         const { acc, client_result, model_name, predict_result, use_at, user_insert } = result.data;
         setLogInfo({

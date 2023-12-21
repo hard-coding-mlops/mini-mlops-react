@@ -29,14 +29,7 @@ function DataManagement() {
     // APIs
     // TODO: page 추가
     const calculatePages = async () => {
-        const result = await axios.get(
-            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data`,
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            }
-        );
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data`);
         const pages = Math.ceil(result.data.total_ordered_data.length / 10);
         setTotalPages(pages);
     };
@@ -45,12 +38,7 @@ function DataManagement() {
         const result = await axios.get(
             `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data?skip=${
                 10 * (pageNumber - 1)
-            }&limit=10`,
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            }
+            }&limit=10`
         );
         console.log('[TOTAL DATA]', result.data.total_ordered_data);
         setTotalOrderedData(result.data.total_ordered_data);
@@ -157,11 +145,6 @@ function DataManagement() {
             const result = await axios.get(
                 `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
                 {
-                    headers: {
-                        'ngrok-skip-browser-warning': 'any-value',
-                    },
-                },
-                {
                     responseType: 'blob',
                 }
             );
@@ -188,11 +171,7 @@ function DataManagement() {
     const deleteArticles = async (id) => {
         if (!isLoading) {
             setIsLoading(true);
-            await axios.delete(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${id}`, {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            });
+            await axios.delete(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${id}`);
             window.location.reload();
             setIsLoading(false);
         }

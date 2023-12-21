@@ -27,11 +27,7 @@ function DashBoard() {
 
     const getCurrentModel = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/currently-active`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/currently-active`);
         const { model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } = result.data;
         console.log('[CURRENT MODEL]', {
             model_name,
@@ -56,11 +52,7 @@ function DashBoard() {
     };
     const getTopFive = async () => {
         // setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/top-five`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/top-five`);
         console.log('[TOP FIVE]', result.data.data);
         // setTopFive([d, ...topFive]);
         const formattedData = result.data.data.map((d) => {

@@ -22,11 +22,7 @@ function ModelDetail() {
 
     const getModelInfo = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/${modelId}`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/${modelId}`);
         console.log(result.data);
         setModelInfo(result.data.model);
 
@@ -47,11 +43,7 @@ function ModelDetail() {
     };
     const deployModel = async () => {
         setDeployLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${modelId}`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${modelId}`);
         console.log(result.data);
         toast.success(`${modelInfo.model_name} 배포되었습니다.`);
         setDeployLoading(false);

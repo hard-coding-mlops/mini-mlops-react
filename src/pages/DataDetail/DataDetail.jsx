@@ -25,12 +25,7 @@ function DataDetail() {
     const getDataDetails = async () => {
         setIsLoading(true);
         const result = await axios.get(
-            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${dataId}`,
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            }
+            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${dataId}`
         );
         console.log(result.data);
         setStartDateTime(formatDateTime(result.data.scraped_order.start_datetime));
@@ -40,11 +35,7 @@ function DataDetail() {
     };
     const deleteArticles = async (id) => {
         setDeleteLoading(true);
-        await axios.delete(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${id}`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        await axios.delete(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${id}`);
         setDeleteLoading(false);
         navigate('/data');
     };

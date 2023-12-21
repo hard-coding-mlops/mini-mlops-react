@@ -24,11 +24,7 @@ function UserLogManagement() {
     // TODO: page 추가
     const calculatePages = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients`);
         console.log(result.data.data);
         const pages = Math.ceil(result.data.data.length / 10);
         setTotalPages(pages);
@@ -38,12 +34,7 @@ function UserLogManagement() {
         // setIsLoading(true);
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`,
-                {
-                    headers: {
-                        'ngrok-skip-browser-warning': 'any-value',
-                    },
-                }
+                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`
             );
             // setIsLoading(false);
             console.log('[TOTAL USER LOGS]', response.data.data);

@@ -26,11 +26,7 @@ export default function ModelManagement() {
     // APIs
     const calculatePages = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model`);
         // console.log(Math.ceil(result.data.data.length / 10));
         const pages = Math.ceil(result.data.data.length / 10);
         setTotalPages(pages);
@@ -40,12 +36,7 @@ export default function ModelManagement() {
         // setIsLoading(true);
         // console.log('ModelManagement');
         const result = await axios.get(
-            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`,
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            }
+            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/?skip=${10 * (pageNumber - 1)}&limit=10`
         );
         console.log('[TOTAL MODELS]', result.data.data);
         setModels(result.data.data);
@@ -145,12 +136,7 @@ export default function ModelManagement() {
                                                         e.stopPropagation();
                                                         // model.model_id
                                                         const result = await axios.get(
-                                                            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${model.model_id}`,
-                                                            {
-                                                                headers: {
-                                                                    'ngrok-skip-browser-warning': 'any-value',
-                                                                },
-                                                            }
+                                                            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${model.model_id}`
                                                         );
                                                         console.log(model.model_id, result.data);
                                                         toast.success(`${model.model_name} 배포되었습니다.`);

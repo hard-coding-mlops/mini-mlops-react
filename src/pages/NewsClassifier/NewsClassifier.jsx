@@ -38,11 +38,7 @@ function NewsClassifier() {
     const classifyArticle = async () => {
         try {
             setIsLoading(true);
-            const response = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/currently-active`, {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            });
+            const response = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/currently-active`);
             const { model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } =
                 response.data;
             await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -73,35 +69,19 @@ function NewsClassifier() {
     };
 
     const goodFeedback = async () => {
-        const response = await axios.post(
-            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`,
-            {
-                client_id: clientID,
-                reinput: category,
-            },
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            }
-        );
+        const response = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`, {
+            client_id: clientID,
+            reinput: category,
+        });
         console.log(response.data);
     };
     const badFeedback = async () => {
         const categories = ['사회', '정치', '경제', '국제', '문화', '예능', '스포츠', 'IT'];
         if (categories.includes(badFeedbackRef.current.value)) {
-            const result = await axios.post(
-                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`,
-                {
-                    client_id: clientID,
-                    reinput: badFeedbackRef.current.value,
-                },
-                {
-                    headers: {
-                        'ngrok-skip-browser-warning': 'any-value',
-                    },
-                }
-            );
+            const result = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`, {
+                client_id: clientID,
+                reinput: badFeedbackRef.current.value,
+            });
             console.log(result);
             if (result.status == 200) {
                 setInputBadFeedback(false);
