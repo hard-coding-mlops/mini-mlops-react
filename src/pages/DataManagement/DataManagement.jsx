@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Skeleton } from '@mui/material';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setScrapeProgress } from '../../actions/sidebarActions';
 
 import Icon from '../../components/Icon/Icon';
@@ -20,6 +20,7 @@ function DataManagement() {
     const navigate = useNavigate();
     const location = useLocation();
     const pageQuery = Number(new URLSearchParams(location.search).get('page')) || 1;
+    const scrapeProgress = useSelector((state) => state.sidebar.scrapeProgress);
 
     const [totalOrderedData, setTotalOrderedData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -214,6 +215,12 @@ function DataManagement() {
                                 toast.error('로그인이 필요합니다.');
                                 return;
                             }
+                            if (scrapeProgress !== 0) {
+                                toast.error('데이터가 이미 수집 중에 있습니다.');
+                                return;
+                            }
+                            await addNewArticles();
+                            await preprocessArticles();
                         }}
                     />
                 </div>
@@ -233,9 +240,9 @@ function DataManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {totalOrderedData.map((data) =>
+                            {totalOrderedData.map((data, index) =>
                                 isLoading || !loggedIn ? (
-                                    <tr>
+                                    <tr key={index}>
                                         <td colSpan={5}>
                                             <div style={{ height: '0.5rem' }}></div>
                                             <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />

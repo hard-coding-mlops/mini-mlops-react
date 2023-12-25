@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Skeleton } from '@mui/material';
@@ -18,6 +19,7 @@ export default function ModelManagement() {
     const navigate = useNavigate();
     const location = useLocation();
     const pageQuery = Number(new URLSearchParams(location.search).get('page')) || 1;
+    const learnProgress = useSelector((state) => state.sidebar.learnProgress);
 
     const [models, setModels] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -77,6 +79,10 @@ export default function ModelManagement() {
                         handleOnClick={() => {
                             if (!loggedIn) {
                                 toast.error('로그인이 필요합니다.');
+                                return;
+                            }
+                            if (learnProgress !== -1) {
+                                toast.error('이미 학습 중인 모델이 있습니다.\n학습이 완료된 후 모델을 추가해주세요.');
                                 return;
                             }
                             navigate('/model/add');
