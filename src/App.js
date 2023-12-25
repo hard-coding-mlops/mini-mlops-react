@@ -14,7 +14,6 @@ import NewModel from './pages/NewModel/NewModel';
 import NewsClassifier from './pages/NewsClassifier/NewsClassifier';
 import KakaoOauth from './pages/Login/KakaoOAuth';
 import TestModel from './pages/TestModel/TestModel';
-// import Pipeline from './pages/Pipeline/Pipeline';
 
 function App() {
     return (

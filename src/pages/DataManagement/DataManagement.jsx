@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Skeleton } from '@mui/material';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setScrapeProgress } from '../../actions/sidebarActions';
 
 import Icon from '../../components/Icon/Icon';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import PageTemplate from '../PageTemplate/PageTemplate';
-import Loading from '../Loading/Loading';
 
 import { formatDateTime } from '../../utils/formatters';
 
 import styles from './DataManagement.module.css';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 function DataManagement() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
     const pageQuery = Number(new URLSearchParams(location.search).get('page')) || 1;
@@ -25,43 +29,114 @@ function DataManagement() {
     // APIs
     // TODO: page 추가
     const calculatePages = async () => {
-        const result = await axios.get(
-            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data`,
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            }
-        );
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data`);
         const pages = Math.ceil(result.data.total_ordered_data.length / 10);
         setTotalPages(pages);
     };
     const getTotalOrderedData = async (pageNumber) => {
-        console.log('DataManagement');
         setIsLoading(true);
         const result = await axios.get(
             `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/total-ordered-data?skip=${
                 10 * (pageNumber - 1)
-            }&limit=10`,
-            {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            }
+            }&limit=10`
         );
+        console.log('[TOTAL DATA]', result.data.total_ordered_data);
         setTotalOrderedData(result.data.total_ordered_data);
         setIsLoading(false);
     };
     const addNewArticles = async () => {
-        if (!isLoading) {
-            setIsLoading(true);
-            await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/scrape-and-preprocess`, {
+        toast.success('데이터 수집 시작');
+        try {
+            const response = await fetch(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/scraper/scrape`, {
+                method: 'GET',
                 headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
+                    'Content-Type': 'application/json',
                 },
             });
-            window.location.reload();
-            setIsLoading(false);
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            const readChunk = async () => {
+                const result = await reader.read();
+                await appendChunks(result);
+            };
+
+            const appendChunks = async (result) => {
+                const chunk = decoder.decode(result.value || new Uint8Array(), {
+                    stream: !result.done,
+                });
+                const jsonChunks = chunk.split('\n').filter(Boolean);
+
+                for (const jsonChunk of jsonChunks) {
+                    const trimmedChunk = jsonChunk.replace(/^data: /, ''); // "data: " 제거
+                    try {
+                        const parsedData = JSON.parse(trimmedChunk);
+                        console.log(`${parsedData.kind}, ${parsedData.progress}%`);
+                        dispatch(setScrapeProgress(parsedData.progress));
+                    } catch (error) {
+                        console.error('JSON 파싱 중 오류 발생:', error);
+                    }
+                }
+
+                if (!result.done) {
+                    await readChunk();
+                }
+            };
+
+            await readChunk();
+            toast.success('데이터 수집 끝');
+        } catch (error) {
+            // toast.error(error.message);
+            toast.error('[ERROR] 콘솔 확인');
+            console.log(error);
+        }
+    };
+    const preprocessArticles = async () => {
+        toast.success('데이터 정제 시작');
+        try {
+            const response = await fetch(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/preprocessor/preprocess`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            const readChunk = async () => {
+                const result = await reader.read();
+                await appendChunks(result);
+            };
+            const appendChunks = async (result) => {
+                const chunk = decoder.decode(result.value || new Uint8Array(), {
+                    stream: !result.done,
+                });
+                const jsonChunks = chunk.split('\n').filter(Boolean);
+
+                for (const jsonChunk of jsonChunks) {
+                    const trimmedChunk = jsonChunk.replace(/^data: /, ''); // "data: " 제거
+                    try {
+                        const parsedData = JSON.parse(trimmedChunk);
+                        console.log(`${parsedData.kind}, ${parsedData.progress}%`);
+                        dispatch(setScrapeProgress(parsedData.progress));
+                    } catch (error) {
+                        console.error('JSON 파싱 중 오류 발생:', error);
+                    }
+                }
+
+                if (!result.done) {
+                    await readChunk();
+                }
+            };
+
+            await readChunk();
+            toast.success('데이터 정제 끝');
+        } catch (error) {
+            // toast.error(error.message);
+            toast.error('[ERROR] 콘솔 확인');
+            console.log(error);
         }
     };
     const downloadPreprocessedArticles = async (id) => {
@@ -69,11 +144,6 @@ function DataManagement() {
             setIsLoading(true);
             const result = await axios.get(
                 `${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/download-preprocessed-data/${id}`,
-                {
-                    headers: {
-                        'ngrok-skip-browser-warning': 'any-value',
-                    },
-                },
                 {
                     responseType: 'blob',
                 }
@@ -101,11 +171,7 @@ function DataManagement() {
     const deleteArticles = async (id) => {
         if (!isLoading) {
             setIsLoading(true);
-            await axios.delete(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${id}`, {
-                headers: {
-                    'ngrok-skip-browser-warning': 'any-value',
-                },
-            });
+            await axios.delete(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/data_management/single-group/${id}`);
             window.location.reload();
             setIsLoading(false);
         }
@@ -127,18 +193,18 @@ function DataManagement() {
 
     return (
         <PageTemplate>
-            {isLoading && <Loading message={'데이터 가져오는 중'} />}
-            <HeaderTemplate>
-                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>데이터 관리</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'데이터 관리'} routes={'data'} />
+                <div style={{ minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
                     <Icon
                         label='add'
-                        handleOnClick={() => {
-                            addNewArticles();
+                        handleOnClick={async () => {
+                            await addNewArticles();
+                            await preprocessArticles();
                         }}
                     />
                 </div>
-            </HeaderTemplate>
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
@@ -154,8 +220,16 @@ function DataManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {totalOrderedData.map((data) => {
-                                return (
+                            {totalOrderedData.map((data) =>
+                                isLoading ? (
+                                    <tr>
+                                        <td colSpan={5}>
+                                            <div style={{ height: '0.5rem' }}></div>
+                                            <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                            <div style={{ height: '0.5rem' }}></div>
+                                        </td>
+                                    </tr>
+                                ) : (
                                     <tr
                                         key={data.scraped_order_no}
                                         onClick={() => {
@@ -194,8 +268,8 @@ function DataManagement() {
                                             </div>
                                         </td>
                                     </tr>
-                                );
-                            })}
+                                )
+                            )}
                         </tbody>
                     </table>
                 </div>{' '}

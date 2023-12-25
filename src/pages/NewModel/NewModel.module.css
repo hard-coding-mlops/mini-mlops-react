@@ -5,7 +5,6 @@
     height: 4.5rem;
 }
 .tableContainer {
-    overflow-y: scroll;
     color: #6c6c6c;
 }
 .tableContainer::-webkit-scrollbar {
@@ -43,7 +42,7 @@
     padding: 0 0.5rem;
     border: 1.5px solid #aaaaaa;
     font-size: 1.5rem;
-    color: black;
+    color: #7a7a7a;
 }
 .addInput::-webkit-input-placeholder {
     color: #aaaaaa;
@@ -61,7 +60,7 @@
 }
 
 .errorMessage {
-    color: #ff6b6b;
+    color: #db4437;
     font-size: 1.2rem;
     font-weight: 600;
 }
@@ -80,7 +79,7 @@
 
 .alertMessage {
     margin-top: 1rem;
-    color: #ff6b6b;
+    color: #db4437;
     font-size: 1.7rem;
     font-weight: 800;
 }

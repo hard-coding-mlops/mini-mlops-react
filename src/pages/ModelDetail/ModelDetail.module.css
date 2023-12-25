@@ -6,7 +6,7 @@
 }
 .tableContainer {
     width: calc(100% - 20px);
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     color: #6c6c6c;
 }
 .tableContainer::-webkit-scrollbar {
@@ -71,4 +71,23 @@
     object-fit: contain;
     position: relative;
     right: 2rem;
+}
+
+.loadingSpinner {
+    border: 4px solid #aaaaaa;
+    border-top: 4px solid black;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    animation: spin 1s linear infinite;
+    margin-right: 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

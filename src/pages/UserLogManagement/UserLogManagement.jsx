@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Skeleton } from '@mui/material';
 
 import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
@@ -9,7 +10,6 @@ import Icon from '../../components/Icon/Icon';
 import { formatDateTime } from '../../utils/formatters';
 
 import styles from './UserLogManagement.module.css';
-import Loading from '../Loading/Loading';
 
 function UserLogManagement() {
     const navigate = useNavigate();
@@ -24,11 +24,7 @@ function UserLogManagement() {
     // TODO: page 추가
     const calculatePages = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients`);
         console.log(result.data.data);
         const pages = Math.ceil(result.data.data.length / 10);
         setTotalPages(pages);
@@ -36,17 +32,12 @@ function UserLogManagement() {
     };
     const getUserLogs = async (pageNumber) => {
         // setIsLoading(true);
-        console.log('UserLogManagement');
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`,
-                {
-                    headers: {
-                        'ngrok-skip-browser-warning': 'any-value',
-                    },
-                }
+                `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients?skip=${10 * (pageNumber - 1)}&limit=10`
             );
             // setIsLoading(false);
+            console.log('[TOTAL USER LOGS]', response.data.data);
             setUserLogs(response.data.data);
         } catch (error) {
             console.log(error);
@@ -60,18 +51,9 @@ function UserLogManagement() {
 
     return (
         <PageTemplate>
-            {isLoading && <Loading message={'사용자 로그 가져오는 중'} />}
-            <HeaderTemplate>
-                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>사용자 이용 로그</span>
-                    <Icon
-                        label='service'
-                        handleOnClick={() => {
-                            navigate('/classify');
-                        }}
-                    />
-                </div>
-            </HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'사용자 로그'} routes={'user - log'} />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
@@ -87,8 +69,16 @@ function UserLogManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {userLogs.map((userLog) => {
-                                return (
+                            {userLogs.map((userLog, index) =>
+                                isLoading ? (
+                                    <tr key={index}>
+                                        <td colSpan={6}>
+                                            <div style={{ height: '0.5rem' }}></div>
+                                            <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                            <div style={{ height: '0.5rem' }}></div>
+                                        </td>
+                                    </tr>
+                                ) : (
                                     <tr
                                         key={userLog.client_id}
                                         onClick={() => {
@@ -101,10 +91,10 @@ function UserLogManagement() {
                                         <td className={`${styles.tableData} `}>{formatDateTime(userLog.use_at)}</td>
                                         <td className={styles.tableData}>{userLog.predict_result}</td>
                                         <td className={styles.tableData}>{userLog.client_result}</td>
-                                        <td className={styles.tableData}>{userLog.acc * 100} %</td>
+                                        <td className={styles.tableData}>{(userLog.acc * 100).toFixed(2)} %</td>
                                     </tr>
-                                );
-                            })}
+                                )
+                            )}
                         </tbody>
                     </table>
                 </div>

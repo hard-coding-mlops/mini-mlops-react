@@ -1,0 +1,66 @@
+.progressBox {
+    position: absolute;
+    z-index: 200;
+    bottom: 0;
+    right: 0;
+    width: 30vw;
+    height: 22vh;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border-radius: 25px 0 0 0;
+    opacity: 0.9;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid black;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+.show {
+    height: 2rem;
+}
+
+.header {
+    height: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.closeButton {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+}
+.icon {
+    width: 100%;
+    height: 100%;
+}
+.loadingBar {
+    width: 100%;
+    height: 1.4rem;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: 0.5rem;
+    box-shadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.5);
+}
+.currentProgress {
+    position: relative;
+    top: -2px;
+    left: -2px;
+    /* width: 100%; */
+    height: 100%;
+    background-color: #4285f4;
+    border: 2px solid black;
+    border-radius: 5px;
+    transition: all 0.7s ease;
+}
+.empty {
+    width: 100%;
+    height: calc((20vh - 3.5rem) / 2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

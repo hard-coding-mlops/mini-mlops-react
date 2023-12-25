@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setLearnProgress } from '../../actions/sidebarActions';
+
 import PageTemplate from '../PageTemplate/PageTemplate';
 import HeaderTemplate from '../PageTemplate/HeaderTemplate';
 import BodyTemplate from '../PageTemplate/BodyTemplate';
@@ -15,6 +18,9 @@ import styles from './NewModel.module.css';
 let errorMessageTimeout;
 
 function NewModel() {
+    const dispatch = useDispatch();
+    // const learnProgress = useSelector((state) => state.sidebar.learnProgress);
+
     const navigate = useNavigate();
     const nameRef = useRef(null);
     const epochsRef = useRef(null);
@@ -24,7 +30,13 @@ function NewModel() {
     const maxLengthRef = useRef(null);
     const splitRateRef = useRef(null);
     const warmupRatioRef = useRef(null);
-    const dataLengthRef = useRef(null);
+    const dataLengthRef = useRef(15);
+
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = todayDate.getMonth() + 1;
+    const date = todayDate.getDate();
+    const dateString = `${year}${month}${date}`;
 
     const [errorMessage, setErrorMessage] = useState('');
     // const [inputValidation, setInputValidation] = useState(false);
@@ -35,97 +47,87 @@ function NewModel() {
     const [accuracy, setAccuracy] = useState(0.0);
     const [loss, setLoss] = useState(0.0);
 
-    const modelLearning = async () => {
-        // axios post /model/learn
-        setIsLearning(true);
-        const result = await axios.post(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/learn`, {
-            model_filename: nameRef.current.value,
-            max_len: maxLengthRef.current.value,
-            batch_size: batchSizeRef.current.value,
-            num_epochs: epochsRef.current.value,
-            warmup_ratio: warmupRatioRef.current.value,
-            max_grad_norm: maxGradNormRef.current.value,
-            learning_rate: learningRateRef.current.value,
-            split_rate: splitRateRef.current.value,
-            data_length: dataLengthRef.current.value,
-        });
-        console.log(result);
-        // 2초 기다림
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
-        setIsLearning(false);
-        setIsLearnCompleted(true);
-        setAccuracy(0.82193);
-        setLoss(0.48641);
-    };
-    const fetchLearningSSE = () => {
-        let finalAccuracy = 0.0;
-        let finalLoss = 0.0;
-        fetch(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/learn-progress`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                model_filename: nameRef.current.value,
-                max_len: maxLengthRef.current.value,
-                batch_size: batchSizeRef.current.value,
-                num_epochs: epochsRef.current.value,
-                warmup_ratio: warmupRatioRef.current.value,
-                max_grad_norm: maxGradNormRef.current.value,
-                learning_rate: learningRateRef.current.value,
-                split_rate: splitRateRef.current.value,
-                data_length: dataLengthRef.current.value,
-            }),
-        })
-            .then((response) => {
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-
-                const readChunk = () => {
-                    return reader.read().then(appendChunks);
-                };
-
-                const appendChunks = (result) => {
-                    let toastMessage = '';
-                    const chunk = decoder.decode(result.value || new Uint8Array(), {
-                        stream: !result.done,
-                    });
-                    const jsonChunks = chunk.split('\n').filter(Boolean);
-
-                    for (const jsonChunk of jsonChunks) {
-                        const trimmedChunk = jsonChunk.replace(/^data: /, ''); // "data: " 제거
-                        try {
-                            const parsedData = JSON.parse(trimmedChunk);
-                            console.log(`${parsedData.kind}, ${parsedData.progress}%`);
-                            toast(parsedData.kind);
-                        } catch (error) {
-                            console.error('JSON 파싱 중 오류 발생:', error);
-                        }
-                    }
-
-                    if (!result.done) {
-                        return readChunk();
-                    }
-                };
-
-                return readChunk();
-            })
-            .then(() => {
-                toast.success('호출 끝');
-            })
-            .catch((error) => {
-                // toast.error(error.message);
-                toast.error('[ERROR] 콘솔 확인');
-                console.log(error);
+    const fetchLearningSSE = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/learn-progress`, {
+                method: 'POST',
+                headers: {
+                    'ngrok-skip-browser-warning': 'any-value',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model_filename: nameRef.current.value,
+                    max_len: maxLengthRef.current.value,
+                    batch_size: batchSizeRef.current.value,
+                    num_epochs: epochsRef.current.value,
+                    warmup_ratio: warmupRatioRef.current.value,
+                    max_grad_norm: maxGradNormRef.current.value,
+                    learning_rate: learningRateRef.current.value,
+                    split_rate: splitRateRef.current.value,
+                    data_length: dataLengthRef.current.value,
+                }),
             });
-    };
-    const learnCompleted = () => {
-        navigate('/model');
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            const readChunk = async () => {
+                const result = await reader.read();
+                await appendChunks(result);
+            };
+
+            const appendChunks = async (result) => {
+                const chunk = decoder.decode(result.value || new Uint8Array(), {
+                    stream: !result.done,
+                });
+                const jsonChunks = chunk.split('\n').filter(Boolean);
+
+                for (const jsonChunk of jsonChunks) {
+                    const trimmedChunk = jsonChunk.replace(/^data: /, ''); // "data: " 제거
+                    try {
+                        const parsedData = JSON.parse(trimmedChunk);
+                        console.log(`${parsedData.kind}, ${parsedData.progress}%`);
+                        dispatch(setLearnProgress(parsedData.progress));
+                        // toast.success(parsedData.kind);
+                    } catch (error) {
+                        console.error('JSON 파싱 중 오류 발생:', error);
+                    }
+                }
+
+                if (!result.done) {
+                    await readChunk();
+                }
+            };
+
+            await readChunk();
+            toast.success('모델 학습이 완료되었습니다');
+        } catch (error) {
+            // toast.error(error.message);
+            toast.error('[ERROR] 콘솔 확인');
+            console.log(error);
+        }
     };
 
     return (
         <PageTemplate>
-            <HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'모델 학습'} routes={'model / add'} />
+                <div style={{ minHeight: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Icon
+                        label='save'
+                        handleOnClick={() => {
+                            setSaveModal(true);
+                        }}
+                    />
+                    <Icon
+                        label='back'
+                        handleOnClick={() => {
+                            navigate('/model');
+                        }}
+                    />
+                </div>
+            </div>
+            {/* <HeaderTemplate>
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span>모델 생성</span>
                     {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
@@ -177,7 +179,7 @@ function NewModel() {
                         />
                     </div>
                 </div>
-            </HeaderTemplate>
+            </HeaderTemplate> */}
             <BodyTemplate>
                 {saveModal && (
                     <MessageModal onClose={() => setBackModal(false)}>
@@ -238,23 +240,24 @@ function NewModel() {
                                         <td className={styles.modalParameterLabel}>DATA LENGTH</td>
                                         <td className={styles.modalParameter}>{dataLengthRef.current.value}</td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <div>loading bar goes here.</div>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             )}
                         </table>
                         {!isLearning && !isLearnCompleted && (
-                            <DecisionButtons handleYes={fetchLearningSSE} handleNo={() => setSaveModal(false)} />
+                            <DecisionButtons
+                                handleYes={() => {
+                                    fetchLearningSSE();
+                                    navigate('/model');
+                                }}
+                                handleNo={() => setSaveModal(false)}
+                            />
                         )}
-                        {isLearnCompleted && (
+                        {/* {isLearnCompleted && (
                             <button className={styles.buttons} onClick={learnCompleted}>
                                 완료하기
                             </button>
                             // <DecisionButtons handleYes={learnCompleted} handleNo={() => setSaveModal(false)} />
-                        )}
+                        )} */}
                     </MessageModal>
                 )}
                 {backModal && (
@@ -274,6 +277,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='model_filename'
+                                        // defaultValue={`model_${dateString}`}
                                     />
                                 </td>
                             </tr>
@@ -304,6 +308,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='num_of_epochs'
+                                        defaultValue={5}
                                     />
                                 </td>
                                 {/* <td></td> */}
@@ -316,6 +321,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='max_grad_norm'
+                                        defaultValue={1}
                                     />
                                 </td>
                             </tr>
@@ -330,6 +336,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='batch_size'
+                                        defaultValue={8}
                                     />
                                 </td>
                                 <td colSpan={2} className={styles.parameter}>
@@ -341,6 +348,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='learning_rate'
+                                        defaultValue={0.00005}
                                     />
                                 </td>
                             </tr>
@@ -355,6 +363,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='max_length'
+                                        defaultValue={20}
                                     />
                                 </td>
                                 <td colSpan={2} className={styles.parameter}>
@@ -366,6 +375,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='split_rate'
+                                        defaultValue={0.3}
                                     />
                                 </td>
                             </tr>
@@ -380,6 +390,7 @@ function NewModel() {
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='warmup_ratio'
+                                        defaultValue={0.1}
                                     />
                                 </td>
                             </tr>
@@ -390,14 +401,17 @@ function NewModel() {
                             </tr>
                             <tr>
                                 <td className={styles.label}>데이터 수</td>
-                                <td colSpan={3} className={styles.data}>
+                                <td colSpan={4} className={styles.data}>
                                     <input
                                         ref={dataLengthRef}
                                         className={styles.addInput}
                                         type='text'
                                         placeholder='data_length'
+                                        defaultValue={15}
                                     />
-                                    &nbsp;개
+                                    <span style={{ color: '#aaaaaa' }}>
+                                        &nbsp;개,&nbsp;&nbsp;총 {dataLengthRef.current * 8}개
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>

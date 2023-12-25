@@ -11,7 +11,6 @@ import MessageModal from '../../components/MessageModal/MessageModal';
 import DecisionButtons from '../../components/MessageModal/DecisionButtons';
 
 import styles from './TestModel.module.css';
-import Loading from '../Loading/Loading';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
@@ -162,14 +161,14 @@ function TestModel() {
     const [testCompleted, setTestCompleted] = useState(false);
 
     const tests = [
-        { article: social, answer: '사회', predict: '사회', predict: '사회' },
-        { article: politic, answer: '정치', predict: '사회', predict: '사회' },
+        { article: social, answer: '사회', predict: '사회' },
+        { article: politic, answer: '정치', predict: '사회' },
         { article: economic, answer: '경제', predict: '경제' },
-        { article: global, answer: '국제', predict: '사회' },
-        { article: culture, answer: '문화', predict: '사회' },
-        { article: entertainment, answer: '연예', predict: '사회' },
-        { article: sports, answer: '스포츠', predict: '사회' },
-        { article: IT, answer: 'IT', predict: '사회' },
+        { article: global, answer: '국제', predict: '국제' },
+        { article: culture, answer: '문화', predict: '문화' },
+        { article: entertainment, answer: '연예', predict: '연예' },
+        { article: sports, answer: '스포츠', predict: '스포츠' },
+        { article: IT, answer: 'IT', predict: 'IT' },
     ];
 
     const fetchTestingSSE = () => {
@@ -200,36 +199,9 @@ function TestModel() {
 
     return (
         <PageTemplate>
-            {/* {isLoading && <Loading message={'테스트 중'} />} */}
-            <HeaderTemplate>
-                <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div className={styles.headerContainer}>
-                        {modelName} 모델 테스트{' '}
-                        {testCompleted ? (
-                            <span style={{ marginLeft: '1rem', color: 'black', fontWeight: '800', fontSize: '1.2rem' }}>
-                                테스트 결과 :{' '}
-                                {
-                                    // testResults true 개수 반환
-                                    testResults.filter((result) => result).length
-                                }{' '}
-                                / 8
-                            </span>
-                        ) : (
-                            <div className={styles.loadingSpinnerContainer}>
-                                <div className={styles.loadingSpinner}></div>
-                            </div>
-                        )}
-                    </div>
-                    <div style={{ display: 'flex' }}>
-                        <Icon
-                            label='back'
-                            handleOnClick={() => {
-                                navigate('/model');
-                            }}
-                        />
-                    </div>
-                </div>
-            </HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'모델 테스트'} routes={`model / test / ${modelName}`} />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     {tests.map((test, index) => (

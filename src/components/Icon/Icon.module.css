@@ -1,5 +1,5 @@
 .iconWithLabel {
-    width: 3.7rem;
+    width: 4rem;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -11,7 +11,7 @@
 }
 
 .icon {
-    height: 36px;
+    height: 30px;
 }
 
 .label {

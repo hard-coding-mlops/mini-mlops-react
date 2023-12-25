@@ -3,29 +3,32 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function KakaoOauth() {
-  const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState('');
+    const navigate = useNavigate();
+    const [accessToken, setAccessToken] = useState('');
 
-  useEffect(() => {
-    async function getAccessToken() {
-      try {
-        const params = new URL(window.location.href).searchParams;
-        const code = params.get('code');
+    useEffect(() => {
+        async function getAccessToken() {
+            try {
+                const params = new URL(window.location.href).searchParams;
+                const code = params.get('code');
 
-        const response = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/user/kakao/login`, {
-          code,
-        });
-        localStorage.setItem('token', response.data.accessToken);
-        localStorage.setItem('user', response.data.name);
-        navigate('/dashboard');
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getAccessToken();
-  }, []);
+                const response = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/user/kakao/login`, {
+                    code,
+                });
+                console.log(response.data);
+                localStorage.setItem('token', response.data.accessToken);
+                localStorage.setItem('user', response.data.name);
+                localStorage.setItem('profileImage', response.data.profileImage);
+                console.log('login success');
+                navigate('/dashboard');
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        getAccessToken();
+    }, []);
 
-  return <></>;
+    return <></>;
 }
 
 export default KakaoOauth;

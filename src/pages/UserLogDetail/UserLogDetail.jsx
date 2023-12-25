@@ -8,6 +8,7 @@ import styles from './UserLogDetail.module.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { formatDateTime } from '../../utils/formatters';
+import { Skeleton } from '@mui/material';
 
 const logInfo = {
     id: 1,
@@ -30,11 +31,7 @@ function UserLogDetail() {
 
     const getLogInfo = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients/${clientId}`, {
-            headers: {
-                'ngrok-skip-browser-warning': 'any-value',
-            },
-        });
+        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/clients/${clientId}`);
 
         const { acc, client_result, model_name, predict_result, use_at, user_insert } = result.data;
         setLogInfo({
@@ -46,6 +43,7 @@ function UserLogDetail() {
             accuracy: acc,
             userInput: user_insert,
         });
+        setIsLoading(false);
     };
 
     useEffect(() => {
@@ -54,33 +52,112 @@ function UserLogDetail() {
 
     return (
         <PageTemplate>
-            <HeaderTemplate>{logInfo.name} 상세 정보</HeaderTemplate>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <HeaderTemplate title={'사용자 로그'} routes={`user - log / ${clientId}`} />
+            </div>
             <BodyTemplate>
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
                         <tr>
                             <td className={styles.label}>사용 일시</td>
-                            <td className={styles.data}>{formatDateTime(logInfo.datetime)}</td>
+                            {isLoading ? (
+                                <td colSpan={5}>
+                                    <div style={{ height: '0.5rem' }}></div>
+                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                    <div style={{ height: '0.5rem' }}></div>
+                                </td>
+                            ) : (
+                                <td className={styles.data}>{formatDateTime(logInfo.datetime)}</td>
+                            )}
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr style={{ width: '89vw', border: '1px solid #e4e4e4' }} />
+                            </td>
                         </tr>
                         <tr>
                             <td className={styles.label}>예측 모델</td>
-                            <td className={styles.data}>{logInfo.model}</td>
+                            {isLoading ? (
+                                <td colSpan={5}>
+                                    <div style={{ height: '0.5rem' }}></div>
+                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                    <div style={{ height: '0.5rem' }}></div>
+                                </td>
+                            ) : (
+                                <td className={styles.data}>{logInfo.model}</td>
+                            )}
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr style={{ width: '89vw', border: '1px solid #e4e4e4' }} />
+                            </td>
                         </tr>
                         <tr>
                             <td className={styles.label}>예측 결과</td>
-                            <td className={styles.data}>{logInfo.predict}</td>
+                            {isLoading ? (
+                                <td colSpan={5}>
+                                    <div style={{ height: '0.5rem' }}></div>
+                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                    <div style={{ height: '0.5rem' }}></div>
+                                </td>
+                            ) : (
+                                <td className={styles.data}>{logInfo.predict}</td>
+                            )}
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr style={{ width: '89vw', border: '1px solid #e4e4e4' }} />
+                            </td>
                         </tr>
                         <tr>
                             <td className={styles.label}>기대 결과</td>
-                            <td className={styles.data}>{logInfo.expected === '' ? ' - ' : logInfo.expected}</td>
+
+                            {isLoading ? (
+                                <td colSpan={5}>
+                                    <div style={{ height: '0.5rem' }}></div>
+                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                    <div style={{ height: '0.5rem' }}></div>
+                                </td>
+                            ) : (
+                                <td className={styles.data}>{logInfo.expected === '' ? ' - ' : logInfo.expected}</td>
+                            )}
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr style={{ width: '89vw', border: '1px solid #e4e4e4' }} />
+                            </td>
                         </tr>
                         <tr>
                             <td className={styles.label}>정확도</td>
-                            <td className={styles.data}>{logInfo.accuracy}%</td>
+                            {isLoading ? (
+                                <td colSpan={5}>
+                                    <div style={{ height: '0.5rem' }}></div>
+                                    <Skeleton variant='rounded' width={'100%'} height={'3.5rem'} />
+                                    <div style={{ height: '0.5rem' }}></div>
+                                </td>
+                            ) : (
+                                <td className={styles.data}>{(logInfo.accuracy * 100).toFixed(2)}%</td>
+                            )}
+                        </tr>
+                        <tr>
+                            <td>
+                                <hr style={{ width: '89vw', border: '1px solid #e4e4e4' }} />
+                            </td>
                         </tr>
                         <tr>
                             <td className={`${styles.label} ${styles.userInputContainer}`}>사용자 입력</td>
-                            <td className={styles.data}>{logInfo.userInput}</td>
+
+                            {isLoading ? (
+                                <td colSpan={5}>
+                                    <div style={{ height: '0.5rem' }}></div>
+                                    <Skeleton variant='rounded' width={'100%'} height={'15rem'} />
+                                    <div style={{ height: '0.5rem' }}></div>
+                                </td>
+                            ) : (
+                                <td className={styles.data}>
+                                    <div style={{ marginTop: '1.2rem' }}>{logInfo.userInput}</div>
+                                </td>
+                            )}
                         </tr>
                     </table>
                 </div>
