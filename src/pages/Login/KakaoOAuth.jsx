@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function KakaoOauth() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
@@ -19,8 +21,16 @@ function KakaoOauth() {
                 localStorage.setItem('token', response.data.accessToken);
                 localStorage.setItem('user', response.data.name);
                 localStorage.setItem('profileImage', response.data.profileImage);
-                console.log('login success');
-                navigate('/dashboard');
+                toast.success('LOGIN SUCCESS');
+
+                // 이전 페이지 경로 가져오기
+                const previousPath = localStorage.getItem('previousPath');
+                localStorage.removeItem('previousPath'); // 가져온 후 삭제
+                if (previousPath) {
+                    navigate(previousPath);
+                } else {
+                    navigate('/dashboard');
+                }
             } catch (e) {
                 console.log(e);
             }

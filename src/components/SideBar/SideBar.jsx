@@ -8,6 +8,7 @@ import MODEL_ICON from '../../assets/icons/robot-icon.svg';
 import USER_LOG_ICON from '../../assets/icons/users-icon.svg';
 import LOGOUT_ICON from '../../assets/icons/logout-icon.svg';
 import COPYRIGHT_ICON from '../../assets/icons/copyright-icon.svg';
+import KAKAO_LOGIN_IMG from '../../assets/images/KAKAO_LOGIN_LARGE.png';
 
 import styles from './SideBar.module.css';
 import ProgressBox from '../ProgressBox/ProgressBox';
@@ -17,19 +18,25 @@ function SideBar() {
     const [userName, setUserName] = useState('');
     const [profileImage, setProfileImage] = useState('');
     const [isHovered, setHovered] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
 
+    const handleLogin = () => {
+        // let code = new URL(window.location.href).searchParams.get('code');
+        const link = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
+        window.location.href = link;
+    };
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('profileImage');
-        navigate('/login');
+        // 새로고침
+        window.location.reload();
     };
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
             // navigate('/login');
-            setLoggedIn(true);
+            setLoggedIn(false);
         }
         const name = localStorage.getItem('user');
         const profileImage = localStorage.getItem('profileImage');
@@ -44,30 +51,36 @@ function SideBar() {
                     <img className={styles.logo} src={LOGO} alt='' />
                     <span className={styles.navBarHeader}>HARD CODING</span>
                 </div>
-                <div
-                    className={styles.profileContainer}
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseLeave={() => setHovered(false)}
-                >
-                    <div className={styles.profile}>
-                        <img
-                            className={styles.profileImage}
-                            src={
-                                profileImage
-                                    ? profileImage
-                                    : 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'
-                            }
-                            alt=''
-                        />
-                        <span>{userName} 님, 어서오세요&nbsp;&nbsp;</span>
+                {loggedIn ? (
+                    <div
+                        className={styles.profileContainer}
+                        onMouseEnter={() => setHovered(true)}
+                        onMouseLeave={() => setHovered(false)}
+                    >
+                        <div className={styles.profile}>
+                            <img
+                                className={styles.profileImage}
+                                src={
+                                    profileImage
+                                        ? profileImage
+                                        : 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'
+                                }
+                                alt=''
+                            />
+                            <span>{userName} 님, 어서오세요&nbsp;&nbsp;</span>
+                        </div>
+                        <div
+                            className={`${styles.profileContainerHovered} ${isHovered ? styles.showLogoutButton : ''}`}
+                        >
+                            <button className={styles.logoutButton} onClick={handleLogout}>
+                                <img className={styles.icons} src={LOGOUT_ICON} alt='' />
+                                <span style={{ marginLeft: '0.5rem' }}>LOGOUT</span>
+                            </button>
+                        </div>
                     </div>
-                    <div className={`${styles.profileContainerHovered} ${isHovered ? styles.showLogoutButton : ''}`}>
-                        <button className={styles.logoutButton} onClick={handleLogout}>
-                            <img className={styles.icons} src={LOGOUT_ICON} alt='' />
-                            <span style={{ marginLeft: '0.5rem' }}>LOGOUT</span>
-                        </button>
-                    </div>
-                </div>
+                ) : (
+                    <img onClick={handleLogin} src={KAKAO_LOGIN_IMG} className={styles.kakaoButton} alt='kakao-login' />
+                )}
             </div>
             <div className={styles.sideBar}>
                 <div className={styles.sideBarMenu}>
@@ -88,7 +101,7 @@ function SideBar() {
                         <span className={styles.buttonText}>USER&nbsp;LOGS</span>
                     </button>
                 </div>
-                <footer onClick={() => navigate('/thanks')} className={styles.footer}>
+                <footer className={styles.footer}>
                     <div>
                         <img src={COPYRIGHT_ICON} alt='' />
                         <span className={styles.org}>HARD&nbsp;CODING</span>
@@ -96,7 +109,7 @@ function SideBar() {
                     <span className={styles.ymd}>2023</span>
                 </footer>
             </div>
-            {loggedIn && <div className={styles.loginAlert}>PLEASE LOGIN FIRST</div>}
+            {/* {loggedIn && <div className={styles.loginAlert}>PLEASE LOGIN FIRST</div>} */}
             <ProgressBox />
             <Outlet />
         </>

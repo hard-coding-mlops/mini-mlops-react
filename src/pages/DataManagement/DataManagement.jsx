@@ -25,6 +25,7 @@ function DataManagement() {
     const [isLoading, setIsLoading] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1700);
     const [totalPages, setTotalPages] = useState(1);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     // APIs
     // TODO: page 추가
@@ -180,6 +181,16 @@ function DataManagement() {
     const handleResize = () => {
         setIsSmallScreen(window.innerWidth < 1700);
     };
+
+    useEffect(() => {
+        localStorage.setItem('previousPath', '/data');
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setLoggedIn(false);
+        } else {
+            setLoggedIn(true);
+        }
+    }, []);
     useEffect(() => {
         window.addEventListener('resize', handleResize);
         calculatePages();
@@ -199,8 +210,10 @@ function DataManagement() {
                     <Icon
                         label='add'
                         handleOnClick={async () => {
-                            await addNewArticles();
-                            await preprocessArticles();
+                            if (!loggedIn) {
+                                toast.error('로그인이 필요합니다.');
+                                return;
+                            }
                         }}
                     />
                 </div>
@@ -221,7 +234,7 @@ function DataManagement() {
                         </thead>
                         <tbody>
                             {totalOrderedData.map((data) =>
-                                isLoading ? (
+                                isLoading || !loggedIn ? (
                                     <tr>
                                         <td colSpan={5}>
                                             <div style={{ height: '0.5rem' }}></div>

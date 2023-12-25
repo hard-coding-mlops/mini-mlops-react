@@ -12,7 +12,6 @@ import LossPieChart from '../../components/ChartComponent/LossPieChart';
 import LineChartComponent from '../../components/ChartComponent/LineChartComponent';
 import INCREASED_ICON from '../../assets/icons/increased-icon.svg';
 import DECREASED_ICON from '../../assets/icons/decreased-icon.svg';
-import LIMIT_ICON from '../../assets/icons/limit-icon.svg';
 
 import styles from './DashBoard.module.css';
 import EmptyPieChartComponent from '../../components/ChartComponent/EmptyPieChartComponent';
@@ -24,6 +23,7 @@ function DashBoard() {
     const [isLoading, setIsLoading] = useState(false);
     const [accDiff, setAccDiff] = useState(0);
     const [lossDiff, setLossDiff] = useState(0);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const getCurrentModel = async () => {
         setIsLoading(true);
@@ -67,6 +67,16 @@ function DashBoard() {
     };
 
     useEffect(() => {
+        localStorage.setItem('previousPath', '/dashboard');
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setLoggedIn(false);
+        } else {
+            setLoggedIn(true);
+        }
+    }, []);
+
+    useEffect(() => {
         const fetchData = async () => {
             await getCurrentModel();
             await getTopFive();
@@ -80,11 +90,13 @@ function DashBoard() {
 
     return (
         <PageTemplate>
-            {/* {isLoading && <Loading message={'현재 모델을 가져오는 중입니다.'} />} */}
+            {/* {isLoading || !loggedIn  && <Loading message={'현재 모델을 가져오는 중입니다.'} />} */}
             <HeaderTemplate title='DASHBOARD' routes='dashboard' model={currentModel.model_name} />
             <BodyTemplate>
-                {isLoading ? (
-                    <Skeleton variant='rounded' width={'100%'} height={400} />
+                {isLoading || !loggedIn ? (
+                    <>
+                        <Skeleton variant='rounded' width={'100%'} height={400} />
+                    </>
                 ) : (
                     <div className={styles.containerTitle}>
                         <div
@@ -202,7 +214,7 @@ function DashBoard() {
                 <br />
                 <br />
 
-                {isLoading ? (
+                {isLoading || !loggedIn ? (
                     <Skeleton variant='rounded' width={'100%'} height={400} />
                 ) : (
                     <div className={styles.bottomContainer}>

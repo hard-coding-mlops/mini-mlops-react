@@ -22,6 +22,7 @@ export default function ModelManagement() {
     const [models, setModels] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     // APIs
     const calculatePages = async () => {
@@ -42,6 +43,16 @@ export default function ModelManagement() {
         setModels(result.data.data);
         // setIsLoading(false);
     };
+
+    useEffect(() => {
+        localStorage.setItem('previousPath', '/model');
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setLoggedIn(false);
+        } else {
+            setLoggedIn(true);
+        }
+    }, []);
     useEffect(() => {
         calculatePages();
         getTotalModels(pageQuery);
@@ -64,6 +75,10 @@ export default function ModelManagement() {
                     <Icon
                         label='add'
                         handleOnClick={() => {
+                            if (!loggedIn) {
+                                toast.error('로그인이 필요합니다.');
+                                return;
+                            }
                             navigate('/model/add');
                         }}
                     />
@@ -90,7 +105,7 @@ export default function ModelManagement() {
                         </thead>
                         <tbody>
                             {models.map((model, index) =>
-                                isLoading ? (
+                                isLoading || !loggedIn ? (
                                     <tr key={index}>
                                         <td colSpan={7}>
                                             <div style={{ height: '0.5rem' }}></div>

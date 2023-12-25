@@ -93,7 +93,7 @@ function NewsClassifier() {
 
     return (
         <div className={styles.newsClassifier}>
-            <button className={styles.toAdmin} onClick={() => navigate('/login')}>
+            <button className={styles.toAdmin} onClick={() => navigate('/dashboard')}>
                 관리자이신가요?
             </button>
             <span className={styles.modelName}>이 기사 어떤 기사야?</span>

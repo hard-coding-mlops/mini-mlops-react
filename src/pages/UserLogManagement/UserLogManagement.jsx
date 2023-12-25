@@ -19,6 +19,7 @@ function UserLogManagement() {
     const [userLogs, setUserLogs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     // APIs
     // TODO: page 추가
@@ -45,6 +46,15 @@ function UserLogManagement() {
     };
 
     useEffect(() => {
+        localStorage.setItem('previousPath', '/user-log');
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setLoggedIn(false);
+        } else {
+            setLoggedIn(true);
+        }
+    }, []);
+    useEffect(() => {
         calculatePages();
         getUserLogs(pageQuery);
     }, [pageQuery]);
@@ -70,7 +80,7 @@ function UserLogManagement() {
                         </thead>
                         <tbody>
                             {userLogs.map((userLog, index) =>
-                                isLoading ? (
+                                isLoading || !loggedIn ? (
                                     <tr key={index}>
                                         <td colSpan={6}>
                                             <div style={{ height: '0.5rem' }}></div>
