@@ -225,3 +225,18 @@
 .sideBar:hover .footer {
     opacity: 1;
 }
+
+.loginAlert {
+    position: absolute;
+    top: 65px;
+    left: calc(65px + 1rem);
+    width: calc(100% - 65px - 1rem);
+    height: calc(100% - 65px);
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}

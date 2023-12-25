@@ -14,7 +14,6 @@ import NewModel from './pages/NewModel/NewModel';
 import NewsClassifier from './pages/NewsClassifier/NewsClassifier';
 import KakaoOauth from './pages/Login/KakaoOAuth';
 import TestModel from './pages/TestModel/TestModel';
-import Thanks from './pages/Thanks/Thanks';
 
 function App() {
     return (
@@ -34,7 +33,6 @@ function App() {
                     <Route path='user-log/:clientId' element={<UserLogDetail />} />
                 </Route>
                 <Route path='/' element={<NewsClassifier />} />
-                <Route path='/thanks' element={<Thanks />} />
             </Routes>
             <Toaster />
         </div>

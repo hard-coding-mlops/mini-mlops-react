@@ -17,6 +17,7 @@ function SideBar() {
     const [userName, setUserName] = useState('');
     const [profileImage, setProfileImage] = useState('');
     const [isHovered, setHovered] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -27,7 +28,8 @@ function SideBar() {
 
     useEffect(() => {
         if (!localStorage.getItem('token')) {
-            navigate('/login');
+            // navigate('/login');
+            setLoggedIn(true);
         }
         const name = localStorage.getItem('user');
         const profileImage = localStorage.getItem('profileImage');
@@ -94,6 +96,7 @@ function SideBar() {
                     <span className={styles.ymd}>2023</span>
                 </footer>
             </div>
+            {loggedIn && <div className={styles.loginAlert}>PLEASE LOGIN FIRST</div>}
             <ProgressBox />
             <Outlet />
         </>
