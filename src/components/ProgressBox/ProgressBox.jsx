@@ -7,6 +7,7 @@ import DOWN_ICON from '../../assets/icons/down-icon.svg';
 import UP_ICON from '../../assets/icons/up-icon.svg';
 
 import styles from './ProgressBox.module.css';
+import toast from 'react-hot-toast';
 
 function ProgressBox() {
     const dispatch = useDispatch();
@@ -14,9 +15,18 @@ function ProgressBox() {
     const scrapeProgress = useSelector((state) => state.sidebar.scrapeProgress);
 
     const [closed, setClosed] = useState(true);
+    const [smthInProgress, setSmthInProgress] = useState(false);
     const [scrapeState, setScrapeState] = useState('데이터 수집 중');
     const [learnState, setLearnState] = useState('모델 학습 중');
 
+    useEffect(() => {
+        if (scrapeProgress !== 0 || learnProgress !== -1) {
+            setSmthInProgress(true);
+        }
+        if (scrapeProgress === 0 && learnProgress === -1) {
+            setSmthInProgress(false);
+        }
+    }, [scrapeProgress, learnProgress]);
     useEffect(() => {
         if (scrapeProgress < 51) {
             setScrapeState('데이터 수집 중...');
@@ -46,12 +56,18 @@ function ProgressBox() {
         }
     }, [learnProgress]);
 
+    useEffect(() => {
+        if (smthInProgress) {
+            setClosed(false);
+        }
+    }, [smthInProgress]);
+
     return (
-        <div className={`${styles.progressBox} ${closed ? '' : styles.show}`}>
+        <div className={`${styles.progressBox} ${closed ? styles.short : ''}`}>
             <div className={styles.header}>
                 <span>IN PROGRESS</span>
                 <button onClick={() => setClosed(!closed)} className={styles.closeButton}>
-                    <img src={closed ? UP_ICON : DOWN_ICON} className={styles.icon} alt='' />
+                    <img src={closed ? DOWN_ICON : UP_ICON} className={styles.icon} alt='' />
                 </button>
             </div>
             <hr style={{ border: 'none', height: '1px', backgroundColor: '#7a7a7a' }} />

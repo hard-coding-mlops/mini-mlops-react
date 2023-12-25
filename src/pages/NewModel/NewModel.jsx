@@ -87,6 +87,7 @@ function NewModel() {
                     try {
                         const parsedData = JSON.parse(trimmedChunk);
                         console.log(`${parsedData.kind}, ${parsedData.progress}%`);
+                        toast.success(`${parsedData.kind}`);
                         dispatch(setLearnProgress(parsedData.progress));
                         // toast.success(parsedData.kind);
                     } catch (error) {
