@@ -71,11 +71,11 @@ function ProgressBox() {
                 </button>
             </div>
             <hr style={{ border: 'none', height: '1px', backgroundColor: '#7a7a7a' }} />
-            {scrapeProgress === 0 && learnProgress === -1 ? (
+            {!closed && scrapeProgress === 0 && learnProgress === -1 ? (
                 <div className={styles.empty}>텅 . . .</div>
             ) : (
                 <>
-                    {scrapeProgress !== 0 && (
+                    {!closed && scrapeProgress !== 0 && (
                         <>
                             <div>
                                 <span style={{ fontSize: '18px' }}>
@@ -97,7 +97,7 @@ function ProgressBox() {
                             <br />
                         </>
                     )}
-                    {learnProgress !== -1 && (
+                    {!closed && learnProgress !== -1 && (
                         <div>
                             <span style={{ fontSize: '18px' }}>
                                 - {learnState} &nbsp;
