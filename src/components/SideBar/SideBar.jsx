@@ -47,7 +47,7 @@ function SideBar() {
     return (
         <>
             <div className={styles.navBar}>
-                <div className={styles.logoContainer}>
+                <div className={styles.logoContainer} onClick={() => navigate('/dashboard')}>
                     <img className={styles.logo} src={LOGO} alt='' />
                     <span className={styles.navBarHeader}>HARD CODING</span>
                 </div>

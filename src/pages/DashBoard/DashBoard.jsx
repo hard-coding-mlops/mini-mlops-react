@@ -27,7 +27,11 @@ function DashBoard() {
 
     const getCurrentModel = async () => {
         setIsLoading(true);
-        const result = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/currently-active`);
+        const result = await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/currently-active`, {
+            headers: {
+                'ngrok-skip-browser-warning': 'any-value',
+            },
+        });
         const { model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } = result.data;
         console.log('[CURRENT MODEL]', {
             model_name,
@@ -76,17 +80,16 @@ function DashBoard() {
         }
     }, []);
 
+    const fetchData = async () => {
+        await getCurrentModel();
+        await getTopFive();
+        // 여기에서 currentModel과 bestModel의 값이 업데이트된 후에 비교하도록 수정
+        setAccDiff(Math.abs(currentModel.acc * 100 - bestModel.accuracy).toFixed(2));
+        setLossDiff(Math.abs(currentModel.loss - bestModel.loss).toFixed(2));
+    };
     useEffect(() => {
-        const fetchData = async () => {
-            await getCurrentModel();
-            await getTopFive();
-            // 여기에서 currentModel과 bestModel의 값이 업데이트된 후에 비교하도록 수정
-            setAccDiff(Math.abs(currentModel.acc * 100 - bestModel.accuracy).toFixed(2));
-            setLossDiff(Math.abs(currentModel.loss - bestModel.loss).toFixed(2));
-        };
-
         fetchData();
-    }, [currentModel.acc, bestModel.accuracy, currentModel.loss, bestModel.loss]);
+    }, []);
 
     return (
         <PageTemplate>

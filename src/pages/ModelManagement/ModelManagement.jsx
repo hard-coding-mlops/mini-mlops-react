@@ -45,6 +45,13 @@ export default function ModelManagement() {
         setModels(result.data.data);
         // setIsLoading(false);
     };
+    const deployModel = async (id) => {
+        await axios.get(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/deploy/${id}`, {
+            headers: {
+                'ngrok-skip-browser-warning': 'any-value',
+            },
+        });
+    };
 
     useEffect(() => {
         localStorage.setItem('previousPath', '/model');
@@ -155,9 +162,15 @@ export default function ModelManagement() {
                                                     label='deploy'
                                                     handleOnClick={async (e) => {
                                                         e.stopPropagation();
+                                                        toast.success(`${model.model_name} 배포 시작`);
                                                         // model.model_id
                                                         const result = await axios.get(
-                                                            `${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/deploy/${model.model_id}`
+                                                            `${process.env.REACT_APP_COLAB_SERVER_URL}/model/deploy/${model.model_id}`,
+                                                            {
+                                                                headers: {
+                                                                    'ngrok-skip-browser-warning': 'any-value',
+                                                                },
+                                                            }
                                                         );
                                                         console.log(model.model_id, result.data);
                                                         toast.success(`${model.model_name} 배포되었습니다.`);
