@@ -11,6 +11,7 @@ import BodyTemplate from '../PageTemplate/BodyTemplate';
 import GOOD_ICON from '../../assets/icons/good-icon.svg';
 import BAD_ICON from '../../assets/icons/bad-icon.svg';
 import SEND_ICON from '../../assets/icons/send-icon.svg';
+import toast from 'react-hot-toast';
 
 function NewsClassifier() {
     const navigate = useNavigate();
@@ -38,11 +39,6 @@ function NewsClassifier() {
     const classifyArticle = async () => {
         try {
             setIsLoading(true);
-            const response = await axios.get(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/currently-active`);
-            const { model_name, usage, acc, loss, evaluation_diff, evaluation_equal, evaluation_noresponse } =
-                response.data;
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            if (model_name === 'TEST_SSE_1') throw new Error('Model is low accuracy');
             const article = articleInputRef.current.value;
             const result = await axios.post(
                 `${process.env.REACT_APP_COLAB_SERVER_URL}/model/classify`,
@@ -69,25 +65,23 @@ function NewsClassifier() {
     };
 
     const goodFeedback = async () => {
-        const response = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`, {
+        const response = await axios.post(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/evaluate`, {
             client_id: clientID,
             reinput: category,
         });
-        console.log(response.data);
     };
     const badFeedback = async () => {
         const categories = ['사회', '정치', '경제', '국제', '문화', '예능', '스포츠', 'IT'];
         if (categories.includes(badFeedbackRef.current.value)) {
-            const result = await axios.post(`${process.env.REACT_APP_UBUNTU_SERVER_URL}/model/evaluate`, {
+            const result = await axios.post(`${process.env.REACT_APP_COLAB_SERVER_URL}/model/evaluate`, {
                 client_id: clientID,
                 reinput: badFeedbackRef.current.value,
             });
-            console.log(result);
             if (result.status == 200) {
                 setInputBadFeedback(false);
             }
         } else {
-            alert('분류할 수 없는 카테고리입니다.');
+            toast.error('분류할 수 없는 카테고리입니다.');
         }
     };
 

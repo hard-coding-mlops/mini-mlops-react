@@ -52,6 +52,9 @@ function DashBoard() {
             evaluation_noresponse,
         });
         // setCurrentModel(current_model);
+
+        // 1초 기다림
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
         setIsLoading(false);
     };
     const getTopFive = async () => {
@@ -79,17 +82,20 @@ function DashBoard() {
             setLoggedIn(true);
         }
     }, []);
-
-    const fetchData = async () => {
-        await getCurrentModel();
-        await getTopFive();
-        // 여기에서 currentModel과 bestModel의 값이 업데이트된 후에 비교하도록 수정
-        setAccDiff(Math.abs(currentModel.acc * 100 - bestModel.accuracy).toFixed(2));
-        setLossDiff(Math.abs(currentModel.loss - bestModel.loss).toFixed(2));
-    };
     useEffect(() => {
+        const fetchData = async () => {
+            await getCurrentModel();
+            await getTopFive();
+        };
         fetchData();
     }, []);
+    useEffect(() => {
+        // 여기에서 currentModel과 bestModel의 값이 업데이트된 후에 비교하도록 수정
+        if (currentModel && bestModel) {
+            setAccDiff(Math.abs(currentModel.acc * 100 - bestModel.accuracy).toFixed(2));
+            setLossDiff(Math.abs(currentModel.loss - bestModel.loss).toFixed(2));
+        }
+    }, [currentModel, bestModel]);
 
     return (
         <PageTemplate>
@@ -224,7 +230,7 @@ function DashBoard() {
                         <div className={styles.lineChartContainer}>
                             <span className={styles.chartTitle}>BEST 5 MODELS</span>
                             <br />
-                            <LineChartComponent width={800} height={400} data={topFive} />
+                            <LineChartComponent width={1200} height={400} data={topFive} />
                         </div>
                         <svg height='200' width='1'>
                             <line x1='0' y1='0' x2='0' y2='300' style={{ stroke: '#c4c4c4', strokeWidth: '1' }} />
