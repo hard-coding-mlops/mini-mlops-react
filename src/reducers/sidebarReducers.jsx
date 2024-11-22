@@ -7,11 +7,6 @@ const initialState = {
 
 const sidebarReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'INCREMENT_COUNTER':
-            return {
-                ...state,
-                counter: state.counter + 1,
-            };
         case 'SET_SCRAPE_PROGRESS':
             return {
                 ...state,
